@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/07/25 17:27:02 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/08/09 14:59:00 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,15 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -lreadline
 
 RM = rm -f
 
 SOURCES = main.c\
 			srcs/init_shell.c\
 			srcs/shell_utils.c\
+			srcs/builtins.c\
+			srcs/utils.c\
 
 LIBFT_PATH = ./libft
 LIBFT_NAME = libft.a
