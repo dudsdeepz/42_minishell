@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/08/28 16:25:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/07 13:39:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,19 @@
 # define WHITE "\033[0;37m"
 # define YELLOW "\033[0;33m"
 # define BUFFER_SIZE 1024
+# define SHELL_ERROR 0
 
 typedef struct s_tokens
 {
 	char			**envp;
 	char			**token;
+	int				is_file;
+	int				is_argument;
 }	t_tokens;
 
 int			loop_pwd(char *str);
 void		init_shell(void);
-void		cmd_parsing(char *av, int ac);
+int			cmd_parsing(char **av);
 void		cmd_process(char **av, char **env, int option);
 int			ft_strcpy(char *dst, char *src);
 int			print_pwd(char *av);
@@ -53,12 +56,15 @@ void		handle_signals(int sig);
 char		*ft_putstr(char *str, char *color);
 char		*get_shell_prompt(char *username, char *pc_name);
 void		sig_actions(void);
-int			check_cmds(char **line, char *linei);
+int			check_cmds(char *linei);
 t_tokens	*tokens(void);
-void		assign_variable(char **line);
 int 		ft_echo_cases(char **av);
 void		ft_export(char **av);
 void		ft_unset(char **av);
 char 		*ft_strremove(char *substr) ;
+char 		**dup_matrix(char **src);
+void		free_matrix(char **mtx);
+void 		get_tokens(char *cwd);
+int			check_pipes(char *linei);
 
 #endif

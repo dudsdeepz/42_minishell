@@ -6,32 +6,11 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/08/28 16:26:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:34:30 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	cmd_parsing(char *av, int ac)
-{
-	int		i;
-	char	**line;
-
-	(void)ac;
-	tokens()->token = ft_split(av, ' ');
-	i = 0;
-	line = ft_split(av, ' ');
-	while (line[i])
-	{
-		if (!check_cmds(line, line[i]))
-		{
-			printf("minishell: command not found: %s\n", line[i]);
-			return ;
-		}
-		return ;
-	}
-	return ;
-}
 
 void	cmd_process(char **av, char **env, int option)
 {
@@ -59,25 +38,22 @@ void	cmd_process(char **av, char **env, int option)
 		ft_unset(av);
 }
 
-int	check_cmds(char **line, char *linei)
+void get_tokens(char *cwd)
 {
-	if (!ft_strncmp(linei, "pwd", 4))
-		cmd_process(line, tokens()->envp, 1);
-	else if (!ft_strncmp(linei, "clear", 6) && !linei + 1)
-		cmd_process(line, tokens()->envp, 2);
-	else if (!ft_strncmp(linei, "exit", 5))
-		cmd_process(line, tokens()->envp, 3);
-	else if (!ft_strncmp(linei, "env", 4) && !linei + 1)
-		cmd_process(line, tokens()->envp, 4);
-	else if (!ft_strncmp(linei, "cd", 3))
-		cmd_process(line, tokens()->envp, 5);
-	else if (!ft_strncmp(linei, "echo", 5))
-		cmd_process(line, tokens()->envp, 6);
-	else if (!ft_strncmp(linei, "export", 7))
-		cmd_process(line, tokens()->envp, 7);
-	else if (!ft_strncmp(linei, "unset", 6))
-		cmd_process(line, tokens()->envp, 8);
-	else
-		return (0);
-	return (1);
+	char **new;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	new = ft_split(cwd, ' ');
+	while (new[i])
+	{
+		while (new[i][j] != 0) 
+			j++;
+		new[i][j] = '\0';
+		j = 0;
+		i++;
+	}
+	tokens()->token = new;
 }

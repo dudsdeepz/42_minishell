@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/08/28 16:20:16 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:35:14 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	loop_pwd(char *str)
 	pc_name = getenv("NAME");
 	shell = get_shell_prompt(username, pc_name);
 	cwd = readline(shell);
-	if (ft_strlen(cwd) != 0 && cwd)
+	if (cwd && ft_strlen(cwd) != 0)
 	{
+		get_tokens(cwd);
 		add_history(cwd);
 		ft_strcpy(str, cwd);
 		return (0);
@@ -72,10 +73,8 @@ void	handle_signals(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-	{
+	else if (sig == SIGQUIT)
 		exit(0);
-	}
 }
 
 char *get_shell_prompt(char *username, char *pc_name)

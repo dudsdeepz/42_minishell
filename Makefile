@@ -16,7 +16,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -lreadline
+CFLAGS = -Wall -Wextra -Werror -g -lreadline -fsanitize=address
 
 RM = rm -f
 
@@ -25,6 +25,7 @@ SOURCES = main.c\
 			srcs/shell_utils.c\
 			srcs/builtins.c\
 			srcs/utils.c\
+			srcs/parsing.c\
 
 LIBFT_PATH = ./libft
 LIBFT_NAME = libft.a

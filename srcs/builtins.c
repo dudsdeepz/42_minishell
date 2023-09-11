@@ -46,7 +46,7 @@ void	display_env(char **env)
 	while (env[i])
 	{
 		printf("%s\n",env[i]);
-		i++;
+		++i;
 	}
 	return ;
 }
@@ -133,25 +133,71 @@ int ft_echo_cases(char **av)
 	return (1);
 }
 
+// void	ft_unset(char **av)
+// {
+// 	char **new;
+	
+// 	if (!av[1])
+// 		return ;
+// 	new = dup_matrix(tokens()->envp, av[1]);
+// 	tokens()->envp = new;
+// 	free(new);
+// 
+
 void	ft_unset(char **av)
 {
-	char **var;
-	char **new;
-	int i;
-	
-	i = 0;
-	new = tokens()->envp;
-	while(new[i++] != 0)
+	int		p;
+	char	**res;
+	int 	j;
+
+	if (!av[1])
+		return ;
+	p = 0;
+	while (tokens()->envp[p++] != 0)
+		continue;
+	j = 1;
+	while (av[j++])
+		continue ;
+	res = malloc(sizeof(char *) * (p - j + 1));
+	p = -1;
+	j = 1;
+	while (tokens()->envp[++p])
 	{
-		var = ft_split(*new, '=');
-		if (!ft_strncmp(var[0], av[1], ft_strlen(av[1])))	
+		if (!ft_strncmp(av[j], tokens()->envp[p], ft_strlen(av[j])))
 		{
-			printf("%s%s%s\n", RED, *new, DEFAULT);
-			new[i] = 0;
-			return ;
+			p++;
+			j++;
 		}
+		res[p] = ft_strdup(tokens()->envp[p]);
 	}
-	while (new[i++])
-		*tokens()->token = new[i];
-	return ;
+	res[++p] = NULL;
+	free_matrix(tokens()->envp);
+	tokens()->envp = dup_matrix(res);
+	free_matrix(res);
+}
+
+char **dup_matrix(char **src)
+{
+	int		p;
+	char	**res;
+
+	p = 0;
+	while (src[p++] != 0)
+		continue ;
+	res = malloc(sizeof(char *) * (p + 1));
+	p = -1;
+	while (src[++p] != 0)
+		res[p] = ft_strdup(src[p]);
+	res[p++] = NULL;
+	return (res);
+}
+
+void	free_matrix(char **mtx)
+{
+	int	p;
+
+	p = 0;
+	while (mtx[p])
+		free(mtx[p++]);
+	free(mtx);
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/08/28 16:25:54 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:58:25 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,6 @@ t_tokens	*tokens(void)
 	return (&tokens);
 }
 
-void	assign_variable(char **line)
-{
-	(void)line;
-	// int	i;
-	// int	j;
-	// int	a;
-
-	// i = 0;
-	// j = 0;
-	// a = 0;
-	// while (line[i][j])
-	// {
-	// 	if (line[i][j] == '=')
-	// 	{
-	// 		while (line[i][j])
-	// 		{
-	// 			tokens()->variables[a] = line[i][j];
-	// 			a++;
-	// 			j++;
-	// 		}
-	// 		return ;
-	// 	}
-	// 	++j;
-	// }
-}
 char *ft_strremove(char *substr) 
 {
     size_t i;
