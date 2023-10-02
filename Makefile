@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/09/19 17:03:50 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/10/02 15:01:21 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -lreadline #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g  #-fsanitize=address
 
 RM = rm -f
 
@@ -27,20 +27,22 @@ SOURCES = main.c\
 			srcs/utils.c\
 			srcs/parsing.c\
 
+OBJECTS = $(SOURCES:.c=.o)
+
 LIBFT_PATH = ./libft
 LIBFT_NAME = libft.a
 
+all: $(NAME) $(LIBFT_NAME)
+	
 $(LIBFT_NAME):
 		@make -sC $(LIBFT_PATH)
 
-OBJECTS = $(SOURCES:.c=.o)
-
-all: $(NAME) $(LIBFT_NAME)
 
 $(NAME): $(OBJECTS)
 	@echo "\033[4;33m[+] Compiling..\033[1;0m"
 	$(CC) $(CFLAGS) $(SOURCES) -o ${NAME} ./libft/${LIBFT_NAME} -lreadline
 	@echo "\033[4;32m[✓] Ready!\033[1;0m"
+
 
 clean:
 	@echo "\033[4;33m[+] Cleaning objects..\033[1;0m"
