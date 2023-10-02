@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/08/09 14:59:00 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/09/19 17:03:50 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -lreadline -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -lreadline #-fsanitize=address
 
 RM = rm -f
 

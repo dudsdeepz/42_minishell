@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/05 15:35:14 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:27:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ void	init_shell(void)
 int	loop_pwd(char *str)
 {
 	char	*cwd;
-	char	*username;
-	char	*pc_name;
-	char	*shell;
 
-	username = getenv("USER");
-	pc_name = getenv("NAME");
-	shell = get_shell_prompt(username, pc_name);
-	cwd = readline(shell);
+	cwd = readline("minishell:");
+	if (!cwd)
+	{
+		free(cwd);
+		exit(0);
+	}
 	if (cwd && ft_strlen(cwd) != 0)
 	{
 		get_tokens(cwd);
@@ -68,7 +67,7 @@ void	handle_signals(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

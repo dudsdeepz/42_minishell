@@ -6,54 +6,56 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/06 16:34:30 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:52:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	cmd_process(char **av, char **env, int option)
+void	get_tokens(char *cwd)
 {
-	(void)env;
-	if (option == 1)
-		print_pwd(*av);
-	else if (option == 2)
-		clr_shell();
-	else if (option == 3)
-	{
-		if (av[1])
-			exit(ft_atoi(av[1]));
-		else
-			exit(0);
-	}
-	else if (option == 4)
-		display_env(tokens()->envp);
-	else if (option == 5)
-		ft_cd(av);
-	else if (option == 6)
-		ft_echo(av);
-	else if (option == 7)
-		ft_export(av);
-	else if (option == 8)
-		ft_unset(av);
-}
-
-void get_tokens(char *cwd)
-{
-	char **new;
-	int i;
 	int j;
+	int i;
+	int a;
 
-	i = 0;
 	j = 0;
-	new = ft_split(cwd, ' ');
-	while (new[i])
+	i = -1;
+	a = 0;
+	if (tokens()->token)
+		free(tokens()->token);
+	tokens()->token = malloc(get_words(cwd));
+	while (cwd[++i] != 0)
 	{
-		while (new[i][j] != 0) 
+		while (!(cwd[i] != ' ' || cwd[i] != '|' || cwd[i] != '>'))
+			++i;
+		a = i;
+		if (ft_isprint(cwd[i]))
+		{
+			while (!(cwd[i] == '|' || cwd[i] == '>') && cwd[i])
+				i++;
+			tokens()->token[j] = ft_substr(cwd, a, i);
 			j++;
-		new[i][j] = '\0';
-		j = 0;
-		i++;
+		}
 	}
-	tokens()->token = new;
+}	
+
+int get_words(char *cwd)
+{
+	int i;
+	int count;
+	 
+	i = 0;
+	count = 0;
+	while (cwd[i])
+	{
+		if (cwd[i] == ' ' || cwd[i] == '|' || cwd[i] == '>')
+			i++;
+		if (!(cwd[i] == ' ' || cwd[i] == '|' || cwd[i] == '>') && cwd[i])
+		{
+			while (!(cwd[i] == '|' || cwd[i] == '>') && cwd[i])
+				i++;
+			count++;
+		}
+	}
+	return (count);
 }

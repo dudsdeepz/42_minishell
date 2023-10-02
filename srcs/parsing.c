@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 14:21:13 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/11 15:30:32 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:51:40 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,26 @@ int	cmd_parsing(char **av)
 	int		i;
 
 	i = 0;
-    tokens()->is_file = 0;
-    tokens()->is_argument = 0;
 	while (av[i])
 	{
-		if (check_cmds(av[i]))
-			i++;
-		else if (check_pipes(av[i]))
-			i++;
-		else if (tokens()->is_file || tokens()->is_argument)
-       {
-			i++;
-            tokens()->is_file = 0;
-        }
-		else if (tokens()->is_argument)
+		if (check_pipes(av[i]))
 		{
-			while ((ft_strncmp(av[i], ">", 2) || ft_strncmp(av[i], "|", 2)) && i++)
-				ft_strjoin(av[i], av[i + 1]);
+			if (!av[i + 1] || check_pipes(av[i + 1]) || ft_strlen(av[i]) > 1)
+				return(printf("minishell: Syntax error!	\n"));
 		}
-		else
-			return(printf("minishell: command not found: %s\n", av[i]));
+		++i;	
 	}
 	return (0);
 }
 
 int	check_pipes(char *linei)
-{
+{	
 	if (!ft_strncmp(linei, "<", 2))
 		return(1);
 	else if (!ft_strncmp(linei, ">", 2))
-	{
-		tokens()->is_file = 1;
 		return (1);
-	}
 	else if (!ft_strncmp(linei, "|", 2))
-		return (1);
+		return (1);	
 	else if (!ft_strncmp(linei, "$", 2))
 		return (1);
 	return (0);
@@ -59,22 +44,26 @@ int	check_pipes(char *linei)
 
 int	check_cmds(char *linei)
 {
-	if (!ft_strncmp(linei, "pwd", 4))
-		return (1);
-	else if (!ft_strncmp(linei, "clear", 6) && !linei + 1)
-		return (1);
-	else if (!ft_strncmp(linei, "exit", 5))
-		return (1);
-	else if (!ft_strncmp(linei, "env", 4) && !linei + 1)
-		return (1);
-	else if (!ft_strncmp(linei, "cd", 3))
-		tokens()->is_argument = 1;
-	else if (!ft_strncmp(linei, "echo", 5))
-		tokens()->is_argument = 1;
-	else if (!ft_strncmp(linei, "export", 7))
-		tokens()->is_argument = 1;
-	else if (!ft_strncmp(linei, "unset", 6))
-		tokens()->is_argument = 1;
+	char **args;
+	
+	args = ft_split(linei, ' ');
+	if (!ft_strncmp(args[0], "pwd", 4))
+		print_pwd(linei);
+	else if (!ft_strncmp(args[0], "exit", 5))
+	if (args[1])
+		exit(ft_atoi(args[1]));
+	else
+		exit(0);
+	else if (!ft_strncmp(args[0], "env", 4) && !args[1])
+		display_env(tokens()->envp);
+	else if (!ft_strncmp(args[0], "cd", 3))
+		ft_cd(args[1]);
+	else if (!ft_strncmp(args[0], "echo", 5))
+		return 1;
+	else if (!ft_strncmp(args[0], "export", 7))
+		return 1;
+	else if (!ft_strncmp(args[0], "unset", 6))
+		return 1;
 	else
 		return (0);
 	return (1);

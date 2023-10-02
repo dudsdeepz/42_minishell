@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 19:50:34 by eduardo           #+#    #+#             */
-/*   Updated: 2022/11/10 17:26:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:59:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strrchr(const char *s, int c);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 void	*ft_memchr(const void *s, int c, size_t n);

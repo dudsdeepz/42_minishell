@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/08/29 11:10:19 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:38:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	print_pwd(char *av)
 {
-	char	cwd[1024];
+	char	cwd[2048];
 	int		i;
 	char	**line;
 
@@ -27,15 +27,10 @@ int	print_pwd(char *av)
 		printf("pwd: too many arguments\n");
 		return (1);
 	}
-	printf("%s\n", getcwd(cwd, sizeof(cwd)));
+	
+	else
+		printf("%s\n", getcwd(cwd, sizeof(cwd)));
 	return (0);
-}
-
-void	clr_shell(void)
-{
-	const char	*clear = "\e[1;1H\e[2J";
-
-	printf("%s", clear);
 }
 
 void	display_env(char **env)
@@ -51,14 +46,14 @@ void	display_env(char **env)
 	return ;
 }
 
-void	ft_cd(char **av)
+void	ft_cd(char *av)
 {
 	char	*username;
 
 	username = getenv("USER");
-	if (av[1])
+	if (av)
 	{
-		if (chdir(av[1]))
+		if (chdir(av))
 			printf("Directory not found!\n");
 	}
 	else

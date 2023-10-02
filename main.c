@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/06 16:33:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/09/28 17:53:46 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,56 @@ int	main(int ac, char **av, char **env)
 	tokens()->envp = dup_matrix(env);
 	if (ac == 1)
 	{
-		init_shell();
 		sig_actions();
 		while (1)
 		{
 			if (loop_pwd(args))
 				continue ;
 			if (!cmd_parsing(tokens()->token))
-				printf("Ready to go!\n");
+				executor();
 		}
 	}
 	return (0);
+}
+
+void	executor(void)
+{
+	int i;
+	char **arg;
+
+	i = 0;
+	arg = ft_split(tokens()->token[i], ' ');
+	if (!check_cmds(tokens()->token[i]))
+		exec_system_cmd(arg, tokens()->envp);
+}
+
+int	list_size(char **list)
+{
+	int i;
+	\
+	i = 0;
+	while (list[i])
+		i++;
+	return (i);
+}
+
+void	exec_system_cmd(char **tokens, char **env)
+{
+	char *getp;
+	// int fd[2];
+	int id;
+	int i;
+	
+	i = 0;
+	getp = 0;
+	// pipe(fd);
+	id = fork();
+	if (id < 0)
+		exit(write(1, "\e[0;31m Error creating fork!\e[0;31m", 36));
+	if (id == 0)
+		getp = get_path(tokens[i], env);
+	execve(getp, tokens, env);
+	wait(0);
+	free(getp);
+	return ;
 }
