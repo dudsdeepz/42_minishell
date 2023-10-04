@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/10/02 15:01:21 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/10/03 14:44:59 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g  #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 RM = rm -f
 
@@ -33,7 +33,7 @@ LIBFT_PATH = ./libft
 LIBFT_NAME = libft.a
 
 all: $(NAME) $(LIBFT_NAME)
-	
+
 $(LIBFT_NAME):
 		@make -sC $(LIBFT_PATH)
 

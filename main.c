@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/28 17:53:46 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:53:51 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	executor(void)
 int	list_size(char **list)
 {
 	int i;
-	\
+
 	i = 0;
 	while (list[i])
 		i++;
@@ -59,7 +59,7 @@ void	exec_system_cmd(char **tokens, char **env)
 	// int fd[2];
 	int id;
 	int i;
-	
+
 	i = 0;
 	getp = 0;
 	// pipe(fd);
