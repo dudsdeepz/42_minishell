@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/03 15:53:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:03:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **env)
 {
-	char	args[BUFFER_SIZE];
+	char	*cwd;
 
 	(void)av;
 	tokens()->envp = dup_matrix(env);
@@ -23,10 +23,19 @@ int	main(int ac, char **av, char **env)
 		sig_actions();
 		while (1)
 		{
-			if (loop_pwd(args))
-				continue ;
-			if (!cmd_parsing(tokens()->token))
-				executor();
+			cwd = readline("minishell: ");
+			if (!cwd)
+				return (0); // exit
+			if (ft_strlen(cwd) > 0)
+			{
+				add_history(cwd);
+				cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
+				if (cwd)
+				{
+					parsing(cwd);
+				}
+			}
+			free(cwd);
 		}
 	}
 	return (0);
@@ -34,13 +43,13 @@ int	main(int ac, char **av, char **env)
 
 void	executor(void)
 {
-	int i;
-	char **arg;
+	// int i;
+	// char **arg;
 
-	i = 0;
-	arg = ft_split(tokens()->token[i], ' ');
-	if (!check_cmds(tokens()->token[i]))
-		exec_system_cmd(arg, tokens()->envp);
+	// i = 0;
+	// arg = ft_split(tokens()->token[i], ' ');
+	// if (!check_cmds(tokens()->token[i]))
+	// 	exec_system_cmd(arg, tokens()->envp);
 }
 
 int	list_size(char **list)

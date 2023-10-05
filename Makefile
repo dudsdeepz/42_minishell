@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/10/03 14:44:59 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/10/05 11:53:56 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SOURCES = main.c\
 			srcs/shell_utils.c\
 			srcs/builtins.c\
 			srcs/utils.c\
-			srcs/parsing.c\
+			parsing/parsing.c\
+			parsing/parsing_checks.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -55,5 +56,8 @@ fclean: clean
 	@echo "\033[4;32m[✓]Functions cleaned!\033[1;0m"
 
 re: fclean all
+
+r:
+	make re && make clean && clear && ./minishell
 
 .PHONY: all clean fclean re

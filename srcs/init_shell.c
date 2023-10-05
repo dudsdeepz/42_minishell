@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/28 15:27:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:40:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,6 @@ void	init_shell(void)
 	printf("\n%sUSER: %s%s\n%sDEVICE NAME: %s%s\n", YELLOW, DEFAULT, username, \
 		YELLOW, DEFAULT, pc_name);
 	printf("%s===================%s\n", WHITE, DEFAULT);
-}
-
-int	loop_pwd(char *str)
-{
-	char	*cwd;
-
-	cwd = readline("minishell:");
-	if (!cwd)
-	{
-		free(cwd);
-		exit(0);
-	}
-	if (cwd && ft_strlen(cwd) != 0)
-	{
-		get_tokens(cwd);
-		add_history(cwd);
-		ft_strcpy(str, cwd);
-		return (0);
-	}
-	else
-		return (1);
 }
 
 int	ft_strcpy(char *dst, char *src)

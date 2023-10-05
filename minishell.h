@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/27 14:42:32 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:53:00 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include "./libft/libft.h"
+# include "./parsing/parsing.h"
 
 # define RED "\033[0;31m"
 # define BLUE "\033[0;34m"
@@ -40,9 +41,7 @@ typedef struct s_tokens
 	char			**token;
 }	t_tokens;
 
-int			loop_pwd(char *str);
 void		init_shell(void);
-int			cmd_parsing(char **av);
 int			ft_strcpy(char *dst, char *src);
 int			print_pwd(char *av);
 void		display_env(char **env);
@@ -52,8 +51,6 @@ void		handle_signals(int sig);
 char		*ft_putstr(char *str, char *color);
 char		*get_shell_prompt(char *username, char *pc_name);
 void		sig_actions(void);
-int			check_cmds(char *linei);
-int			check_pipes(char *linei);
 t_tokens	*tokens(void);
 int 		ft_echo_cases(char **av);
 void		ft_export(char **av);

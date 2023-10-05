@@ -1,34 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_checks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/01 14:21:13 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/03 14:50:54 by eduarodr         ###   ########.fr       */
+/*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
+/*   Updated: 2023/10/05 15:03:24 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	cmd_parsing(char **av)
+int check_pipe(char *av, char *newav, int *j, int *i)
 {
-	int		i;
-
-	i = 0;
-	while (av[++i])
+	if (av[(*i) + 1] == '|')
+		newav[(*j)++] = '\2';
+	else if (av[(*i)] == '|')
+		newav[(*j)++] = '\2';
+	else if (av[*i] == '>' && av[(*i) + 1] == '>')
 	{
-		if (check_pipes(av[i]))
-		{
-			if (!av[i + 1] || check_pipes(av[i + 1]) || ft_strlen(av[i]) > 1)
-				return (printf("minishell: Syntax error!	\n"));
-		}
+		newav[(*j)++] = av[*i];
+		newav[(*j)++] = '\2';
+		(*i)++;
 	}
-	return (0);
+	else if (av[*i] == '<' && av[(*i) + 1] == '<')
+	{
+		newav[(*j)++] = av[*i];
+		newav[(*j)++] = '\2';
+		(*i)++;
+	}
+	else if (av[*i] == '>' || av[*i] == '<')
+		newav[(*j)++] = '\2';
+	else if (av[(*i) + 1] == '>' || av[(*i) + 1] == '<')
+		newav[(*j)++] = '\2';
+	return (*j);
 }
 
-int	check_pipes(char *linei)
+char *check_aspas(char *av, char *newav)
+{
+	(void)av;
+	(void)newav;
+	return("\0");
+}
+
+int	check_tokens(char *linei)
 {
 	if (!ft_strncmp(linei, "<", 2))
 		return (1);
@@ -69,4 +85,3 @@ int	check_cmds(char *linei)
 		return (0);
 	return (1);
 }
-
