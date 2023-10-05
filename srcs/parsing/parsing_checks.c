@@ -6,13 +6,13 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/05 15:03:24 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:33:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int check_pipe(char *av, char *newav, int *j, int *i)
+int parse_tokens(char *av, char *newav, int *j, int *i)
 {
 	if (av[(*i) + 1] == '|')
 		newav[(*j)++] = '\2';
@@ -37,31 +37,12 @@ int check_pipe(char *av, char *newav, int *j, int *i)
 	return (*j);
 }
 
-char *check_aspas(char *av, char *newav)
-{
-	(void)av;
-	(void)newav;
-	return("\0");
-}
-
-int	check_tokens(char *linei)
-{
-	if (!ft_strncmp(linei, "<", 2))
-		return (1);
-	else if (!ft_strncmp(linei, ">", 2))
-		return (1);
-	else if (!ft_strncmp(linei, "|", 2))
-		return (1);
-	else if (!ft_strncmp(linei, "$", 2))
-		return (1);
-	return (0);
-}
 
 int	check_cmds(char *linei)
 {
 	char	**args;
 
-	args = ft_split(linei, ' ');
+	args = ft_split(linei, '\2');
 	if (!ft_strncmp(args[0], "pwd", 4))
 		print_pwd(linei);
 	else if (!ft_strncmp(args[0], "exit", 5))

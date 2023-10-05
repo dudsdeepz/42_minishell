@@ -6,11 +6,11 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/04 17:40:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:34:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	init_shell(void)
 {

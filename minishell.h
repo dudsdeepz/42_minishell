@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/05 11:53:00 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:33:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include "./libft/libft.h"
-# include "./parsing/parsing.h"
+# include "./srcs/parsing/parsing.h"
 
 # define RED "\033[0;31m"
 # define BLUE "\033[0;34m"

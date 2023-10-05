@@ -6,11 +6,11 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/27 14:38:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:34:51 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	print_pwd(char *av)
 {

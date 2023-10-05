@@ -6,11 +6,11 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/09/27 17:54:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:34:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char	*ft_putstr(char *str, char *color)
 {

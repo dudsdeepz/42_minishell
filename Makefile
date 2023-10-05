@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/10/05 11:53:56 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/10/05 16:34:33 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,12 @@ CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 SOURCES = main.c\
-			srcs/init_shell.c\
-			srcs/shell_utils.c\
-			srcs/builtins.c\
-			srcs/utils.c\
-			parsing/parsing.c\
-			parsing/parsing_checks.c\
+			srcs/shell/init_shell.c\
+			srcs/shell/shell_utils.c\
+			srcs/shell/builtins.c\
+			srcs/shell/utils.c\
+			srcs/parsing/parsing.c\
+			srcs/parsing/parsing_checks.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 
