@@ -6,43 +6,33 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/05 16:34:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:25:21 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	get_tokens(char *cwd)
+char	**get_tokens(char *av)
 {
-	int	j;
 	int	i;
-	int	a;
-
-	j = 0;
+	int j;
+	int a;
+	
 	i = 0;
+	j = 0;
 	a = 0;
-	if (tokens()->token)
-		free(tokens()->token);
-	tokens()->token = malloc(sizeof(char *) * get_words(cwd));
-	while (cwd[i])
+	tokens()->token = malloc(sizeof(char*) * get_words(av));
+	a = 0;
+	while (av[i++])
 	{
-		while ((cwd[i] == ' ' || cwd[i] == '|' || cwd[i] == '>') && cwd[i])
-			i++;
-		if (ft_isprint(cwd[i]))
+		if (av[i] == '|' || !av[i])
 		{
-			a = i;
-			while ((cwd[i] != '|' || cwd[i] != '>') && cwd[i])
-				i++;
-			tokens()->token[j] = ft_substr(cwd, a, i);
-			j++;
+			printf("token: %d\n", a);
+			a++;
 		}
 	}
 	j = 0;
-	while (tokens()->token[j])
-	{
-		printf("%s\n", tokens()->token[j]);
-		j++;
-	}
+	return(tokens()->token);
 }
 
 int	get_words(char *cwd)
@@ -54,14 +44,11 @@ int	get_words(char *cwd)
 	count = 0;
 	while (cwd[i])
 	{
-		if (cwd[i] == ' ' || cwd[i] == '|' || cwd[i] == '>')
+		if (cwd[i] == '|' || cwd[i] == '>')
 			i++;
-		if (!(cwd[i] == ' ' || cwd[i] == '|' || cwd[i] == '>') && cwd[i])
-		{
-			while (!(cwd[i] == '|' || cwd[i] == '>') && cwd[i])
+		while (!(cwd[i] == '|' || cwd[i] == '>') && cwd[i])
 				i++;
-			count++;
+		count++;
 		}
-	}
 	return (count);
 }

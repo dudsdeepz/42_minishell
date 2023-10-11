@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/05 16:33:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:15:39 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		ft_unset(char **av);
 char 		*ft_strremove(char *substr) ;
 char 		**dup_matrix(char **src);
 void		free_matrix(char **mtx);
-void		get_tokens(char *cwd);
+char		**get_tokens(char *av);
 void		executor(void);
 char		*get_path(char *command, char **env);
 void		free_path(char **list);

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/09 13:45:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:04:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ int	main(int ac, char **av, char **env)
 				add_history(cwd);
 				cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 				if (cwd)
-					parsing(cwd);
+				{
+					if (parsing(cwd))
+					{
+						get_tokens(cwd);
+						// executor();
+					}
+				}
 			}
 			free(cwd);
 		}
@@ -41,13 +47,13 @@ int	main(int ac, char **av, char **env)
 
 void	executor(void)
 {
-	// int i;
-	// char **arg;
+	int i;
+	char **arg;
 
-	// i = 0;
-	// arg = ft_split(tokens()->token[i], ' ');
-	// if (!check_cmds(tokens()->token[i]))
-	// 	exec_system_cmd(arg, tokens()->envp);
+	i = 0;
+	arg = ft_split(tokens()->token[i], '\2');
+	check_cmds(tokens()->token[i]);
+		// exec_system_cmd(arg, tokens()->envp);
 }
 
 int	list_size(char **list)
