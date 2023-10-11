@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/11 14:25:21 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:44:46 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ char	**get_tokens(char *av)
 	i = 0;
 	j = 0;
 	a = 0;
-	tokens()->token = malloc(sizeof(char*) * get_words(av));
-	a = 0;
+	tokens()->token = (char **)malloc(sizeof(char *) * get_words(av));
 	while (av[i++])
 	{
 		if (av[i] == '|' || !av[i])
 		{
-			printf("token: %d\n", a);
-			a++;
+			tokens()->token[j] = ft_substr(av, a, i);
+			a = i + 1;
+			printf("%s\n", tokens()->token[j]);
+			j++;
 		}
 	}
-	j = 0;
 	return(tokens()->token);
 }
 
