@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/09 14:15:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:36:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int ft_echo_cases(char **av)
 	
 // 	if (!av[1])
 // 		return ;
-// 	new = dup_matrix(tokens()->envp, av[1]);
-// 	tokens()->envp = new;
+// 	new = dup_matrix(parser()->envp, av[1]);
+// 	parser()->envp = new;
 // 	free(new);
 // 
 
@@ -148,7 +148,7 @@ void	ft_unset(char **av)
 	if (!av[1])
 		return ;
 	p = 0;
-	while (tokens()->envp[p++] != 0)
+	while (parser()->envp[p++] != 0)
 		continue;
 	j = 1;
 	while (av[j++])
@@ -156,18 +156,18 @@ void	ft_unset(char **av)
 	res = malloc(sizeof(char *) * (p - j + 1));
 	p = -1;
 	j = 1;
-	while (tokens()->envp[++p])
+	while (parser()->envp[++p])
 	{
-		if (!ft_strncmp(av[j], tokens()->envp[p], ft_strlen(av[j])))
+		if (!ft_strncmp(av[j], parser()->envp[p], ft_strlen(av[j])))
 		{
 			p++;
 			j++;
 		}
-		res[p] = ft_strdup(tokens()->envp[p]);
+		res[p] = ft_strdup(parser()->envp[p]);
 	}
 	res[++p] = NULL;
-	free_matrix(tokens()->envp);
-	tokens()->envp = dup_matrix(res);
+	free_matrix(parser()->envp);
+	parser()->envp = dup_matrix(res);
 	free_matrix(res);
 }
 

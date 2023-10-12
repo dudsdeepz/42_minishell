@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/05 16:34:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:48:07 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	*ft_putstr(char *str, char *color)
 	return (str);
 }
 
-t_tokens	*tokens(void)
+t_parser	*parser(void)
 {
-	static t_tokens	tokens;
+	static t_parser	parser;
 
-	return (&tokens);
+	return (&parser);
 }
 
 char *ft_strremove(char *substr) 

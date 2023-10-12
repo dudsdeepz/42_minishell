@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/10 14:15:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/12 16:05:24 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@
 # define BUFFER_SIZE 1024
 # define SHELL_ERROR 0
 
-typedef struct s_tokens
-{
-	char			**envp;
-	char			**token;
-}	t_tokens;
-
 void		init_shell(void);
 int			ft_strcpy(char *dst, char *src);
 int			print_pwd(char *av);
@@ -51,19 +45,20 @@ void		handle_signals(int sig);
 char		*ft_putstr(char *str, char *color);
 char		*get_shell_prompt(char *username, char *pc_name);
 void		sig_actions(void);
-t_tokens	*tokens(void);
+t_parser	*parser(void);
 int 		ft_echo_cases(char **av);
 void		ft_export(char **av);
 void		ft_unset(char **av);
 char 		*ft_strremove(char *substr) ;
 char 		**dup_matrix(char **src);
 void		free_matrix(char **mtx);
-char		**get_tokens(char *av);
+void		get_tokens(char *av);
 void		executor(void);
 char		*get_path(char *command, char **env);
 void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
 int			list_size(char **list);
 void		exec_system_cmd(char **tokens, char **env);
-int			get_words(char *cwd);
+int			tokens_num(char *cwd);
+
 #endif

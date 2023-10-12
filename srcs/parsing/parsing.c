@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/10/10 15:02:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:12:27 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_prompt(char *av, char *newav)
 			j = parse_tokens(av, newav, &j, &i);
 	}
 	free(av);
-	newav[j] = 0;
+	newav[j] = '\0';
 	return (newav);
 }
 
@@ -55,10 +55,12 @@ int	parsing(char *av)
 		if (parse_tokens2(parse, &i))
 		{
 			printf("Minishell: Syntax error!\n");
+			free_path(parse);
 			return (0);
 		}
 		++i;
 	}
+	free_path(parse);
 	return (1);
 }
 

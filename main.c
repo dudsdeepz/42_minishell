@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/11 14:42:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:07:42 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 	char	*cwd;
 
 	(void)av;
-	tokens()->envp = dup_matrix(env);
+	parser()->envp = dup_matrix(env);
 	if (ac == 1)
 	{
 		sig_actions();
@@ -48,12 +48,13 @@ int	main(int ac, char **av, char **env)
 void	executor(void)
 {
 	int i;
-	char **arg;
 
 	i = 0;
-	arg = ft_split(tokens()->token[i], '\2');
-	check_cmds(tokens()->token[i]);
-		// exec_system_cmd(arg, tokens()->envp);
+	while (i < parser()->tokens_n)
+	{
+		check_cmds(parser()->tokens[i].token);
+		i++;
+	}
 }
 
 int	list_size(char **list)
