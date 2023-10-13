@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/12 17:16:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:04:26 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	get_tokens(char *av)
 {
-	int			i;
-	int			a;
+	size_t		i;
+	size_t		a;
 	int			j;
 
 	i = 0;
@@ -23,15 +23,15 @@ void	get_tokens(char *av)
 	j = 0;
 	parser()->tokens_n = tokens_num(av);
 	parser()->tokens = malloc(sizeof(t_tokens) * tokens_num(av));
-	while (av[i++])
+	while (av[i] != '\0')
 	{
+		i++;
 		if (av[i] == '|' || av[i] == '>' || av[i] == '<' || !av[i])
 		{
-			printf("%s\n", ft_substr(av, a, i));
-			parser()->tokens[j].token = ft_split(ft_substr(av, a, i), '\2');
-			parser()->tokens->token_id = j;
-			j++;
+			parser()->tokens[j].token = ft_split(ft_substr(av, a, i - a), '\2');
+			parser()->tokens[j].token_id = j + 1;
 			a = i + 1;
+			j++;
 		}
 	}
 	return ;

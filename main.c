@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/12 17:07:42 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:52:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,19 @@ int	main(int ac, char **av, char **env)
 void	executor(void)
 {
 	int i;
+	int j;
 
 	i = 0;
+	j = 0;
 	while (i < parser()->tokens_n)
 	{
-		check_cmds(parser()->tokens[i].token);
+		while (parser()->tokens[i].token[j])
+		{
+			printf("%s", parser()->tokens[i].token[j]);
+			j++;
+		}
+		printf("\n======================\n");
+		j = 0;
 		i++;
 	}
 }
