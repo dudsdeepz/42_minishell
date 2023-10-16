@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/13 12:22:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:00:39 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_cd(char *av)
 {
 	char	*username;
 
-	username = getenv("USER");
+	username = getenv("HOME");
 	if (av)
 	{
 		if (chdir(av))
@@ -62,46 +62,35 @@ void	ft_cd(char *av)
 
 void	ft_echo(char **av)
 {
-	int i;
-
-	i = 1;
-	if (av[1])
-	{
-		if (ft_echo_cases(av) == 1 && av[2])
-		{
-			if (ft_echo_cases(av) == 2)
-				printf("%s", av[1]);
-			else if (!ft_echo_cases(av))
-				return ;
-			while (av[++i])
-				printf("%s ", av[i]);
-			printf("\b");
-			return ;
-		}
-		else if (ft_echo_cases(av) == 1 && !av[2])
-		{
-			printf("\n");
-			return ;
-		}
-		else
-		{
-			while (av[i])
-				printf("%s ", av[i++]);
-			printf("\n");
-		}
-	}
-	else
-		printf("\n");
+	(void)av;
 }
 
 void	ft_export(char **av)
 {
-	(void)av;
-	// int proc;
-	// char *export_var;
+	int i;
+	int j;
+	char **new;
 	
-	// proc = fork();
-	// export_var = 
+	(void)av;
+	i = 0;
+	j = 0;
+
+	while (av[++j])
+		continue ;
+	new = malloc(sizeof(char *) * list_size(parser()->envp) + j);
+	new = parser()->envp;
+	free_matrix(parser()->envp);
+	while (new[i++] != 0)
+		printf("%s\n", new[i]);
+	// j = 0;
+	// while (av[++j])
+	// {
+	// 	new[i] = ft_strdup(av[j]);
+	// 	// check_export_str(av[i]);
+	// }
+	parser()->envp = dup_matrix(new);
+	free_matrix(new);
+	return ;
 }
 
 int ft_echo_cases(char **av)
@@ -127,17 +116,6 @@ int ft_echo_cases(char **av)
 	}
 	return (1);
 }
-
-// void	ft_unset(char **av)
-// {
-// 	char **new;
-	
-// 	if (!av[1])
-// 		return ;
-// 	new = dup_matrix(parser()->envp, av[1]);
-// 	parser()->envp = new;
-// 	free(new);
-// 
 
 void	ft_unset(char **av)
 {
@@ -183,7 +161,7 @@ char **dup_matrix(char **src)
 	p = -1;
 	while (src[++p] != 0)
 		res[p] = ft_strdup(src[p]);
-	res[p++] = NULL;
+	res[p++] = 0;
 	return (res);
 }
 

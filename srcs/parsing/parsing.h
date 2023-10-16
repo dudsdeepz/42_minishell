@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/13 12:19:15 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:07:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct s_tokens
 {
 	char	**token;
 	int		token_id;
+	int 	token_fork;
 	struct s_tokens	*next;
 }			t_tokens ;
 

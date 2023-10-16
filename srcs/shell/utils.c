@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/12 15:48:07 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:16:34 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,17 @@ char	*triple_strjoin(char *s1, char *s2, char *s3)
 		res[i++] = *s3++;
 	res[i] = 0;
 	return (res);
+}
+
+void	print_tokens(char **av)
+{
+	int i;
+	
+	i = 0;
+	while (av[i])
+	{
+		printf("%s\n", av[i]);
+		i++;
+	}
+	printf("====\n");
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/13 12:19:56 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:18:23 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		{
 			cwd = readline("minishell: ");
 			if (!cwd)
-				return (0); // exit
+				return (0);
 			if (ft_strlen(cwd) > 0)
 				shell(cwd);
 		}
@@ -41,7 +41,7 @@ void	executor(void)
 	while (i < parser()->tokens_n)
 	{
 		if (!(check_cmds(parser()->tokens[i].token)))
-			exec_system_cmd(parser()->tokens[i].token, parser()->envp);
+			exec_system_cmd(parser()->tokens[i].token, parser()->envp, i);
 		i++;
 	}
 }
@@ -56,20 +56,19 @@ int	list_size(char **list)
 	return (i);
 }
 
-void	exec_system_cmd(char **tokens, char **env)
+void	exec_system_cmd(char **tokens, char **env, int tkid)
 {
 	char *getp;
 	int fd[2];
-	int id;
 	int i;
 
 	i = 0;
 	getp = 0;
 	pipe(fd);
-	id = fork();
-	if (id < 0)
+	parser()->tokens[tkid].token_fork = fork();
+	if (parser()->tokens[tkid].token_fork < 0)
 		exit(write(1, "\e[0;31m Error creating fork!\e[0;31m", 36));
-	if (id == 0)
+	if (parser()->tokens[tkid].token_fork == 0)
 		getp = get_path(tokens[i], env);
 	execve(getp, tokens, env);
 	wait(0);
