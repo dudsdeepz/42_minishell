@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:22:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	print_pwd(char *av)
 {
-	char	cwd[2048];
+	char	cwd[1024];
 	int		i;
 	char	**line;
 

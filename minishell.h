@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/12 16:05:24 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:19:19 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
 int			list_size(char **list);
 void		exec_system_cmd(char **tokens, char **env);
-int			tokens_num(char *cwd);
+void 		shell(char *cwd);
 
 #endif

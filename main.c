@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/13 11:52:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/13 12:19:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,7 @@ int	main(int ac, char **av, char **env)
 			if (!cwd)
 				return (0); // exit
 			if (ft_strlen(cwd) > 0)
-			{
-				add_history(cwd);
-				cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
-				if (cwd)
-				{
-					if (parsing(cwd))
-					{
-						get_tokens(cwd);
-						// executor();
-					}
-				}
-			}
-			free(cwd);
+				shell(cwd);
 		}
 	}
 	return (0);
@@ -48,19 +36,12 @@ int	main(int ac, char **av, char **env)
 void	executor(void)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
 	while (i < parser()->tokens_n)
 	{
-		while (parser()->tokens[i].token[j])
-		{
-			printf("%s", parser()->tokens[i].token[j]);
-			j++;
-		}
-		printf("\n======================\n");
-		j = 0;
+		if (!(check_cmds(parser()->tokens[i].token)))
+			exec_system_cmd(parser()->tokens[i].token, parser()->envp);
 		i++;
 	}
 }
@@ -78,13 +59,13 @@ int	list_size(char **list)
 void	exec_system_cmd(char **tokens, char **env)
 {
 	char *getp;
-	// int fd[2];
+	int fd[2];
 	int id;
 	int i;
 
 	i = 0;
 	getp = 0;
-	// pipe(fd);
+	pipe(fd);
 	id = fork();
 	if (id < 0)
 		exit(write(1, "\e[0;31m Error creating fork!\e[0;31m", 36));
@@ -94,4 +75,19 @@ void	exec_system_cmd(char **tokens, char **env)
 	wait(0);
 	free(getp);
 	return ;
+}
+
+void shell(char *cwd)
+{
+	add_history(cwd);
+	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
+	if (cwd)
+	{
+		if (parsing(cwd))
+		{
+			get_tokens(cwd);
+			executor();
+		}
+	}
+	free(cwd);
 }
