@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/16 15:18:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:47:24 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	executor(void)
 	i = 0;
 	while (i < parser()->tokens_n)
 	{
-		if (!(check_cmds(parser()->tokens[i].token)))
-			exec_system_cmd(parser()->tokens[i].token, parser()->envp, i);
+		print_dp(parser()->tokens[i].token);
+		// if (!(check_cmds(parser()->tokens[i].token)))
+		// 	exec_system_cmd(parser()->tokens[i].token, parser()->envp, i);
 		i++;
 	}
 }
@@ -85,6 +86,7 @@ void shell(char *cwd)
 		if (parsing(cwd))
 		{
 			get_tokens(cwd);
+			expansion();
 			executor();
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/10/13 12:12:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:00:32 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	parsing(char *av)
 		if (parse_tokens2(parse, &i))
 		{
 			printf("Minishell: Syntax error!\n");
-			free_path(parse);
+			free_matrix(parse);
 			return (0);
 		}
 		++i;
 	}
-	free_path(parse);
+	free_matrix(parse);
 	return (1);
 }
 

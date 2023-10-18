@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/16 15:07:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:42:11 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_parser
 	char			**envp;
 	int				tokens_n;
 	t_tokens		*tokens;
+	int				exit_status;
 }	t_parser;
 
 char 	*get_prompt(char *av, char *newav);
