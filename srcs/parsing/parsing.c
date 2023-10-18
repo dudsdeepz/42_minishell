@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/10/17 14:00:32 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/18 11:02:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ char	*get_prompt(char *av, char *newav)
 	while (av[++i])
 	{
 		if ((av[i] == '\"' || av[i] == '\''))
-		{
 			s = !s;
-			av[i] = '\1';
-		}
 		if (s == false && av[i] == ' ')
 			av[i] = '\2';
 		newav[j++] = av[i];
