@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 13:45:49 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:32:55 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,18 @@ char *get_expansion(char *token)
 	i = 0;
 	token = quote_killa(token);
 	tmp = ft_split(token, '$');
-	new = 0;
 	new2 = search_in_env(tmp[0], parser()->envp);
+	if (!new2)
+		new2 = tmp[0];
+	new = 0;
 	while (tmp[++i])	
 	{
 		new = search_in_env(tmp[i], parser()->envp);
 		if (new)
 			new2 = ft_strjoin(new2, new);
 	}
+	free_path(tmp);
+	free(token);
 	return (new2);
 }
 
@@ -80,6 +84,7 @@ char *search_in_env(char *str, char **env)
 	int i;
 	char **check;
 	int j;
+	char *digit_str;
 
 	j = 0;
 	i = -1;
@@ -92,8 +97,9 @@ char *search_in_env(char *str, char **env)
 	}
 	if (ft_isdigit(str[j]))
 	{
-		j++;
-		return (str + 1);
+		digit_str = malloc(sizeof(char *) * ft_strlen(str));
+		digit_str = ft_strdup(str);
+		return (digit_str + 1);
 	}
 	str = NULL;
 	return (str);

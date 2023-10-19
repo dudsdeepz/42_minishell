@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 12:16:41 by eduardo           #+#    #+#             */
-/*   Updated: 2023/09/19 16:58:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:24:14 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		a[i] = s1[i];
 		i++;
 	}
-	free(s1);
 	while (s2[i2])
 	{
 		a[i + i2] = s2[i2];
