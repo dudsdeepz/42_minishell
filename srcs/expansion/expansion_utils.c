@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/18 17:07:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:22:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char *join_all(char **token)
 
 	i = 0;
 	new = token[0];
-	while (token[i] && token[i + 1])
+	while (token[i])
 	{
 		i++;
 		new = ft_strjoin(new, token[i]);

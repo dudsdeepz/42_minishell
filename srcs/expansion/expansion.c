@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/18 17:21:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:45:49 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	check_expansion(char *token)
 
 	i = 0;
 	res = 0;
-	if (fk_quotes(token, i))
-		return (res);
+	// while (token[i++])
+	// 	if (fk_quotes(token, i))
+	// 		return (res);
+	// i++;
 	while (token[i])
 	{
-		if (token[i] == '\'')
-			i++;
 		if (token[i] == '$')
 		{
 			res = 1;
@@ -59,31 +59,20 @@ char *get_expansion(char *token)
 	int i;
 	char **tmp;
 	char *new;
-	char **new2;
-	int j;
+	char *new2;
 
 	i = 0;
-	j = 0;
-	new = 0;
-	new2 = 0;
 	token = quote_killa(token);
 	tmp = ft_split(token, '$');
-	while (tmp[i])
+	new = 0;
+	new2 = search_in_env(tmp[0], parser()->envp);
+	while (tmp[++i])	
 	{
 		new = search_in_env(tmp[i], parser()->envp);
-		if (tmp[i + 1])
-			new = ft_strjoin(new, tmp[i + 1]);
-		i++;
+		if (new)
+			new2 = ft_strjoin(new2, new);
 	}
-	// printf("%s\n", new);
-	// i = -1;
-	// while (token[++i])
-	// {
-	// 	// j = fk_quotes(token[i], j);
-	// }
-	// if (new2)
-	// 	new = join_all(new2);
-	return (new);
+	return (new2);
 }
 
 char *search_in_env(char *str, char **env)
@@ -93,21 +82,21 @@ char *search_in_env(char *str, char **env)
 	int j;
 
 	j = 0;
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		check = ft_split(env[i], '=');
-		if (!ft_strncmp(check[0], str, ft_strlen(check[0])))
+		if (!ft_strncmp(check[0], str, ft_strlen(str)))
 			return (check[1]);
 		free_matrix(check);
-		i++;
 	}
 	if (ft_isdigit(str[j]))
 	{
 		j++;
 		return (str + 1);
 	}
-	return (NULL);
+	str = NULL;
+	return (str);
 }
 
 char	*expansion_wg(char *splited)
@@ -126,12 +115,7 @@ int fk_quotes(char *token, int i)
 
 	j = 0;
 	i = 0;
-	while (token[j])
-	{
-		j++;
-		if (token[i] != j && j == '\"')
-			return (printf("Unclosed quotes!\n"));
-	}
+
 	tmp = token[i++];
 	while (token[i] && token[i] != tmp)
 		i++;
