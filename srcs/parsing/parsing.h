@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/17 11:42:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/19 14:40:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int 	parse_tokens(char *av, char *newav, int *j, int *i);
 int 	parse_tokens2(char **av, int *i);
 void	print_dp(char **str);
 int		tokens_num(char *cwd);
+void	clear_tokens(t_tokens **lst, void (*del)(void*));
 
 #endif

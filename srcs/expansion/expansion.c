@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 14:32:55 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:31:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void expansion(void)
 	{
 		while (parser()->tokens[i].token[j])
 		{
-			if (check_expansion(parser()->tokens[i].token[j]))
-				parser()->tokens[i].token[j] = get_expansion(parser()->tokens[i].token[j]);
+			check_expansion(parser()->tokens[i].token[j]);
 			j++;
 		}
 		i++;
@@ -34,48 +33,32 @@ void expansion(void)
 int	check_expansion(char *token)
 {
 	int i;
-	int	res;
+	int tmp;
 
-	i = 0;
-	res = 0;
-	// while (token[i++])
-	// 	if (fk_quotes(token, i))
-	// 		return (res);
-	// i++;
-	while (token[i])
-	{
-		if (token[i] == '$')
-		{
-			res = 1;
-			break;
-		}
-		i++;
-	}
-	return (res);
+	return (0);
 }
-
 char *get_expansion(char *token)
 {
 	int i;
-	char **tmp;
 	char *new;
+	char **tmp;
 	char *new2;
 
 	i = 0;
 	token = quote_killa(token);
+	new = 0;
 	tmp = ft_split(token, '$');
 	new2 = search_in_env(tmp[0], parser()->envp);
-	if (!new2)
+	if (!new2 || !ft_strncmp(new2, "$", 1))
 		new2 = tmp[0];
-	new = 0;
-	while (tmp[++i])	
+	while (tmp[++i])
 	{
 		new = search_in_env(tmp[i], parser()->envp);
 		if (new)
 			new2 = ft_strjoin(new2, new);
 	}
-	free_path(tmp);
 	free(token);
+	printf("%s\n", new2);
 	return (new2);
 }
 
@@ -84,10 +67,12 @@ char *search_in_env(char *str, char **env)
 	int i;
 	char **check;
 	int j;
-	char *digit_str;
+	// char *digit_str;
 
 	j = 0;
 	i = -1;
+	if (!str)
+		return ("$");
 	while (env[++i])
 	{
 		check = ft_split(env[i], '=');
@@ -96,22 +81,24 @@ char *search_in_env(char *str, char **env)
 		free_matrix(check);
 	}
 	if (ft_isdigit(str[j]))
-	{
-		digit_str = malloc(sizeof(char *) * ft_strlen(str));
-		digit_str = ft_strdup(str);
-		return (digit_str + 1);
-	}
+		return (str + 1);
 	str = NULL;
 	return (str);
 }
 
-char	*expansion_wg(char *splited)
+int	expansion_wc(char *str)
 {
-	if (search_in_env(splited, parser()->envp))
-		splited = ft_strdup(search_in_env(splited, parser()->envp));
-	else
-		splited = 0;
-	return (splited);
+	int i;
+	int count;
+	
+	i = 0;
+	count = 1;
+	while (str[++i])
+	{
+		if (str[i] == '\0' || str[i] == '$')
+			count++;
+	}
+	return (count);
 }
 
 int fk_quotes(char *token, int i)
@@ -121,11 +108,39 @@ int fk_quotes(char *token, int i)
 
 	j = 0;
 	i = 0;
-
 	tmp = token[i++];
 	while (token[i] && token[i] != tmp)
 		i++;
 	if (!token[i])
 		return (printf("Unclosed quotes!\n"));
 	return (i);
+}
+
+int expansion_size(char *str)
+{
+	int i;
+	int	size;
+	int a;
+	char *sizei;
+
+	i = 0;
+	a = 0;
+	size = 0;
+	sizei = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			a = i + 1;
+			while (str[i] && ft_isalpha(str[i]))
+				i++;
+			sizei = search_in_env(ft_substr(str, a, i - a), parser()->envp);
+			if (sizei)
+				size += ft_strlen(sizei);
+		}
+
+		size++;
+		i++;	
+	}
+	return (size);
 }
