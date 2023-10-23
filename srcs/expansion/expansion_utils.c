@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 12:22:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/20 15:30:37 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,16 @@ char *quote_killa(char *str)
 	res = kill_da_quotes(str);
 	free(str);
 	return (res);
+}
+
+int fk_quotes(char *token, int i)
+{
+	char tmp;
+
+	tmp = token[i++];
+	while (token[i] && token[i] != tmp)
+		i++;
+	if (!token[i])
+		return (printf("Unclosed quotes!\n"));
+	return (i);
 }

@@ -6,11 +6,38 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/23 17:08:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/21 01:20:42 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void v_helper(char *token, char *str, int start, int end, char *res)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (token[i])
+	{
+		if (token[i] && i >= start - 1 && i <= end)
+		{
+			i = -1;
+			if (str)
+			{
+				while(str[++i])
+					res[j++] = str[i];
+			}
+			i = end + 1;
+		}
+		if (token[i] && (i < start || i > end))
+			res[j] = token[i];
+		if (token[i])
+			i++;
+		j++;
+	}
+}
 
 void expansion(void)
 {
@@ -23,125 +50,126 @@ void expansion(void)
 	{
 		while (parser()->tokens[i].token[j])
 		{
-			check_expansion(parser()->tokens[i].token[j]);
+			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j]);
 			j++;
 		}
 		i++;
 	}
 }
 
-int	check_expansion(char *token)
-{
-	// int i;
-	// int tmp;
-
-	(void)token;
-	return (0);
-}
-char *get_expansion(char *token)
+char *check_expansion(char *token)
 {
 	int i;
-	char *new;
-	char **tmp;
-	char *new2;
+	int tmp;
 
 	i = 0;
-	token = quote_killa(token);
-	new = 0;
-	tmp = ft_split(token, '$');
-	new2 = search_in_env(tmp[0], parser()->envp);
-	if (!new2 || !ft_strncmp(new2, "$", 1))
-		new2 = tmp[0];
-	while (tmp[++i])
+	tmp = 0;
+	while (token && token[i])
 	{
-		new = search_in_env(tmp[i], parser()->envp);
-		if (new)
-			new2 = ft_strjoin(new2, new);
+		if (!token[i])
+			return (token);
+		if (token[i] && !difs("\"", token[i]))
+			dolutil(&tmp);
+		if (token[i] && !difs("\'", token[i]) && !tmp)
+			i = fk_quotes(token, i);
+		if (token[i] && !difs("$", token[i]))
+			token 	= get_expansion(token, &i);
+		else
+			i++;
 	}
-	free(token);
-	printf("%s\n", new2);
-	return (new2);
+	return (token);
+}
+char *get_expansion(char *token, int *i)
+{
+	int a;
+	char *res;
+	
+	a = (*i) + 1;
+	if (token[a] == '?')
+	{
+		return (ft_itoa(parser()->exit_status));
+		(*i)++;
+	}
+	while (token[a] && (ft_isalnum(token[a]) || token[a] == '_'))
+		a++;
+	if (a == (*i) + 1)
+	{
+		(*i)++;
+		return (token);
+	}
+	res = fk_token(token, search_env(ft_substr(token, (*i) + 1, a - 1), \
+		parser()->envp), (*i) + 1, a - 1);
+	if (token)
+		free(token);
+	return (res);
 }
 
-char *search_in_env(char *str, char **env)
+char *search_env(char *token, char **env)
 {
 	int i;
-	char **check;
-	int j;
-	// char *digit_str;
-
-	j = 0;
+	int size;
+	
 	i = -1;
-	if (!str)
-		return ("$");
 	while (env[++i])
 	{
-		check = ft_split(env[i], '=');
-		if (!ft_strncmp(check[0], str, ft_strlen(str)))
-			return (check[1]);
-		free_matrix(check);
+		if (!ft_strncmp(env[i], token, fe_sign(env[i])) && \
+		!token[fe_sign(env[i])])
+			break ;
 	}
-	if (ft_isdigit(str[j]))
-		return (str + 1);
-	str = NULL;
-	return (str);
+	size = ft_strlen(token);
+	if (token)
+		free (token);
+	if (!env[i])
+		return (NULL);
+	return (ft_strdup(env[i] + size + 1));
 }
 
-int	expansion_wc(char *str)
+char *fk_token(char *token, char *str, int i, int a)
+{
+	char *res;
+	
+	if (str)
+		res = malloc(ft_strlen(token) - (a - i + 2) + ft_strlen(str) + 1);
+	else
+		res = malloc(ft_strlen(token) - (a - i + 2) + 1);
+	v_helper(token, str, i, a, res);
+	if (str)
+		res[ft_strlen(token) - (a - i + 2) + ft_strlen(str)] = 0;
+	else
+		res[ft_strlen(token) - (a - i + 2)] = 0;
+	if (str)
+		free(str);
+	return (res);
+}
+
+int fe_sign(char *str)
 {
 	int i;
-	int count;
 	
 	i = 0;
-	count = 1;
-	while (str[++i])
-	{
-		if (str[i] == '\0' || str[i] == '$')
-			count++;
-	}
-	return (count);
-}
-
-int fk_quotes(char *token, int i)
-{
-	char tmp;
-	int j;
-
-	j = 0;
-	i = 0;
-	tmp = token[i++];
-	while (token[i] && token[i] != tmp)
+	while (str[i] && str[i] != '=')
 		i++;
-	if (!token[i])
-		return (printf("Unclosed quotes!\n"));
+	if (!str[i])
+		return (-1);
 	return (i);
 }
 
-int expansion_size(char *str)
+int difs(char *sign, char c)
 {
 	int i;
-	int	size;
-	int a;
-	char *sizei;
 
 	i = 0;
-	a = 0;
-	size = 0;
-	sizei = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			a = i + 1;
-			while (str[i] && ft_isalpha(str[i]))
-				i++;
-			sizei = search_in_env(ft_substr(str, a, i - a), parser()->envp);
-			if (sizei)
-				size += ft_strlen(sizei);
-		}
+	while (c && sign[i] && c != sign[i])
+		i++;
+	if (!sign[i])
+		return (1);
+	return (0);
+}
 
-		size++;
-		i++;	
-	}
-	return (size);
+void	dolutil(int *tmp)
+{
+	if (!(*tmp))
+		*tmp = 1;
+	else
+		*tmp = 0;
 }

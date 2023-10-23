@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:47:08 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/20 12:33:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:44:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@
 # include "../../minishell.h"
 
 void	expansion(void);
-int		check_expansion(char *token);
-char 	*search_in_env(char *str, char **env);
-char 	*get_expansion(char *token);
-int		expansion_wc(char *str);
+char	*check_expansion(char *token);
+char 	*search_env(char *str, char **env);
+char    *get_expansion(char *token, int *i);
 int 	fk_quotes(char *token, int i);
 char 	*join_all(char **token);
 int		check_sign(char *str, char c);
 char 	*quote_killa(char *str);
 int		quote_n(char *str);
-int 	expansion_size(char *str);
+int     fe_sign(char *str);
+char    *fk_token(char *token, char *str, int i, int a);
+int     difs(char *sign, char c);
+void	dolutil(int *tmp);
 
 #endif
