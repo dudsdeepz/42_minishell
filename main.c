@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 16:52:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:31:40 by diomari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,43 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*cwd;
+	char	*line;
 
 	(void)av;
 	parser()->envp = dup_matrix(env);
+	parser()->heredoc->h_content = NULL;
+	parser()->heredoc->in_heredoc = 0;
 	if (ac == 1)
 	{
 		sig_actions();
 		while (1)
 		{
-			cwd = readline("minishell: ");
-			if (!cwd)
-				return (0);
-			if (ft_strlen(cwd) > 0)
-				shell(cwd);
+			if (!parser()->heredoc->in_heredoc)
+			{
+				cwd = readline("minishell: ");
+				if (!cwd)
+					return (0);
+				if (ft_strncmp(cwd, "<<EOF", 6))
+				{
+					parser()->heredoc->in_heredoc = 1;
+					parser()->heredoc->h_content = ft_strdup("");
+					continue ;
+				}
+				if (ft_strlen(cwd) > 0)
+					shell(cwd);
+			}
+			else
+			{
+				line[ft_strcspn(line, "\n")] = '\0';
+				if (ft_strncmp(line, "EOF", 4) == 0)
+					parser()->heredoc->in_heredoc = 0;
+				else
+					p_heredoc(line);
+			}
 		}
+		free_heredoc(parser()->heredoc->h_content);
 	}
 	return (0);
-}
-
-void	executor(void)
-{
-	int i;
-
-	i = 0;
-	while (i < parser()->tokens_n)
-	{
-		print_dp(parser()->tokens[i].token);
-		// if (!(check_cmds(parser()->tokens[i].token)))
-		// 	exec_system_cmd(parser()->tokens[i].token, parser()->envp, i);
-		i++;
-	}
 }
 
 int	list_size(char **list)
@@ -87,7 +94,7 @@ void shell(char *cwd)
 		{
 			get_tokens(cwd);
 			expansion();
-			// executor();
+			executor();
 		}
 	}
 	free(cwd);

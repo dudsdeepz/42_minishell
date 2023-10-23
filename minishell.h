@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 14:42:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:28:01 by diomari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "./libft/libft.h"
 # include "./srcs/parsing/parsing.h"
 # include "./srcs/expansion/expansion.h"
+# include "./srcs/executor/executor.h"
 
 # define RED "\033[0;31m"
 # define BLUE "\033[0;34m"
@@ -54,12 +55,18 @@ char 		*ft_strremove(char *substr) ;
 char 		**dup_matrix(char **src);
 void		free_matrix(char **mtx);
 void		get_tokens(char *av);
-void		executor(void);
 char		*get_path(char *command, char **env);
 void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
 int			list_size(char **list);
 void		exec_system_cmd(char **tokens, char **env, int tkid);
 void 		shell(char *cwd);
+void		free_heredoc(char *heredoc_content);
+int			ft_strlen(char *str);
+char		*ft_strcat(char *dest, char *src);
+size_t		ft_strcspn(const char *s, const char *reject);
+
+
+
 
 #endif

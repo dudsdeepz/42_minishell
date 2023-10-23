@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/16 15:16:34 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:27:46 by diomari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,58 @@ void	print_tokens(char **av)
 		i++;
 	}
 	printf("====\n");
+}
+
+void free_heredoc(char *heredoc_content)
+{
+	if (heredoc_content != NULL)
+		free(heredoc_content);
+}
+
+int ft_strlen(char *str)
+{
+	int i = 0;
+	
+	while (str[i] != '\0')
+		i++;	
+	return (i);
+}
+
+char *ft_strcat(char *dest, char *src)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
+
+size_t  ft_strcspn(const char *s, const char *reject)
+{
+	size_t	i;
+	size_t	k;
+
+	i = 0;
+	k = 0;
+	while (s[i] != '\0')
+	{
+		while (reject[k] != '\0')
+		{
+			if (reject[k] == s[i])
+				return (i);
+			k++;
+		}
+		k = 0;
+		i++;
+	}
+	return (i);
 }
