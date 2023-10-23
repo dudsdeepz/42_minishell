@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/22 22:28:01 by diomari          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:07:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ int			list_size(char **list);
 void		exec_system_cmd(char **tokens, char **env, int tkid);
 void 		shell(char *cwd);
 void		free_heredoc(char *heredoc_content);
-int			ft_strlen(char *str);
 char		*ft_strcat(char *dest, char *src);
 size_t		ft_strcspn(const char *s, const char *reject);
-
-
-
 
 #endif

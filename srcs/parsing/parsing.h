@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/22 22:44:01 by diomari          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:15:36 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 # define PARSING_H
 # include "../../minishell.h"
 
-typedef struct s_redirect
-{
-	int input_red;
-	int output_red;
-	int m_args;
-	
-
-}
-
 typedef struct s_heredoc
 {
 	char	*h_content;
 	int		in_heredoc;
 	char	*line;
 }			t_heredoc;
+
+typedef struct s_redirect
+{
+	int input_red;
+	int output_red;
+	int m_args;
+}		 	t_redirect;
+
 
 typedef struct s_tokens
 {
@@ -42,8 +41,8 @@ typedef struct s_parser
 {
 	char			**envp;
 	int				tokens_n;
-	t_tokens		*tokens;
 	t_heredoc		*heredoc;
+	t_tokens		*tokens;
 	int				exit_status;
 }	t_parser;
 

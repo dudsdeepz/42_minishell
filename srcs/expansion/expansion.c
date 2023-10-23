@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/20 14:31:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:08:23 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void expansion(void)
 
 int	check_expansion(char *token)
 {
-	int i;
-	int tmp;
+	// int i;
+	// int tmp;
 
+	(void)token;
 	return (0);
 }
 char *get_expansion(char *token)

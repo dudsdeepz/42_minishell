@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/22 22:27:46 by diomari          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:08:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,14 +137,14 @@ void free_heredoc(char *heredoc_content)
 		free(heredoc_content);
 }
 
-int ft_strlen(char *str)
-{
-	int i = 0;
+// int ft_strlen(char *str)
+// {
+// 	int i = 0;
 	
-	while (str[i] != '\0')
-		i++;	
-	return (i);
-}
+// 	while (str[i] != '\0')
+// 		i++;	
+// 	return (i);
+// }
 
 char *ft_strcat(char *dest, char *src)
 {

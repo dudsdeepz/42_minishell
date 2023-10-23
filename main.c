@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: diomari <diomarti@student.42lisboa.com>    +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/22 22:31:40 by diomari          ###   ########.fr       */
+/*   Updated: 2023/10/23 17:28:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ int	main(int ac, char **av, char **env)
 	char	*line;
 
 	(void)av;
-	parser()->envp = dup_matrix(env);
-	parser()->heredoc->h_content = NULL;
-	parser()->heredoc->in_heredoc = 0;
 	if (ac == 1)
 	{
+		line = 0;
+		parser()->heredoc = malloc(sizeof(t_heredoc));
+		parser()->envp = dup_matrix(env);
+		parser()->heredoc->h_content = NULL;
+		parser()->heredoc->in_heredoc = 0;
 		sig_actions();
 		while (1)
 		{
@@ -31,7 +33,7 @@ int	main(int ac, char **av, char **env)
 				cwd = readline("minishell: ");
 				if (!cwd)
 					return (0);
-				if (ft_strncmp(cwd, "<<EOF", 6))
+				if (cwd && !ft_strncmp(cwd, "<<", 3))
 				{
 					parser()->heredoc->in_heredoc = 1;
 					parser()->heredoc->h_content = ft_strdup("");
