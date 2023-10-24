@@ -6,11 +6,24 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/21 01:20:42 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:52:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void	dolutil(int *tmp)
+{
+	if (!(*tmp))
+		*tmp = 1;
+	else
+		*tmp = 0;
+}
+
+static char token_valid_char(int a, char *token)
+{
+	return ((ft_isalnum(token[a]) || token[a] == '_'));
+}
 
 static void v_helper(char *token, char *str, int start, int end, char *res)
 {
@@ -43,42 +56,52 @@ void expansion(void)
 {
 	int i;
 	int j;
-	
+	int a;
+	int tmp;
+
 	i = 0;
 	j = 0;
+	a = 0;
+	tmp = 0;
+	(*synt()) = 0;
 	while (i < parser()->tokens_n)
 	{
 		while (parser()->tokens[i].token[j])
 		{
-			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j]);
+			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j], a, tmp);
 			j++;
 		}
 		i++;
 	}
 }
 
-char *check_expansion(char *token)
+char *check_expansion(char *token, int i, int tmp)
 {
-	int i;
-	int tmp;
-
-	i = 0;
-	tmp = 0;
 	while (token && token[i])
 	{
 		if (!token[i])
 			return (token);
 		if (token[i] && !difs("\"", token[i]))
+		{
+			fk_quotes(token, i);
+			if (*synt())
+				return (free_da_str(token));
 			dolutil(&tmp);
+			token = quote_killa(token);
+		}
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
+		if (*synt())
+			return(free_da_str(token));
 		if (token[i] && !difs("$", token[i]))
-			token 	= get_expansion(token, &i);
+			token = get_expansion(token, &i);
 		else
 			i++;
 	}
+	printf("%s\n", token);
 	return (token);
 }
+
 char *get_expansion(char *token, int *i)
 {
 	int a;
@@ -90,7 +113,7 @@ char *get_expansion(char *token, int *i)
 		return (ft_itoa(parser()->exit_status));
 		(*i)++;
 	}
-	while (token[a] && (ft_isalnum(token[a]) || token[a] == '_'))
+	while (token[a] && token_valid_char(a, token))
 		a++;
 	if (a == (*i) + 1)
 	{
@@ -110,6 +133,8 @@ char *search_env(char *token, char **env)
 	int size;
 	
 	i = -1;
+	if (ft_isdigit(*token))
+		return (ft_strdup(token + 1));
 	while (env[++i])
 	{
 		if (!ft_strncmp(env[i], token, fe_sign(env[i])) && \
@@ -166,10 +191,9 @@ int difs(char *sign, char c)
 	return (0);
 }
 
-void	dolutil(int *tmp)
+char	*free_da_str(char *str)
 {
-	if (!(*tmp))
-		*tmp = 1;
-	else
-		*tmp = 0;
+	free(str);
+	str = NULL;
+	return (str);
 }

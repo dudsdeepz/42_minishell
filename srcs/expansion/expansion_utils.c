@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/20 15:30:37 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:16:34 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,15 @@ int fk_quotes(char *token, int i)
 	while (token[i] && token[i] != tmp)
 		i++;
 	if (!token[i])
-		return (printf("Unclosed quotes!\n"));
+	{
+		printf("Unclosed quotes!\n");
+		(*synt())++;
+	}
 	return (i);
+}
+
+int *synt(void)
+{
+	static int bruh;
+	return (&bruh);
 }
