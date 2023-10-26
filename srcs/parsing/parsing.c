@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/10/18 11:02:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:14:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ int	parsing(char *av)
 {
 	char	**parse;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	parse = ft_split(av, '\2');
 	if (!ft_strncmp(parse[i], "|", 2))
 		return (printf("Minishell: Syntax error!\n"));
