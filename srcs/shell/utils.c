@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/23 17:08:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:50:50 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,5 +182,27 @@ size_t  ft_strcspn(const char *s, const char *reject)
 		k = 0;
 		i++;
 	}
+	return (i);
+}
+char	*ft_subtokens(const char *s, unsigned int start, size_t len)
+{
+	char	*i;
+	size_t	b;
+
+	b = 0;
+	if (start >= ft_strlen(s))
+	{
+		i = (char *)malloc(sizeof(char));
+		*i = 0;
+		return (i);
+	}
+	if (len >= ft_strlen(s))
+		len = ft_strlen(s) - start;
+	i = (char *)malloc(len + 1);
+	if (!i)
+		return (0);
+	while (start < ft_strlen(s) && b < len)
+		i[b++] = s[start++];
+	i[b] = '\0';
 	return (i);
 }

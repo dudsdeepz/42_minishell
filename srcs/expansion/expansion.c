@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/24 15:52:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:31:40 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	dolutil(int *tmp)
 		*tmp = 0;
 }
 
-static char token_valid_char(int a, char *token)
+bool token_valid_char(char a)
 {
-	return ((ft_isalnum(token[a]) || token[a] == '_'));
+	return ((ft_isalnum(a)) || (a == '_'));
 }
 
 static void v_helper(char *token, char *str, int start, int end, char *res)
@@ -56,38 +56,38 @@ void expansion(void)
 {
 	int i;
 	int j;
-	int a;
 	int tmp;
 
 	i = 0;
 	j = 0;
-	a = 0;
 	tmp = 0;
-	(*synt()) = 0;
 	while (i < parser()->tokens_n)
 	{
 		while (parser()->tokens[i].token[j])
 		{
-			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j], a, tmp);
+			(*synt()) = 0;
+			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j], tmp);
 			j++;
 		}
+		j = 0;
 		i++;
 	}
 }
 
-char *check_expansion(char *token, int i, int tmp)
+char *check_expansion(char *token, int tmp)
 {
+	int i;
+
+	i = 0;
 	while (token && token[i])
 	{
 		if (!token[i])
 			return (token);
-		if (token[i] && !difs("\"", token[i]))
+		if (token[i] == '\"' && token[i])
 		{
-			fk_quotes(token, i);
-			if (*synt())
-				return (free_da_str(token));
+			if (check_dq(token))
+				return(free_da_str(token));
 			dolutil(&tmp);
-			token = quote_killa(token);
 		}
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
@@ -98,13 +98,14 @@ char *check_expansion(char *token, int i, int tmp)
 		else
 			i++;
 	}
-	printf("%s\n", token);
+	if (!check_dq(token))
+		token = quote_killa(token);
 	return (token);
 }
 
 char *get_expansion(char *token, int *i)
 {
-	int a;
+	int 	a;
 	char *res;
 	
 	a = (*i) + 1;
@@ -113,7 +114,7 @@ char *get_expansion(char *token, int *i)
 		return (ft_itoa(parser()->exit_status));
 		(*i)++;
 	}
-	while (token[a] && token_valid_char(a, token))
+	while (token[a] && token_valid_char(token[a]))
 		a++;
 	if (a == (*i) + 1)
 	{
@@ -196,4 +197,27 @@ char	*free_da_str(char *str)
 	free(str);
 	str = NULL;
 	return (str);
+}
+
+int	check_dq(char *token)
+{
+	int i;
+
+	i = 0;
+	if (token[i] == '\"')
+	{
+		i += 1;
+		while (token[i] != '\"' && token[i])
+			i++;
+		if (token[i] != '\"')
+			return (printf("Unclosed quotes !"));
+	}
+	else
+	while (token[i])
+	{
+		i++;
+		if (token[i] == '\"')
+			return (printf("Unclosed quotes !"));
+	}
+	return (0);
 }

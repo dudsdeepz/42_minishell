@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/17 15:48:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:33:11 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_cmds(char **linei)
 	else if (!ft_strncmp(linei[0], "cd", 3))
 		ft_cd(linei[1]);
 	else if (!ft_strncmp(linei[0], "echo", 5))
-		return (1);
+		ft_echo(linei);
 	else if (!ft_strncmp(linei[0], "export", 7))
 		ft_export(linei);
 	else if (!ft_strncmp(linei[0], "unset", 6))

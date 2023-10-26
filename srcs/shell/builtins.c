@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/19 14:47:32 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:34:52 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,15 @@ void	ft_cd(char *av)
 
 void	ft_echo(char **av)
 {
-	(void)av;
+	int i;
+	
+	i = 0;
+	if (av[1])
+	{
+		while (av[++i])
+			printf("%s ", av[i]);
+	}
+	printf("\n");
 }
 
 void	ft_export(char **av)
