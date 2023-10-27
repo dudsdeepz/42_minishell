@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/26 15:31:40 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:22:19 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,7 @@ char *check_expansion(char *token, int tmp)
 		if (!token[i])
 			return (token);
 		if (token[i] == '\"' && token[i])
-		{
-			if (check_dq(token))
-				return(free_da_str(token));
 			dolutil(&tmp);
-		}
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
 		if (*synt())
@@ -98,8 +94,6 @@ char *check_expansion(char *token, int tmp)
 		else
 			i++;
 	}
-	if (!check_dq(token))
-		token = quote_killa(token);
 	return (token);
 }
 
@@ -202,22 +196,27 @@ char	*free_da_str(char *str)
 int	check_dq(char *token)
 {
 	int i;
+	int a;
 
 	i = 0;
-	if (token[i] == '\"')
+	while (token[i])
 	{
-		i += 1;
-		while (token[i] != '\"' && token[i])
-			i++;
-		if (token[i] != '\"')
-			return (printf("Unclosed quotes !"));
+		if (token[i] == '\"')
+			break;
+		i++;
 	}
-	else
+	a = i;
+	while (token[a])
+	{
+		a--;
+		if (token[a] == '\"')
+			return (1);
+	}
 	while (token[i])
 	{
 		i++;
 		if (token[i] == '\"')
-			return (printf("Unclosed quotes !"));
+			return (1);
 	}
 	return (0);
 }

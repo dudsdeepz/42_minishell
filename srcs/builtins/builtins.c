@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/25 14:34:52 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:55:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,19 @@
 
 int	print_pwd(char *av)
 {
-	char	cwd[1024];
-	int		i;
-	char	**line;
+	char	*cwd;
 
-	i = 0;
-	line = ft_split(av, ' ');
-	while (line[i])
-		i++;
-	if (i > 1)
-	{
-		printf("pwd: too many arguments\n");
-		return (1);
-	}
-	
-	else
-		printf("%s\n", getcwd(cwd, sizeof(cwd)));
+	//done, need to remove av
+	(void)av;
+	cwd = getcwd(NULL, 0);
+	printf("%s\n", cwd);
+	free(cwd);
 	return (0);
 }
 
 void	display_env(char **env)
 {
+	//done
 	int	i;
 
 	i = 0;
@@ -44,20 +36,6 @@ void	display_env(char **env)
 		++i;
 	}
 	return ;
-}
-
-void	ft_cd(char *av)
-{
-	char	*username;
-
-	username = getenv("HOME");
-	if (av)
-	{
-		if (chdir(av))
-			printf("Directory not found!\n");
-	}
-	else
-		chdir(username);	
 }
 
 void	ft_echo(char **av)
@@ -71,34 +49,6 @@ void	ft_echo(char **av)
 			printf("%s ", av[i]);
 	}
 	printf("\n");
-}
-
-void	ft_export(char **av)
-{
-	int i;
-	int j;
-	char **new;
-	
-	(void)av;
-	i = 0;
-	j = 0;
-
-	while (av[++j])
-		continue ;
-	new = malloc(sizeof(char *) * list_size(parser()->envp) + j);
-	new = parser()->envp;
-	free_matrix(parser()->envp);
-	while (new[i++] != 0)
-		printf("%s\n", new[i]);
-	// j = 0;
-	// while (av[++j])
-	// {
-	// 	new[i] = ft_strdup(av[j]);
-	// 	// check_export_str(av[i]);
-	// }
-	parser()->envp = dup_matrix(new);
-	free_matrix(new);
-	return ;
 }
 
 int ft_echo_cases(char **av)
