@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/26 17:30:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:27:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,11 @@
 
 void		init_shell(void);
 int			ft_strcpy(char *dst, char *src);
-int			print_pwd(char *av);
-void		display_env(char **env);
-void		ft_cd(char *av);
-void		ft_echo(char **av);
 void		handle_signals(int sig);
 char		*ft_putstr(char *str, char *color);
 char		*get_shell_prompt(char *username, char *pc_name);
 void		sig_actions(void);
 t_parser	*parser(void);
-int 		ft_echo_cases(char **av);
-void		ft_export(char **av);
-void		ft_unset(char **av);
 char 		*ft_strremove(char *substr) ;
 char 		**dup_matrix(char **src);
 void		free_matrix(char **mtx);

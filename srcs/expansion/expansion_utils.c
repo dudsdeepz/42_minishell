@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/26 15:30:19 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:52:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int fk_quotes(char *token, int i)
 
 int *synt(void)
 {
-	static int bruh;
+	static int	bruh;
+
 	return (&bruh);
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/26 17:55:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:28:14 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,31 @@ void	free_matrix(char **mtx)
 	while (mtx[p])
 		free(mtx[p++]);
 	free(mtx);
+}
+
+
+int	check_cmds(char **linei)
+{
+	if (!ft_strncmp(linei[0], "pwd", 4))
+		print_pwd(*linei);
+	else if (!ft_strncmp(linei[0], "exit", 5))
+	{
+		if (linei[1])
+			exit(ft_atoi(linei[1]));
+		else
+			exit(0);
+	}
+	else if (!ft_strncmp(linei[0], "env", 4) && !linei[1])
+		display_env(parser()->envp);
+	else if (!ft_strncmp(linei[0], "cd", 3))
+		ft_cd(linei);
+	else if (!ft_strncmp(linei[0], "echo", 5))
+		ft_echo(linei);
+	else if (!ft_strncmp(linei[0], "export", 7))
+		ft_export(linei);
+	else if (!ft_strncmp(linei[0], "unset", 6))
+		ft_unset(linei);
+	else
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/25 14:33:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:28:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,4 @@ int parse_tokens(char *av, char *newav, int *j, int *i)
 	else if (av[(*i) + 1] == '>' || av[(*i) + 1] == '<')
 		newav[(*j)++] = '\2';
 	return (*j);
-}
-
-
-int	check_cmds(char **linei)
-{
-	if (!ft_strncmp(linei[0], "pwd", 4))
-		print_pwd(*linei);
-	else if (!ft_strncmp(linei[0], "exit", 5))
-	{
-		if (linei[1])
-			exit(ft_atoi(linei[1]));
-		else
-			exit(0);
-	}
-	else if (!ft_strncmp(linei[0], "env", 4) && !linei[1])
-		display_env(parser()->envp);
-	else if (!ft_strncmp(linei[0], "cd", 3))
-		ft_cd(linei[1]);
-	else if (!ft_strncmp(linei[0], "echo", 5))
-		ft_echo(linei);
-	else if (!ft_strncmp(linei[0], "export", 7))
-		ft_export(linei);
-	else if (!ft_strncmp(linei[0], "unset", 6))
-		ft_unset(linei);
-	else
-		return (0);
-	return (1);
 }

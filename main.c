@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/25 14:45:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:55:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(int ac, char **av, char **env)
 		line = 0;
 		parser()->heredoc = malloc(sizeof(t_heredoc));
 		parser()->envp = dup_matrix(env);
+		parser()->export_env = dup_matrix(env);
 		parser()->heredoc->h_content = NULL;
 		parser()->heredoc->in_heredoc = 0;
 		sig_actions();
