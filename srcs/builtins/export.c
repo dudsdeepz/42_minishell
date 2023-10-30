@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 16:27:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:14:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,18 @@ char	**send_to_exportenv(char *token, char **env)
 		ft_strcpy(env[i], token);
 	}
 	else
-		env = new_env(token, env);
+		env = new_env(token, env, NULL);
 	return (env);
 }
 
 char	**send_to_env(char *token, char **env, char *find)
 {
 	int i;
+	char *str;
 	
 	i = -1;
 	if (!token)
-	{
-		token = malloc(2);
-		token = ft_strdup("""");
-	}
+		token = "\"\"";
 	while (env[++i])
 	{
 		if (!ft_strncmp(find, env[i], ft_strlen(find)))
@@ -107,15 +105,18 @@ char	**send_to_env(char *token, char **env, char *find)
 		free(env[i]);
 		env[i] = malloc(sizeof(char *) * ft_strlen(token) + ft_strlen(find));
 		find = ft_strjoin(find, "=");
-		ft_strcpy(env[i], ft_strjoin(find, token));
+		str = ft_strjoin(find, token);
+		ft_strcpy(env[i], str);
+		free(str);
+		free(find);
 	}
 	else
-		env = new_env(token, env);
+		env = new_env(token, env, ft_strjoin(find, "="));
 	return (env);
 }
 
 
-char **new_env(char *token, char **env)
+char **new_env(char *token, char **env, char *find)
 {
 	char **new;
 	int i;
@@ -127,8 +128,12 @@ char **new_env(char *token, char **env)
 		new[i] = ft_strdup(env[i]);
 		i++;
 	}
+	if (find)
+		token = ft_strjoin(find, token);
+	free(find);
 	new[i] = ft_strdup(token);
 	new[i + 1] = 0;
+	free(token);
 	free_matrix(env);
 	return (new);
 }

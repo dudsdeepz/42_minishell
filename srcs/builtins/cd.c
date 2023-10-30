@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 16:34:37 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:04:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_cd(char **av)
 {
+	char *token;
+
 	if (av[1])
 	{		
 		if (access(av[1], F_OK == -1))
@@ -21,16 +23,30 @@ void	ft_cd(char **av)
 		else
 		{
 			parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD");
-			parser()->export_env = send_to_exportenv( \
-				ft_strjoin(ft_strjoin("OLDPWD", "="), getcwd(NULL, 0)), parser()->envp);
+			token = oldpwd_aux("OLDPWD");
+			parser()->export_env = send_to_exportenv(token, parser()->envp);
+			free (token);
 			chdir(av[1]);
 		}
 	}
 	else
 	{
 		parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD");
-		parser()->export_env = send_to_exportenv( \
-		ft_strjoin(ft_strjoin("OLDPWD", "="), getcwd(NULL, 0)), parser()->envp);
+		token = oldpwd_aux("OLDPWD");
+		parser()->export_env = send_to_exportenv(token, parser()->envp);
+		free (token);
 		chdir(getenv("HOME"));	
 	}
+}
+
+
+char	*oldpwd_aux(char *token)
+{
+	char *aux;
+	char *aux2;
+	
+	aux = ft_strjoin(token, "=");
+	aux2 = ft_strjoin(aux, getcwd(NULL, 0));
+	free (aux);
+	return (aux2);
 }
