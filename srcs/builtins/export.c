@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 15:43:40 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:27:51 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	ft_export(char **av)
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
-				send_to_env(tmp[1], parser()->envp, tmp[0]);
+				parser()->envp = send_to_env(tmp[1], parser()->envp, tmp[0]);
 				free_matrix(tmp);
 			}
 			else
-				send_to_exportenv(av[i], parser()->export_env);
+				parser()->export_env = send_to_exportenv(av[i], parser()->export_env);
 		}
 	}
 	else
@@ -65,15 +65,16 @@ int check_export_Str(char *str)
 	return (0);
 }
 
-void	send_to_exportenv(char *token, char **env)
+char	**send_to_exportenv(char *token, char **env)
 {
 	int i;
 	
-	i = -1;
-	while (env[++i])
+	i = 0;
+	while (env[i])
 	{
 		if (!ft_strncmp(token, env[i], ft_strlen(token)))
 			break ;
+		i++;
 	}
 	if (env[i])
 	{
@@ -83,9 +84,10 @@ void	send_to_exportenv(char *token, char **env)
 	}
 	else
 		env = new_env(token, env);
+	return (env);
 }
 
-void	send_to_env(char *token, char **env, char *find)
+char	**send_to_env(char *token, char **env, char *find)
 {
 	int i;
 	
@@ -109,6 +111,7 @@ void	send_to_env(char *token, char **env, char *find)
 	}
 	else
 		env = new_env(token, env);
+	return (env);
 }
 
 
@@ -116,18 +119,16 @@ char **new_env(char *token, char **env)
 {
 	char **new;
 	int i;
-	int a;
 	
 	i = 0;
-	a = 0;
-	new = malloc(list_size(env));
-	while (env[i++])
+	new = malloc(sizeof(char *) * (list_size(env) + 2));
+	while (env[i])
 	{
-		new[a] = ft_strdup(env[i]);
-		a++;
+		new[i] = ft_strdup(env[i]);
+		i++;
 	}
-	new[++i] = ft_strdup(token);
-	new[++i] = 0;
+	new[i] = ft_strdup(token);
+	new[i + 1] = 0;
 	free_matrix(env);
 	return (new);
 }
