@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/31 15:45:41 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/01 15:09:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,43 +36,6 @@ void	display_env(char **env)
 		++i;
 	}
 	return ;
-}
-
-void	ft_echo(char **av)
-{
-	int i;
-	
-	i = 0;
-	if (av[1])
-	{
-		while (av[++i])
-			printf("%s ", av[i]);
-	}
-	printf("\n");
-}
-
-int ft_echo_cases(char **av)
-{
-	int i = 0;
-
-	if (av[1])
-	{
-		if (av[1][i] == '-')
-			i++;
-		while (av[1][i])
-		{
-			if (av[1][i] == 'n')
-				i++;
-			else if (ft_isalpha(av[1][i]))
-				return (2);
-			else
-			{
-				printf("Error command not found: %s\n", av[1]);
-				return (0);
-			}
-		}
-	}
-	return (1);
 }
 
 char **dup_matrix(char **src)
