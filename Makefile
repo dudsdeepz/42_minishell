@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/10/26 17:55:31 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/10/31 14:20:27 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SOURCES = main.c\
 			srcs/executor/redirections.c\
 			srcs/builtins/export.c\
 			srcs/builtins/cd.c\
+			srcs/builtins/unset.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 

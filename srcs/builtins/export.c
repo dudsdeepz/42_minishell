@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 17:14:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:48:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,28 @@
 void    display_export(char **env)
 {
     int	i;
+	int a;
+	int checker;
 
 	i = 0;
 	while (env[i])
 	{
-		printf("declare -x %s\n",env[i]);
-		++i;
+		a = 0;
+		checker = 0;
+		ft_putstr("declare -x ", 0);
+		while (env[i][a])
+		{
+			write(1, &env[i][a++], 1);
+			if (!checker && env[i][a - 1] == '=')
+			{
+				write(1, "\"", 2);
+				checker++;
+			}
+		}
+		if (checker)
+			write(1, "\"", 2);
+		write(1, "\n", 2);
+		i++;
 	}
 	return ;
 }
@@ -29,23 +45,23 @@ void	ft_export(char **av)
 {
 	int i;
 	char **tmp;
-	
+
 	i = 0;
-	tmp = NULL;
 	if (av[1])
 	{
 		while (av[++i])
 		{
-			// if (check_export_str(av[i]))
-			// {
-			// 	printf("invalid export string: %s\n", av[1]);
-			// 	continue ;
-			// }
+			if (check_export_str(av[i]))
+			{
+				printf("invalid export string: %s\n", av[i]);
+				continue ;
+			}
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
-				parser()->envp = send_to_env(tmp[1], parser()->envp, tmp[0]);
-				free_matrix(tmp);
+				parser()->envp = send_to_env(tmp[1], parser()->envp, tmp[0], tmp);
+				if (!tmp[1])
+					parser()->export_env = send_to_env(tmp[1], parser()->export_env, tmp[0], tmp);
 			}
 			else
 				parser()->export_env = send_to_exportenv(av[i], parser()->export_env);
@@ -56,19 +72,26 @@ void	ft_export(char **av)
 	return ;
 }
 
-int check_export_Str(char *str)
+int check_export_str(char *str)
 {
 	int i;
-	
+
 	i = 0;
-	(void)str;
+	if (ft_isdigit(str[i]) || !ft_isalpha(str[i]))
+		return(1);
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]))
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
 char	**send_to_exportenv(char *token, char **env)
 {
 	int i;
-	
+
 	i = 0;
 	while (env[i])
 	{
@@ -87,14 +110,15 @@ char	**send_to_exportenv(char *token, char **env)
 	return (env);
 }
 
-char	**send_to_env(char *token, char **env, char *find)
+char	**send_to_env(char *token, char **env, char *find, char **freed)
 {
 	int i;
 	char *str;
-	
+
+	(void)freed;
 	i = -1;
 	if (!token)
-		token = "\"\"";
+		token = "\0";
 	while (env[++i])
 	{
 		if (!ft_strncmp(find, env[i], ft_strlen(find)))
@@ -107,6 +131,7 @@ char	**send_to_env(char *token, char **env, char *find)
 		find = ft_strjoin(find, "=");
 		str = ft_strjoin(find, token);
 		ft_strcpy(env[i], str);
+		free(token);
 		free(str);
 		free(find);
 	}
@@ -115,12 +140,11 @@ char	**send_to_env(char *token, char **env, char *find)
 	return (env);
 }
 
-
 char **new_env(char *token, char **env, char *find)
 {
 	char **new;
 	int i;
-	
+
 	i = 0;
 	new = malloc(sizeof(char *) * (list_size(env) + 2));
 	while (env[i])

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 11:28:14 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:45:41 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,38 +75,6 @@ int ft_echo_cases(char **av)
 	return (1);
 }
 
-void	ft_unset(char **av)
-{
-	int		p;
-	char	**res;
-	int 	j;
-
-	if (!av[1])
-		return ;
-	p = 0;
-	while (parser()->envp[p++] != 0)
-		continue;
-	j = 1;
-	while (av[j++])
-		continue ;
-	res = malloc(sizeof(char *) * (p - j + 1));
-	p = -1;
-	j = 1;
-	while (parser()->envp[++p])
-	{
-		if (!ft_strncmp(av[j], parser()->envp[p], ft_strlen(av[j])))
-		{
-			p++;
-			j++;
-		}
-		res[p] = ft_strdup(parser()->envp[p]);
-	}
-	res[++p] = NULL;
-	free_matrix(parser()->envp);
-	parser()->envp = dup_matrix(res);
-	free_matrix(res);
-}
-
 char **dup_matrix(char **src)
 {
 	int		p;
@@ -128,9 +96,12 @@ void	free_matrix(char **mtx)
 	int	p;
 
 	p = 0;
-	while (mtx[p])
-		free(mtx[p++]);
-	free(mtx);
+	if (mtx)
+	{
+		while (mtx[p])
+			free(mtx[p++]);
+		free(mtx);
+	}
 }
 
 

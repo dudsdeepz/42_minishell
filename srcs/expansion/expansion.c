@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/26 17:22:19 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:48:19 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ char *check_expansion(char *token, int tmp)
 	int i;
 
 	i = 0;
+	if (check_dq(token, i))
+		return (free_da_str(token));
 	while (token && token[i])
 	{
 		if (!token[i])
 			return (token);
-		if (token[i] == '\"' && token[i])
+		if (token[i] == '"' && token[i])
 			dolutil(&tmp);
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
@@ -101,7 +103,7 @@ char *get_expansion(char *token, int *i)
 {
 	int 	a;
 	char *res;
-	
+
 	a = (*i) + 1;
 	if (token[a] == '?')
 	{
@@ -126,7 +128,7 @@ char *search_env(char *token, char **env)
 {
 	int i;
 	int size;
-	
+
 	i = -1;
 	if (ft_isdigit(*token))
 		return (ft_strdup(token + 1));
@@ -147,7 +149,7 @@ char *search_env(char *token, char **env)
 char *fk_token(char *token, char *str, int i, int a)
 {
 	char *res;
-	
+
 	if (str)
 		res = malloc(ft_strlen(token) - (a - i + 2) + ft_strlen(str) + 1);
 	else
@@ -165,7 +167,7 @@ char *fk_token(char *token, char *str, int i, int a)
 int fe_sign(char *str)
 {
 	int i;
-	
+
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
@@ -193,30 +195,18 @@ char	*free_da_str(char *str)
 	return (str);
 }
 
-int	check_dq(char *token)
+int	check_dq(char *token, int i)
 {
-	int i;
-	int a;
-
-	i = 0;
 	while (token[i])
 	{
-		if (token[i] == '\"')
-			break;
+		if (token[i] == '"')
+		{
+			while (token[++i] != '"' && token[i])
+				continue ;
+			if (!token[i])
+				return (printf("Unclosed quotes"));
+		}
 		i++;
-	}
-	a = i;
-	while (token[a])
-	{
-		a--;
-		if (token[a] == '\"')
-			return (1);
-	}
-	while (token[i])
-	{
-		i++;
-		if (token[i] == '\"')
-			return (1);
 	}
 	return (0);
 }

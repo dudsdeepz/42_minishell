@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 17:04:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:45:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_cd(char **av)
 			printf("cd: file or directory: %s\n", av[1]);
 		else
 		{
-			parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD");
+			parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD", NULL);
 			token = oldpwd_aux("OLDPWD");
 			parser()->export_env = send_to_exportenv(token, parser()->envp);
 			free (token);
@@ -31,7 +31,7 @@ void	ft_cd(char **av)
 	}
 	else
 	{
-		parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD");
+		parser()->envp = send_to_env(getcwd(NULL, 0), parser()->envp, "OLDPWD", NULL);
 		token = oldpwd_aux("OLDPWD");
 		parser()->export_env = send_to_exportenv(token, parser()->envp);
 		free (token);
