@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/31 15:48:12 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/03 12:16:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,16 @@ void	exec_system_cmd(char **tokens, char **env, int tkid)
 
 void shell(char *cwd)
 {
+	char **tmp;
+
+	tmp = NULL;
 	add_history(cwd);
 	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (cwd)
 	{
 		if (parsing(cwd))
 		{
-			get_tokens(cwd);
+			get_tokens(cwd, tmp);
 			expansion();
 			executor();
 		}

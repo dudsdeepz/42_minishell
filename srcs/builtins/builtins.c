@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/01 15:09:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/03 10:57:41 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,6 @@ void	display_env(char **env)
 	return ;
 }
 
-char **dup_matrix(char **src)
-{
-	int		p;
-	char	**res;
-
-	p = 0;
-	while (src[p++] != 0)
-		continue ;
-	res = malloc(sizeof(char *) * (p + 1));
-	p = -1;
-	while (src[++p] != 0)
-		res[p] = ft_strdup(src[p]);
-	res[p++] = 0;
-	return (res);
-}
-
 void	free_matrix(char **mtx)
 {
 	int	p;
@@ -73,12 +57,7 @@ int	check_cmds(char **linei)
 	if (!ft_strncmp(linei[0], "pwd", 4))
 		print_pwd(*linei);
 	else if (!ft_strncmp(linei[0], "exit", 5))
-	{
-		if (linei[1])
-			exit(ft_atoi(linei[1]));
-		else
-			exit(0);
-	}
+		ft_exit(linei);
 	else if (!ft_strncmp(linei[0], "env", 4) && !linei[1])
 		display_env(parser()->envp);
 	else if (!ft_strncmp(linei[0], "cd", 3))

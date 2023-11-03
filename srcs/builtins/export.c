@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/01 13:48:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:49:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ void	ft_export(char **av)
 			{
 				tmp = ft_split(av[i], '=');
 				parser()->envp = send_to_env(tmp[1], parser()->envp, tmp[0], tmp);
-				if (!tmp[1])
-					parser()->export_env = send_to_env(tmp[1], parser()->export_env, tmp[0], tmp);
+				parser()->export_env = send_to_env(tmp[1], parser()->export_env, tmp[0], tmp);
 			}
 			else
 				parser()->export_env = send_to_exportenv(av[i], parser()->export_env);
@@ -114,9 +113,9 @@ char	**send_to_env(char *token, char **env, char *find, char **freed)
 {
 	int i;
 	char *str;
-
-	(void)freed;
+	
 	i = -1;
+	(void)freed;
 	if (!token)
 		token = "\0";
 	while (env[++i])
@@ -127,13 +126,11 @@ char	**send_to_env(char *token, char **env, char *find, char **freed)
 	if (env[i])
 	{
 		free(env[i]);
-		env[i] = malloc(sizeof(char *) * ft_strlen(token) + ft_strlen(find));
 		find = ft_strjoin(find, "=");
 		str = ft_strjoin(find, token);
-		ft_strcpy(env[i], str);
-		free(token);
-		free(str);
 		free(find);
+		env[i] = ft_strdup(str);
+		free(str);
 	}
 	else
 		env = new_env(token, env, ft_strjoin(find, "="));

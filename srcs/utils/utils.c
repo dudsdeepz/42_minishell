@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/25 14:50:50 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/03 11:01:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,112 +97,4 @@ void	free_path(char **list)
 			free(list[i++]);
 		free(list);
 	}
-}
-
-char	*triple_strjoin(char *s1, char *s2, char *s3)
-{
-	char	*res;
-	int		i;
-
-	i = 0;
-	if (!s1 || !s2 || !s3)
-		return (NULL);
-	res = malloc(ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1);
-	while (*s1)
-		res[i++] = *s1++;
-	while (*s2)
-		res[i++] = *s2++;
-	while (*s3)
-		res[i++] = *s3++;
-	res[i] = 0;
-	return (res);
-}
-
-void	print_tokens(char **av)
-{
-	int i;
-	
-	i = 0;
-	while (av[i])
-	{
-		printf("%s\n", av[i]);
-		i++;
-	}
-	printf("====\n");
-}
-
-void free_heredoc(char *heredoc_content)
-{
-	if (heredoc_content != NULL)
-		free(heredoc_content);
-}
-
-// int ft_strlen(char *str)
-// {
-// 	int i = 0;
-	
-// 	while (str[i] != '\0')
-// 		i++;	
-// 	return (i);
-// }
-
-char *ft_strcat(char *dest, char *src)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
-}
-
-size_t  ft_strcspn(const char *s, const char *reject)
-{
-	size_t	i;
-	size_t	k;
-
-	i = 0;
-	k = 0;
-	while (s[i] != '\0')
-	{
-		while (reject[k] != '\0')
-		{
-			if (reject[k] == s[i])
-				return (i);
-			k++;
-		}
-		k = 0;
-		i++;
-	}
-	return (i);
-}
-char	*ft_subtokens(const char *s, unsigned int start, size_t len)
-{
-	char	*i;
-	size_t	b;
-
-	b = 0;
-	if (start >= ft_strlen(s))
-	{
-		i = (char *)malloc(sizeof(char));
-		*i = 0;
-		return (i);
-	}
-	if (len >= ft_strlen(s))
-		len = ft_strlen(s) - start;
-	i = (char *)malloc(len + 1);
-	if (!i)
-		return (0);
-	while (start < ft_strlen(s) && b < len)
-		i[b++] = s[start++];
-	i[b] = '\0';
-	return (i);
 }

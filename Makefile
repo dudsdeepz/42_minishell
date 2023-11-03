@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/01 15:11:47 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/11/03 11:04:52 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SOURCES = main.c\
 			srcs/shell/init_shell.c\
 			srcs/shell/shell_utils.c\
 			srcs/builtins/builtins.c\
-			srcs/shell/utils.c\
+			srcs/utils/utils.c\
 			srcs/parsing/parsing.c\
 			srcs/parsing/parsing_checks.c\
 			srcs/expansion/expansion.c\
@@ -35,6 +35,8 @@ SOURCES = main.c\
 			srcs/builtins/cd.c\
 			srcs/builtins/unset.c\
 			srcs/builtins/echo.c\
+			srcs/utils/utils2.c\
+			srcs/utils/utils3.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 

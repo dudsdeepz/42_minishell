@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/01 14:48:19 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/03 12:18:45 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void expansion(void)
 	int i;
 	int j;
 	int tmp;
+	int	a;
 
 	i = 0;
 	j = 0;
 	tmp = 0;
+	a = 0;
 	while (i < parser()->tokens_n)
 	{
 		while (parser()->tokens[i].token[j])
@@ -86,7 +88,10 @@ char *check_expansion(char *token, int tmp)
 		if (!token[i])
 			return (token);
 		if (token[i] == '"' && token[i])
+		{
+			token = quote_killa(token);
 			dolutil(&tmp);
+		}
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
 		if (*synt())
