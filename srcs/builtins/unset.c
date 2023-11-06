@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/31 15:22:34 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:27:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void	ft_unset(char **av)
 	{
 		while (av[++i])
 		{
+			if (check_export_str(av[i]))
+			{
+				printf("invalid unset string: %s\n", av[i]);
+				continue ;
+			}
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
@@ -58,6 +63,5 @@ void	ft_unset(char **av)
 			}
 		}
 	}
-	else
-		return ;
+	return ;
 }

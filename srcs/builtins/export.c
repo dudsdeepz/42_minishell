@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/02 16:49:09 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:53:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ char **new_env(char *token, char **env, char *find)
 	free(find);
 	new[i] = ft_strdup(token);
 	new[i + 1] = 0;
-	free(token);
 	free_matrix(env);
 	return (new);
 }
