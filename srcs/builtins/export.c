@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/06 16:53:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:56:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	ft_export(char **av)
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
-				parser()->envp = send_to_env(tmp[1], parser()->envp, tmp[0], tmp);
-				parser()->export_env = send_to_env(tmp[1], parser()->export_env, tmp[0], tmp);
+				export_util(tmp[1], tmp);
+				free_matrix(tmp);
 			}
 			else
 				parser()->export_env = send_to_exportenv(av[i], parser()->export_env);
@@ -109,13 +109,12 @@ char	**send_to_exportenv(char *token, char **env)
 	return (env);
 }
 
-char	**send_to_env(char *token, char **env, char *find, char **freed)
+char	**send_to_env(char *token, char **env, char *find)
 {
 	int i;
 	char *str;
 	
 	i = -1;
-	(void)freed;
 	if (!token)
 		token = "\0";
 	while (env[++i])
@@ -154,6 +153,13 @@ char **new_env(char *token, char **env, char *find)
 	free(find);
 	new[i] = ft_strdup(token);
 	new[i + 1] = 0;
-	free_matrix(env);
+	free_path(env);
 	return (new);
+}
+
+
+void export_util(char *str, char **tmp)
+{
+	parser()->envp = send_to_env(tmp[1], parser()->envp, str);
+	parser()->export_env = send_to_env(tmp[1], parser()->export_env, str);
 }

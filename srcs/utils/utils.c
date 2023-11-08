@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/03 11:01:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:02:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,17 @@ char	*get_path(char *command, char **env)
 	char	*str;
 
 	i = 0;
-	while (ft_strncmp(env[i], "PATH=", 5))
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], "PATH=", 5))
+			break;
 		i++;
+	}
+	if (!env[i])
+	{
+		printf("path not found !\n");
+		exit (2);
+	}
 	path = ft_split(env[i] + 5, ':');
 	i = 0;
 	while (path[i])
@@ -79,8 +88,8 @@ char	*get_path(char *command, char **env)
 	if (!str)
 	{
 		printf("%sCommand not found !%s\n", RED, DEFAULT);
-		strerror(1);
-		exit(0);
+		free_tokens();
+		exit(2);
 	}
 	free_path(path);
 	return (str);

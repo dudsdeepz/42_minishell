@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/06 15:27:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:55:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char **new_env_unset(char *token, char **env)
 	i = 0;
 	int a = 0;
 	new = malloc(sizeof(char *) * (list_size(env)));
-	while (env[a++])
+	while (env[a++] != 0 && env[a])
 	{
 		if (env[a] && !ft_strncmp(token, env[a], ft_strlen(token)))
 			a++;
@@ -29,7 +29,6 @@ char **new_env_unset(char *token, char **env)
 			new[i++] = ft_strdup(env[a]);
 	}
 	new[i] = 0;
-	free_matrix(env);
 	return (new);
 }
 
@@ -52,16 +51,19 @@ void	ft_unset(char **av)
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
-				parser()->envp = new_env_unset(tmp[0], parser()->envp);
-				parser()->export_env = new_env_unset(tmp[0], parser()->export_env);
-				free_matrix(tmp);
+				unset_uti(tmp[0]);
+				free_path(tmp);
 			}
 			else
-			{
-				parser()->envp = new_env_unset(av[i], parser()->envp);
-				parser()->export_env = new_env_unset(av[i], parser()->export_env);
-			}
+				unset_uti(av[i]);
 		}
 	}
 	return ;
+}
+
+
+void	unset_uti(char *str)
+{
+	parser()->envp = new_env_unset(str, parser()->envp);
+	parser()->export_env = new_env_unset(str, parser()->export_env);
 }

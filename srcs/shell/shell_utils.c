@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/06 16:50:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 17:44:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ void	get_tokens(char *av)
 	j = 0;
 	free_tokens();
 	parser()->tokens_n = tokens_num(av);
+	// parser()->signs = malloc(sizeof(char) * tokens_num(av) - 1);
 	parser()->tokens = malloc(sizeof(t_tokens) * tokens_num(av));
 	while (av[i] != '\0')
 	{
 		i++;
 		if (av[i] == '|' || av[i] == '>' || av[i] == '<' || !av[i])
 		{
+			// parser()->signs[j] = ft_substr(av, i, i);
 			str = ft_subtokens(av, a, i - a);
 			parser()->tokens[j].token =	ft_split(str, '\2');
 			free (str);
@@ -38,6 +40,7 @@ void	get_tokens(char *av)
 			j++;
 		}
 	}
+	// print_dp(parser()->signs);
 }
 
 int	tokens_num(char *cwd)

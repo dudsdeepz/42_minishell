@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/13 11:13:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 11:28:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,9 @@ void	sig_actions(void)
 {
 	signal(SIGINT, handle_signals);
 	if (signal(SIGQUIT, handle_signals))
+	{
+		free_matrix(parser()->envp);
+		free_matrix(parser()->export_env);
 		exit(0);
+	}
 }

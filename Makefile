@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/03 11:04:52 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/11/08 17:35:45 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 
 RM = rm -f
 
@@ -37,6 +37,7 @@ SOURCES = main.c\
 			srcs/builtins/echo.c\
 			srcs/utils/utils2.c\
 			srcs/utils/utils3.c\
+			srcs/builtins/exit.c\
 
 OBJECTS = $(SOURCES:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:29:53 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/06 15:42:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/08 11:48:46 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ void	ft_export(char **av);
 void	ft_unset(char **av);
 int 	check_export_str(char *str);
 char	**send_to_exportenv(char *token, char **env);
-char	**send_to_env(char *token, char **env, char *find, char **freed);
+char	**send_to_env(char *token, char **env, char *find);
 char 	**new_env(char *token, char **env, char *find);
 char	*oldpwd_aux(char *token);
 char 	**new_env_unset(char *token, char **env);
 void 	n_case(char **av);
+int 	check_exit_str(char *str);
+void	unset_uti(char *str);
+void 	export_util(char *str, char **tmp);
 
 #endif
