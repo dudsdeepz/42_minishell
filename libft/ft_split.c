@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 17:18:09 by eduardo           #+#    #+#             */
-/*   Updated: 2022/11/08 17:41:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:46:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**recursive(char **split, int count, char c, char const *s)
 	if (str)
 		split = recursive(split, count + 1, c, s);
 	else
-		split = malloc(sizeof(char *) * (count + 1));
+		split = malloc(sizeof(char *) * (count + 1) + 1);
 	if (split)
 		split[count] = str;
 	return (split);

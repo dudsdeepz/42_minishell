@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/01 15:23:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:52:37 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ void	ft_echo(char **av)
 		else
 		{
 			while (av[++i])
-				printf("%s ", av[i]);
-			printf("\n");
+			{				
+				ft_putstr_fd(av[i], STDOUT_FILENO);
+				ft_putstr_fd(" ", STDOUT_FILENO);
+			}
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 	}
 	else
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 void n_case(char **av)
@@ -45,10 +48,10 @@ void n_case(char **av)
 		{
 			if (av[i][a] == '\n')
 				a++;
-			write(1, &av[i][a], 1);
+			ft_putchar_fd(av[i][a], STDOUT_FILENO);
 			a++;
 		}
 		i++;
 	}
-	printf ("\n");
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }

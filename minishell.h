@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/06 15:33:15 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:55:32 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
+# include <fcntl.h>
 # include "./libft/libft.h"
 # include "./srcs/parsing/parsing.h"
 # include "./srcs/expansion/expansion.h"
@@ -54,7 +55,7 @@ char		*get_path(char *command, char **env);
 void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
 int			list_size(char **list);
-void		exec_system_cmd(char **tokens, char **env, int tkid);
+void		exec_system_cmd(char **tokens, int tkid);
 void 		shell(char *cwd);
 void		free_heredoc(char *heredoc_content);
 char		*ft_strcat(char *dest, char *src);
@@ -63,5 +64,6 @@ char		**get_signs(char *token);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
 void 		free_tokens(void);
 void		ft_exit(char **linei);
+void		free_envs(void);
 
 #endif

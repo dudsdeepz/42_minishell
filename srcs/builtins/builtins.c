@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/08 15:53:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/10 11:08:42 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ void	free_matrix(char **mtx)
 	int	p;
 
 	p = 0;
-	if (mtx)
+	if (list_size(mtx) > 0)
 	{
 		while (mtx[p])
-			free(mtx[p++]);
+		{
+			if (mtx[p])
+				free(mtx[p]);
+			p++;
+		}
 		free(mtx);
 	}
 }
@@ -54,19 +58,19 @@ void	free_matrix(char **mtx)
 
 int	check_cmds(char **linei)
 {
-	if (!ft_strncmp(linei[0], "pwd", 4))
+	if (linei[0] && !ft_strncmp(linei[0], "pwd", 4))
 		print_pwd(*linei);
-	else if (!ft_strncmp(linei[0], "exit", 5))
+	else if (linei[0] && !ft_strncmp(linei[0], "exit", 5))
 		ft_exit(linei);
-	else if (!ft_strncmp(linei[0], "env", 4) && !linei[1])
+	else if (linei[0] && !ft_strncmp(linei[0], "env", 4) && !linei[1])
 		display_env(parser()->envp);
-	else if (!ft_strncmp(linei[0], "cd", 3))
+	else if (linei[0] && !ft_strncmp(linei[0], "cd", 3))
 		ft_cd(linei);
-	else if (!ft_strncmp(linei[0], "echo", 5))
+	else if (linei[0] && !ft_strncmp(linei[0], "echo", 5))
 		ft_echo(linei);
-	else if (!ft_strncmp(linei[0], "export", 7))
+	else if (linei[0] && !ft_strncmp(linei[0], "export", 7))
 		ft_export(linei);
-	else if (!ft_strncmp(linei[0], "unset", 6))
+	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
 		ft_unset(linei);
 	else
 		return (0);

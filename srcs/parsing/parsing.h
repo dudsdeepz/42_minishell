@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/08 11:29:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/10 09:39:25 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_parser
 {
 	char			**signs;
 	char 			**export_env;
+	char			**tmp_matrix;
 	char			**envp;
 	int				tokens_n;
 	t_heredoc		*heredoc;

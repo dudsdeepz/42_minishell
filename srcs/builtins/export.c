@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/08 15:56:16 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:05:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_export(char **av)
 			if (!difs(av[i], '='))
 			{
 				tmp = ft_split(av[i], '=');
-				export_util(tmp[1], tmp);
+				export_util(tmp[0], tmp);
 				free_matrix(tmp);
 			}
 			else
@@ -101,8 +101,7 @@ char	**send_to_exportenv(char *token, char **env)
 	if (env[i])
 	{
 		free(env[i]);
-		env[i] = malloc(sizeof(char *) * ft_strlen(token));
-		ft_strcpy(env[i], token);
+		env[i] = ft_strdup(token);
 	}
 	else
 		env = new_env(token, env, NULL);
@@ -138,23 +137,22 @@ char	**send_to_env(char *token, char **env, char *find)
 
 char **new_env(char *token, char **env, char *find)
 {
-	char **new;
 	int i;
-
+	
 	i = 0;
-	new = malloc(sizeof(char *) * (list_size(env) + 2));
+	parser()->tmp_matrix = malloc(sizeof(char *) * (list_size(env) + 2));
 	while (env[i])
 	{
-		new[i] = ft_strdup(env[i]);
+		parser()->tmp_matrix[i] = ft_strdup(env[i]);
 		i++;
 	}
 	if (find)
 		token = ft_strjoin(find, token);
 	free(find);
-	new[i] = ft_strdup(token);
-	new[i + 1] = 0;
-	free_path(env);
-	return (new);
+	parser()->tmp_matrix[i] = ft_strdup(token);
+	parser()->tmp_matrix[i + 1] = NULL;
+	free_matrix(env);
+	return (parser()->tmp_matrix);
 }
 
 

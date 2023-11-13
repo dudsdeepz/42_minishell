@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/08 17:44:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:22:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@ void	get_tokens(char *av)
 	i = 0;
 	a = 0;
 	j = 0;
-	free_tokens();
 	parser()->tokens_n = tokens_num(av);
-	// parser()->signs = malloc(sizeof(char) * tokens_num(av) - 1);
+	free(parser()->signs);
+	parser()->signs = malloc(sizeof(char *) * parser()->tokens_n + 8);
 	parser()->tokens = malloc(sizeof(t_tokens) * tokens_num(av));
 	while (av[i] != '\0')
 	{
 		i++;
 		if (av[i] == '|' || av[i] == '>' || av[i] == '<' || !av[i])
 		{
-			// parser()->signs[j] = ft_substr(av, i, i);
+			str = ft_substr(av, i, i);
+			parser()->signs[j] = str;
 			str = ft_subtokens(av, a, i - a);
 			parser()->tokens[j].token =	ft_split(str, '\2');
 			free (str);
@@ -40,7 +41,7 @@ void	get_tokens(char *av)
 			j++;
 		}
 	}
-	// print_dp(parser()->signs);
+	parser()->signs[j] = 0;
 }
 
 int	tokens_num(char *cwd)
@@ -85,11 +86,15 @@ void free_tokens(void)
 {
 	int i;
 
-	i = -1;
+	i = 0;
 	if (parser()->tokens)
 	{
-		while (++i < parser()->tokens_n)
-			free_matrix(parser()->tokens[i].token);
+		while (i < parser()->tokens_n)
+		{
+			if (parser()->tokens[i].token)
+				free_matrix(parser()->tokens[i].token);
+			i++;
+		}
 		free(parser()->tokens);
 	}
 }
