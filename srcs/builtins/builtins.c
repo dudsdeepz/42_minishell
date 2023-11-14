@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/10 11:08:42 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:15:58 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ int	check_cmds(char **linei)
 	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
 		ft_unset(linei);
 	else
-		return (0);
+	{
+		exec_system_cmd(linei);
+		return (1);
+	}
+	exit(0);
 	return (1);
 }

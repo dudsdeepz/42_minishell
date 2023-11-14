@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/13 17:23:42 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:47:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	executor(void)
 {
 	int i;
+	int tmp;
 
 	i = 0;
 	if (parser()->tokens)
@@ -27,12 +28,20 @@ void	executor(void)
 				// 	i = redirections(i, i, parser()->signs);	
 				if (parser()->signs[i] && !ft_strncmp(parser()->signs[i], "|", 1))
 					i = pipes(i);
-				wait(0);
 				i++;
 			}
 		}
 		else
-			check_type(parser()->tokens[i].token, i);
+		{
+			if (!ft_strncmp(*parser()->tokens[i].token, "exit", 4))
+				check_cmds(parser()->tokens[i].token);
+			tmp = fork();
+			if (tmp == 0)
+				check_cmds(parser()->tokens[i].token);
+			else if (tmp < 0)
+				perror("");
+			wait(0);
+		}
 	}
 }
 
@@ -51,49 +60,49 @@ void p_heredoc(char *line)
 int pipes(int tkid)
 {
 	int fd[2];
+	int tmp_file;
+	int id;
+	int status;
 
 	pipe(fd);
-	while ((parser()->signs[tkid] && !ft_strncmp(parser()->signs[tkid], "|", 1)))
+	while (parser()->signs[tkid])
 	{
-		if (check_cmds(parser()->tokens[tkid].token))
+		id = fork();
+		if (id == 0)
 		{
-			tkid++;
-			continue ;
+			if (!ft_strncmp(parser()->signs[tkid], ">", 1) && parser()->signs[tkid])
+			{
+				tmp_file = open(*parser()->tokens[tkid + 1].token, O_CREAT | O_RDWR | O_TRUNC, 0644);
+				dup2(tmp_file, STDOUT_FILENO);
+				argument(fd, parser()->tokens[tkid].token, 0, STDIN_FILENO);
+				tkid++;
+				break ;
+			}
+			if (!parser()->signs[tkid + 1])
+			{
+				argument(fd, parser()->tokens[tkid].token, 0, STDIN_FILENO);
+				break ;
+			}
+			argument(fd, parser()->tokens[tkid].token, 1, STDOUT_FILENO);
 		}
-		parser()->tokens[tkid].token_fork = fork();
-		if (parser()->tokens[tkid].token_fork == 0)
-			argument(fd, parser()->tokens[tkid].token, STDOUT_FILENO, 1);
-		else if (parser()->tokens[tkid].token_fork < 0)
-			printf("Error creating fork !\n");
-		wait(0);
+		else if (id < 0)
+			printf("Error creating command fork!\n");
 		tkid++;
+		waitpid(id, &status, 0);
 	}
-	parser()->tokens[tkid].token_fork = fork();
-	if (parser()->tokens[tkid].token_fork == 0)
-		argument(fd, parser()->tokens[tkid].token, STDIN_FILENO, 0);
-	else if (parser()->tokens[tkid].token_fork < 0)
-		printf("Error creating fork !\n");
-	return (tkid);
+	return (tkid + 1);
 }
 
-void	exec_system_cmd(char **tokens, int tkid)
+void	exec_system_cmd(char **tokens)
 {
 	char *getp;
 	
 	getp = NULL;
-	parser()->tokens[tkid].token_fork = fork();
-	if (parser()->tokens[tkid].token_fork < 0)
-		exit(write(1, "\e[0;31m Error creating fork!\e[0;31m", 36));
 	if (ft_strncmp(*tokens, "./", 2))
 		getp = get_path(*tokens, parser()->envp);
-	if (parser()->tokens[tkid].token_fork == 0 && *tokens)
-	{
-		if (!ft_strncmp(*tokens, "exit", 4))
-			return ;
+	if (getp)
 		execve(getp, tokens, parser()->envp);
-	}
 	free(getp);
-	wait(0);
 	return ;
 }
 
@@ -107,22 +116,14 @@ void	close_all(int *fd, int i, char *getp, char **comand)
 	exit(1);
 }
 
-void	argument(int *fd, char **av, int fd_type, int fd_num)
+void	argument(int *fd, char **av, int fd_num, int fd_type)
 {
-	char	*getp;
-
-	getp = NULL;
-	if (ft_strncmp(*av, "./", 2))
-		getp = get_path(*av, parser()->envp);
-	if (dup2(fd[fd_num], fd_type) < 0)
+	if (!ft_strncmp(*av, "exit", 4) && list_size(av) == 1)
+	{
+		check_cmds(av);
+		return ;
+	}
+	if (fd_num != 0 && dup2(fd[fd_num], fd_type) < 0)
 		close(fd[fd_num]);
-	if (getp)
-		execve(getp, av, parser()->envp);
+	check_cmds(av);
 }
-
-void	check_type(char **token, int tkid)
-{
-	if (!check_cmds(token))
-		exec_system_cmd(token, tkid);
-}
-
