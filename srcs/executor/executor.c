@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/14 11:47:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:56:25 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,145 @@
 
 void	executor(void)
 {
-	int i;
-	int tmp;
+	int 	i;
+	int 	status;
+	int 	j;
+	pid_t proc;
 
-	i = 0;
+	i = -1;
+	j = 0;
 	if (parser()->tokens)
 	{
-		if (parser()->tokens_n > 1)
+		while (++i < parser()->tokens_n)
 		{
-			while (i < parser()->tokens_n)
+			if (parser()->tokens_n == 1)
 			{
-				// if (check_redir(parser()->signs, i))
-				// 	i = redirections(i, i, parser()->signs);	
-				if (parser()->signs[i] && !ft_strncmp(parser()->signs[i], "|", 1))
-					i = pipes(i);
-				i++;
+				one_command(i);
+				return ;
 			}
+			create_pipes();
+			if (list_size(parser()->tokens[i].token) > 0)
+			{
+				if (!check_cmds_(parser()->tokens[i].token))
+				{
+					proc = fork();
+					if (proc == 0)
+					{
+						if (!ft_strncmp(parser()->signs[i].sign, "|", 1) && i == 0)
+							dup2(parser()->tokens[i].fd[1], STDOUT_FILENO);
+						signs(parser()->signs[j].sign, i);
+						1check_cmds(parser()->tokens[i].token);
+						exit(1);
+					}
+				}
+			}
+			j++;
 		}
-		else
+		i = 0;
+		while (i < parser()->tokens_n)
 		{
-			if (!ft_strncmp(*parser()->tokens[i].token, "exit", 4))
-				check_cmds(parser()->tokens[i].token);
-			tmp = fork();
-			if (tmp == 0)
-				check_cmds(parser()->tokens[i].token);
-			else if (tmp < 0)
-				perror("");
-			wait(0);
+			waitpid(-1, &status, 0);
+				i++;
 		}
 	}
 }
 
+int	signs(char *sign, int tkid)
+{
+	if ((!ft_strncmp(sign, ">", 1) || !ft_strncmp(sign, "<", 1)))
+	{
+		redirections(tkid, sign);
+		return (tkid);
+	}
+	if (tkid > 0)
+	{
+		if (!ft_strncmp(sign, "|", 2))
+		{
+			pipes(tkid);
+			return(tkid);
+		}
+	}
+	return (tkid);
+}
+
+int pipes(int tkid)
+{
+	if (tkid != 0)
+		dup2(parser()->tokens[tkid - 1].fd[0], STDIN_FILENO);
+	if (tkid != parser()->tokens_n - 1)
+	{
+		dup2(parser()->tokens[tkid].fd[1], STDOUT_FILENO);
+		close(parser()->tokens[tkid].fd[1]);
+	}
+	close(parser()->tokens[tkid].fd[0]);
+	close(parser()->tokens[tkid - 1].fd[1]);
+	return (tkid);
+}
+
+void	argument(int *fd, char **av, int fd_num, int fd_type)
+{
+	if (!ft_strncmp(*av, "exit", 4) && list_size(av) == 1)
+	{
+		check_cmds(av);
+		return ;
+	}
+	if (dup2(fd[fd_num], fd_type) < 0)
+		close(fd[fd_num]);
+	check_cmds(av);
+}
+
+void	exec_system_cmd(char **tokens)
+{
+	char *getp;
+	
+	getp = NULL;
+	if (ft_strncmp(*tokens, "./", 2))
+		getp = get_path(*tokens, parser()->envp);
+	if (getp)
+	{
+		if (execve(getp, tokens, parser()->envp) == -1)
+			exit(EXIT_FAILURE);
+	}
+	free(getp);
+	return ;
+}
+
+
+void one_command(int i)
+{
+	pid_t proc;
+
+	if (!check_cmds_(parser()->tokens[i].token))
+	{
+		proc = fork();
+		if (proc == 0)
+			check_cmds(parser()->tokens[i].token);
+		else if (proc > 0)
+			wait(0) ;
+	}
+}
+
+void close_fds()
+{
+	int i;
+
+	i = 0;
+	while (i < parser()->tokens_n)
+	{
+		close(parser()->tokens[i].fd[1]);
+		close(parser()->tokens[i].fd[0]);
+		i++;
+	}
+}
+void	close_all(int *fd, int i, char *getp, char **comand)
+{
+	free(getp);
+	free_path(comand);
+	close(fd[i]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	exit(1);
+}
 void p_heredoc(char *line)
 {
 	char *new_content;
@@ -57,73 +165,21 @@ void p_heredoc(char *line)
 	parser()->heredoc->h_content = new_content;
 }
 
-int pipes(int tkid)
+void ft_dup(int *fd, int open, int closee, int fd_type)
 {
-	int fd[2];
-	int tmp_file;
-	int id;
-	int status;
+	close(fd[closee]);
+	dup2(fd[open], fd_type);
+	close(fd[open]);
+}
 
-	pipe(fd);
-	while (parser()->signs[tkid])
+void	create_pipes(void)
+{
+	int i;
+
+	i = 0;
+	while(i < parser()->tokens_n)
 	{
-		id = fork();
-		if (id == 0)
-		{
-			if (!ft_strncmp(parser()->signs[tkid], ">", 1) && parser()->signs[tkid])
-			{
-				tmp_file = open(*parser()->tokens[tkid + 1].token, O_CREAT | O_RDWR | O_TRUNC, 0644);
-				dup2(tmp_file, STDOUT_FILENO);
-				argument(fd, parser()->tokens[tkid].token, 0, STDIN_FILENO);
-				tkid++;
-				break ;
-			}
-			if (!parser()->signs[tkid + 1])
-			{
-				argument(fd, parser()->tokens[tkid].token, 0, STDIN_FILENO);
-				break ;
-			}
-			argument(fd, parser()->tokens[tkid].token, 1, STDOUT_FILENO);
-		}
-		else if (id < 0)
-			printf("Error creating command fork!\n");
-		tkid++;
-		waitpid(id, &status, 0);
+		pipe(parser()->tokens[i].fd);
+		i++;
 	}
-	return (tkid + 1);
-}
-
-void	exec_system_cmd(char **tokens)
-{
-	char *getp;
-	
-	getp = NULL;
-	if (ft_strncmp(*tokens, "./", 2))
-		getp = get_path(*tokens, parser()->envp);
-	if (getp)
-		execve(getp, tokens, parser()->envp);
-	free(getp);
-	return ;
-}
-
-void	close_all(int *fd, int i, char *getp, char **comand)
-{
-	free(getp);
-	free_path(comand);
-	close(fd[i]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	exit(1);
-}
-
-void	argument(int *fd, char **av, int fd_num, int fd_type)
-{
-	if (!ft_strncmp(*av, "exit", 4) && list_size(av) == 1)
-	{
-		check_cmds(av);
-		return ;
-	}
-	if (fd_num != 0 && dup2(fd[fd_num], fd_type) < 0)
-		close(fd[fd_num]);
-	check_cmds(av);
 }
