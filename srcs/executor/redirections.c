@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/17 00:35:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:04:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int redirections(t_tokens *tokens)
 
 int	options(char *signs)
 {
-	if (!ft_strncmp(signs, "<<", 1))
+	if (!ft_strncmp(signs, "<<", 2))
 		return (1);
-	if (!ft_strncmp(signs, ">>", 1))
+	if (!ft_strncmp(signs, ">>", 2))
 		return (2);
 	if (!ft_strncmp(signs, "<", 1))
 		return (3);
@@ -66,4 +66,13 @@ void	invalid_fds(t_tokens *token)
 		perror("");
 		token->master_error[1] = 1;
 	}
+}
+
+int	check_double_red(char *av, int i)
+{
+	if (av[i] == '<' && av[i + 1] == '<')
+		return (1);
+	else if (av[i] == '>' && av[i + 1] == '>')
+		return (2);
+	return (0);
 }

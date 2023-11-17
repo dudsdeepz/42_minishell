@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 23:32:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:01:39 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,25 @@
 void	get_tokens(char *av, t_tokens **tokens)
 {
 	int		i;
-	int		a;
 	int		j;
+	char 	**splited;
 
 	i = 0;
-	a = 0;
 	j = 0;
 	init_lists(av, tokens);
-	while (av[i] != '\0')
+	splited = ft_split(av, '\2');
+	while (splited[i] != 0)
 	{
-		i++;
-		if (!ft_strncmp(&av[i], "<<", 2) || !ft_strncmp(&av[i], ">>", 2) || \
-			 av[i] == '|' || av[i] == '<' || av[i] == '>' || !av[i])
+		if (!ft_strncmp(splited[i], ">>", 1) || !ft_strncmp(splited[i], ">", 1) || !ft_strncmp(splited[i], "<<", 1) || !ft_strncmp(splited[i], ">", 1) || !ft_strncmp(splited[i], "|", 1) || !splited[i])
 		{
-			(*tokens)->sign = ft_strdup(ft_substr(av, i, i));
-			(*tokens)->token = ft_split(ft_subtokens(av, a, i - a), '\2');
-			a = i + 1;
-			j++;
-			(*tokens) = (*tokens)->next;
+			stokens_num(splited, j, i);
+			j = i + 1;
 		}
+		i++;
 	}
-	create_pipes(tokens);
-	expansion(tokens);
 }
+	// create_pipes(tokens);
+	// expansion(tokens);
 
 int	tokens_num(char *cwd)
 {
@@ -49,10 +45,10 @@ int	tokens_num(char *cwd)
 	while (cwd[i])
 	{
 		if (cwd[i] == '|' || cwd[i] == '>' || cwd[i] == '<' \
-			|| !ft_strncmp(&cwd[i], "<<", 2) || !ft_strncmp(&cwd[i], ">>", 2))
+			|| check_double_red(cwd, i))
 			i++;
 		while (!(cwd[i] == '|' || cwd[i] == '>' || cwd[i] == '<' \
-			|| !ft_strncmp(&cwd[i], "<<", 2) || !ft_strncmp(&cwd[i], ">>", 2)) && cwd[i])
+			|| check_double_red(cwd, i)) && cwd[i])
 				i++;
 		count++;
 		}
@@ -119,4 +115,30 @@ void	go_head(t_tokens **lst)
 {
 	while ((lst) && (*lst) && (*lst)->prev)
 		(*lst) = (*lst)->prev;
+}
+
+int get_sign(t_tokens *tokens, int i, char *av)
+{
+	if (check_double_red(av, i))
+	{
+		tokens->sign = ft_strdup(ft_substr(av, i, i + 1));
+		return (i);
+	}
+	else
+		tokens->sign = ft_strdup(ft_substr(av, i, i));
+	return (0);
+}
+
+int	stokens_num(char **cwd, int start, int end)
+{
+	int a;
+
+	a = 0;
+	while (ft_strncmp(cwd[start], cwd[end], ft_strlen(cwd[end])))
+	{
+		a++;
+		start++;
+	}
+	printf("a: %d\n", a);
+	return (a);
 }

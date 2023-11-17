@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 23:00:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:30:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void shell(char *cwd)
 		if (parsing(cwd))
 		{
 			get_tokens(cwd, &parser()->tokens);
-			executor(parser()->tokens);
+			// executor(parser()->tokens);
 		}
 	}
 	free(cwd);

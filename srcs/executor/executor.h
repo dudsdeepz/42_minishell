@@ -17,6 +17,9 @@ void 	kricko(t_tokens *tokens);
 int		lstsize_tokens(t_tokens *lst);
 void	estriper(t_tokens *tokens);
 t_tokens	*lstlast_tokens(t_tokens *lst);
-void ft_dup2(int input, int output);
+void 	ft_dup2(int input, int output);
+int		check_double_red(char *av, int i);
+int 	get_sign(t_tokens *tokens, int i, char *av);
+void	split_tokens(t_tokens *tokens, int start, int end, char **av);
 
 #endif

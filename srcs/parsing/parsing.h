@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 00:30:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:59:11 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	fukyu(t_tokens *tokens);
 void	one_command(t_tokens *token);
 void 	init_lists(char *av, t_tokens **tokens);
 int		check_built(char **linei);
+int		stokens_num(char **cwd, int start, int end);
 
 #endif
