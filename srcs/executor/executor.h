@@ -20,6 +20,7 @@ t_tokens	*lstlast_tokens(t_tokens *lst);
 void 	ft_dup2(int input, int output);
 int		check_double_red(char *av, int i);
 int 	get_sign(t_tokens *tokens, int i, char *av);
-void	split_tokens(t_tokens *tokens, int start, int end, char **av);
+int	    stokens_num(char **cwd, char *sign);
+int	    total_tokens_size(t_tokens **tokens);
 
 #endif

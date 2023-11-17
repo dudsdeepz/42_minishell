@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 15:01:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:35:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,17 @@
 
 void	get_tokens(char *av, t_tokens **tokens)
 {
-	int		i;
-	int		j;
 	char 	**splited;
 
-	i = 0;
-	j = 0;
 	init_lists(av, tokens);
 	splited = ft_split(av, '\2');
-	while (splited[i] != 0)
-	{
-		if (!ft_strncmp(splited[i], ">>", 1) || !ft_strncmp(splited[i], ">", 1) || !ft_strncmp(splited[i], "<<", 1) || !ft_strncmp(splited[i], ">", 1) || !ft_strncmp(splited[i], "|", 1) || !splited[i])
-		{
-			stokens_num(splited, j, i);
-			j = i + 1;
-		}
-		i++;
-	}
+	get_tokens_size(splited, tokens);
+	alocate_tokens(tokens);
+	separeites_tokens(tokens, splited);
+	create_pipes(tokens);
+	expansion(tokens);
+	go_head(tokens);
 }
-	// create_pipes(tokens);
-	// expansion(tokens);
 
 int	tokens_num(char *cwd)
 {
@@ -58,19 +49,11 @@ int	tokens_num(char *cwd)
 void	print_dp(char **str)
 {
 	int i;
-	int j;
-
+	
 	i = 0;
-	j = 0;
-	while (str[i])
+	while (str[i] != 0)
 	{
-		while (str[i][j])
-		{
-			write(1, &str[i][j], 1);
-			j++;
-		}
-		printf("\n");
-		j = 0;
+		printf("%s\n", str[i]);
 		i++;
 	}
 }
@@ -96,19 +79,21 @@ void init_lists(char *av, t_tokens **tokens)
 {
 	int i;
 
-	i = -1;
+	i = 0;
 	parser()->tokens_n = tokens_num(av);
 	(*tokens) = (t_tokens *)malloc(sizeof(t_tokens));// possivel leak!
 	(*tokens)->prev = NULL;
-	while (++i < parser()->tokens_n)
+	while (i < parser()->tokens_n)
 	{
+		(*tokens)->token_size = 0;
 		(*tokens)->is_file = 0;
+		(*tokens)->sign = NULL;
 		(*tokens)->next = (t_tokens *)malloc(sizeof(t_tokens));
 		(*tokens)->next->prev = (*tokens);
 		(*tokens) = (*tokens)->next;
+		i++;
 	}
 	(*tokens)->next = NULL;
-	go_head(tokens);
 }
 
 void	go_head(t_tokens **lst)
@@ -129,16 +114,70 @@ int get_sign(t_tokens *tokens, int i, char *av)
 	return (0);
 }
 
-int	stokens_num(char **cwd, int start, int end)
+void	get_tokens_size(char **splited, t_tokens **tokens)
 {
-	int a;
+	int i;
 
-	a = 0;
-	while (ft_strncmp(cwd[start], cwd[end], ft_strlen(cwd[end])))
+	i = -1;
+	go_head(tokens);
+	while (splited[++i])
 	{
-		a++;
-		start++;
+		if (!ft_strncmp(splited[i], "|", 1) || !ft_strncmp(splited[i], ">>", 1) || !ft_strncmp(splited[i],	 ">", 1) || !ft_strncmp(splited[i], "<", 1)\
+			|| !ft_strncmp(splited[i], "<", 1))
+		{
+			(*tokens) = (*tokens)->next;
+			(*tokens)->token_size--;
+		}
+		(*tokens)->token_size++;
 	}
-	printf("a: %d\n", a);
-	return (a);
+}
+
+void	alocate_tokens(t_tokens **tokens)
+{
+	go_head(tokens);
+	while ((*tokens)->next)
+	{
+		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size + 10);
+		(*tokens) = (*tokens)->next;
+	}
+}
+
+int	is_sign(char *sign)
+{
+	if (!ft_strncmp(sign, "|", 1))
+		return (1); 
+	else if(!ft_strncmp(sign, ">", 1))
+		return (1);
+	else if(!ft_strncmp(sign, ">>", 1))
+		return (1);
+	else if(!ft_strncmp(sign, "<<", 1))
+		return (1);
+	else if(!ft_strncmp(sign, ">>", 1))
+		return (1);
+	return (0);
+}
+
+void	separeites_tokens(t_tokens **tokens, char **splited)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	go_head(tokens);
+	while (splited[i])
+	{
+		if (is_sign(splited[i]))
+		{
+			(*tokens)->sign = ft_strdup(splited[i]);
+			(*tokens)->token[j++] = 0;
+			j = 0;
+			if ((*tokens)->next)
+				(*tokens) = (*tokens)->next;
+			i++;
+		}
+		(*tokens)->token[j++] = ft_strdup(splited[i]);
+		i++;
+	}
+	(*tokens)->token[j] = 0;
 }

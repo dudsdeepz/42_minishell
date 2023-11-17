@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 22:34:59 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:07:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,18 @@ t_tokens	*lstlast_tokens(t_tokens *lst)
 	while (ptr->next)
 		ptr = ptr->next;
 	return (ptr);
+}
+
+int	total_tokens_size(t_tokens **tokens)
+{
+	int count;
+
+	count = 0;
+	go_head(tokens);
+	while ((*tokens)->next)
+	{
+		(*tokens) = (*tokens)->next;
+		count++;
+	}
+	return (count);
 }

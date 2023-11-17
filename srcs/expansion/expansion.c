@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 00:44:15 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:27:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void expansion(t_tokens **tokens)
 			j++;
 		}
 		j = 0;
-		(*tokens) = (*tokens)->next;
+		if ((*tokens)->next)
+			(*tokens) = (*tokens)->next;
 	}
-	go_head(tokens);
 }
 
 char *check_expansion(char *token, int tmp)
@@ -79,9 +79,9 @@ char *check_expansion(char *token, int tmp)
 	int i;
 
 	i = 0;
-	if (check_dq(token, i))
-		return (free_da_str(token));
-	while (token && token[i])
+	// if (check_dq(token, i))
+	// 	return (free_da_str(token));
+	while (token[i])
 	{
 		if (!token[i])
 			return (token);

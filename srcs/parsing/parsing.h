@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 14:59:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 21:56:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_redirect
 
 typedef struct s_tokens
 {	
-	char	*sign;
+	int		token_size;
+	const char	*sign;
 	int		is_file;
 	char	**token;
 	int		fd[2];
@@ -64,11 +65,15 @@ int		parse_tokens2(char **av, int *i);
 void	print_dp(char **str);
 int		tokens_num(char *cwd);
 void	clear_tokens(t_tokens **lst, void (*del)(void*));
-int		options(char *signs);
+int		options(t_tokens *token);
 void	fukyu(t_tokens *tokens);
 void	one_command(t_tokens *token);
 void 	init_lists(char *av, t_tokens **tokens);
 int		check_built(char **linei);
-int		stokens_num(char **cwd, int start, int end);
+void	get_tokens_size(char **splited, t_tokens **tokens);
+void	alocate_tokens(t_tokens **tokens);
+int		is_sign(char *sign);
+void	separeites_tokens(t_tokens **tokens, char **splited);
+void 	cago(t_tokens **tokens, char **splited);
 
 #endif

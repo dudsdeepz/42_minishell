@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 11:30:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 21:12:45 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*cwd;
-	char	*line;
 
 	(void)av;
 	cwd = NULL;
 	if (ac == 1)
 	{
-		line = 0;
 		sig_actions();
 		parser()->envp = dup_matrix(env);
 		parser()->export_env = dup_matrix(env);
@@ -61,7 +59,7 @@ void shell(char *cwd)
 		if (parsing(cwd))
 		{
 			get_tokens(cwd, &parser()->tokens);
-			// executor(parser()->tokens);
+			executor(parser()->tokens);
 		}
 	}
 	free(cwd);

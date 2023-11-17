@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/17 10:43:12 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:35:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void close_fds(t_tokens *tokens, int all)
 
 void	create_pipes(t_tokens **tokens)
 {
-	if (parser()->tokens_n == 1)
+	if (total_tokens_size(tokens) == 1)
 		return ;
 	go_head(tokens);
 	while((*tokens)->next)
@@ -111,9 +111,11 @@ void	create_pipes(t_tokens **tokens)
 		(*tokens)->fd_master[0] = 0;
 		(*tokens)->fd_master[1] = 1;
 		pipe((*tokens)->fd);
-		if (options((*tokens)->sign))
-			redirections((*tokens));
-		(*tokens) = (*tokens)->next;
+		if ((*tokens)->sign)
+			if (options((*tokens)))
+				redirections((*tokens));
+		if ((*tokens)->next)
+			(*tokens) = (*tokens)->next;
 	}
 }
 

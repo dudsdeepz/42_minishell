@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/17 11:04:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 22:11:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int redirections(t_tokens *tokens)
 {
 	int op;
 	
-	op = options(tokens->sign);
+	op = options(tokens);
 	if ((tokens->fd_master[0] != -1 && tokens->fd_master[1] != -1) || op == 1)
 	{
 		if (tokens->fd_master[0] > 2 && (op == 1 || op == 3))
@@ -41,15 +41,15 @@ int redirections(t_tokens *tokens)
 }
 
 
-int	options(char *signs)
+int	options(t_tokens *token)
 {
-	if (!ft_strncmp(signs, "<<", 2))
+	if (!ft_strncmp(token->sign, "<<", 2))
 		return (1);
-	if (!ft_strncmp(signs, ">>", 2))
+	if (!ft_strncmp(token->sign, ">>", 2))
 		return (2);
-	if (!ft_strncmp(signs, "<", 1))
+	if (!ft_strncmp(token->sign, "<", 1))
 		return (3);
-	if (!ft_strncmp(signs, ">", 1))
+	if (!ft_strncmp(token->sign, ">", 1))
 		return (4);
 	return (0);
 }
