@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/09 15:25:45 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:15:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	handle_signals(int sig)
 	}
 }
 
-char *get_shell_prompt(char *username, char *pc_name)
+char	*get_shell_prompt(char *username, char *pc_name)
 {
 	char	*first;
 	char	*second;
@@ -66,17 +66,4 @@ char *get_shell_prompt(char *username, char *pc_name)
 	first = ft_strjoin(username, "@");
 	second = ft_strjoin(first, pc_name);
 	return (ft_strjoin(second, ": "));
-}
-
-void	sig_actions(void)
-{
-	signal(SIGINT, handle_signals);
-	if (signal(SIGQUIT, handle_signals))
-		exit(0);
-}
-
-void	free_envs(void)
-{
-	free_matrix(parser()->envp);
-	free_matrix(parser()->export_env);
 }

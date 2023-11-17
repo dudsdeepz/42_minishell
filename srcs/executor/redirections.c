@@ -6,49 +6,64 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/15 15:31:55 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:35:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void check_red()
+int redirections(t_tokens *tokens)
 {
-	// int input_red = 0;
-	// int output_red = 0;
+	int op;
 	
-}
-
-int	check_redir(char **av, int i)
-{
-	if (av[i] && (!ft_strncmp(av[i], ">", 1) || !ft_strncmp(av[i], "<", 1)))
-		return (1);
-	while (av[i] && (!ft_strncmp(av[i], ">", 1) || !ft_strncmp(av[i], "<", 1)))
-		i++;
-	if (av[i])
-		return (i);
-	else
-		return (0);
-}
-
-int redirections(int tkid, char *av)
-{
-	int file;
-
-	file = 0;
-	
-	if (!ft_strncmp(av, ">", 1))
+	op = options(tokens->sign);
+	if ((tokens->fd_master[0] != -1 && tokens->fd_master[1] != -1) || op == 1)
 	{
-		file = open(*parser()->tokens[tkid + 1].token, O_CREAT | O_RDWR | O_TRUNC, 0644);
-		dup2(file, STDOUT_FILENO);
-		dup2(parser()->tokens[tkid].fd[0], STDIN_FILENO);
+		if (tokens->fd_master[0] > 2 && (op == 1 || op == 3))
+			close(tokens->fd_master[0]);
+		if (tokens->fd_master[1] > 2 && (op == 2 || op == 4))
+			close(tokens->fd_master[1]);
+		if (op == 2)
+			tokens->fd_master[1] = open(tokens->next->token[0], \
+			O_WRONLY | O_APPEND | O_CREAT, 0644);
+		else if (op == 1)
+			tokens->fd_master[0] = 0;
+		else if (op == 3)
+			tokens->fd_master[0] = open(tokens->next->token[0], O_RDONLY, 0644);
+		else if (op == 4)
+			tokens->fd_master[1] = open(tokens->next->token[0], \
+			O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (op)
+			tokens->next->is_file = 1;
+		// invalid_fds(tokens);
 	}
-	if (!ft_strncmp(av, "<", 1))
-	{
-		file = open(*parser()->tokens[tkid + 1].token, O_RDONLY);
-		dup2(file, STDIN_FILENO);
-		dup2(parser()->tokens[tkid].fd[1], STDOUT_FILENO);
-	}
-	close(file);
 	return (1);
+}
+
+
+int	options(char *signs)
+{
+	if (!ft_strncmp(signs, "<<", 1))
+		return (1);
+	if (!ft_strncmp(signs, ">>", 1))
+		return (2);
+	if (!ft_strncmp(signs, "<", 1))
+		return (3);
+	if (!ft_strncmp(signs, ">", 1))
+		return (4);
+	return (0);
+}
+
+void	invalid_fds(t_tokens *token)
+{
+	if (token->fd_master[0] == -1)
+	{
+		perror("");
+		token->master_error[0] = 1;
+	}
+	if (token->fd_master[1] == -1)
+	{
+		perror("");
+		token->master_error[1] = 1;
+	}
 }

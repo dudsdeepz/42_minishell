@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/10/30 11:28:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/15 18:08:26 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int parse_tokens(char *av, char *newav, int *j, int *i)
 		newav[(*j)++] = '\2';
 	else if (av[(*i)] == '|')
 		newav[(*j)++] = '\2';
-	else if (av[*i] == '>' && av[(*i) + 1] == '>')
+	else if (av[*i] == '<' && av[(*i) + 1] == '<')
 	{
 		newav[(*j)++] = av[*i];
 		newav[(*j)++] = '\2';
 		(*i)++;
 	}
-	else if (av[*i] == '<' && av[(*i) + 1] == '<')
+	else if (av[*i] == '>' && av[(*i) + 1] == '>')
 	{
 		newav[(*j)++] = av[*i];
 		newav[(*j)++] = '\2';

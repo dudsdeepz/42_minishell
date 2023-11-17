@@ -6,42 +6,37 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/13 12:22:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 23:32:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	get_tokens(char *av)
+void	get_tokens(char *av, t_tokens **tokens)
 {
 	int		i;
 	int		a;
 	int		j;
-	char 	*str;
 
 	i = 0;
 	a = 0;
 	j = 0;
-	parser()->tokens_n = tokens_num(av);
-	free(parser()->signs);
-	parser()->signs = malloc(sizeof(char *) * parser()->tokens_n + 8);
-	parser()->tokens = malloc(sizeof(t_tokens) * tokens_num(av));
+	init_lists(av, tokens);
 	while (av[i] != '\0')
 	{
 		i++;
-		if (av[i] == '|' || av[i] == '>' || av[i] == '<' || !av[i])
+		if (!ft_strncmp(&av[i], "<<", 2) || !ft_strncmp(&av[i], ">>", 2) || \
+			 av[i] == '|' || av[i] == '<' || av[i] == '>' || !av[i])
 		{
-			str = ft_substr(av, i, i);
-			parser()->signs[j] = str;
-			str = ft_subtokens(av, a, i - a);
-			parser()->tokens[j].token =	ft_split(str, '\2');
-			free (str);
-			parser()->tokens[j].token_id = j + 1;
+			(*tokens)->sign = ft_strdup(ft_substr(av, i, i));
+			(*tokens)->token = ft_split(ft_subtokens(av, a, i - a), '\2');
 			a = i + 1;
 			j++;
+			(*tokens) = (*tokens)->next;
 		}
 	}
-	parser()->signs[j] = 0;
+	create_pipes(tokens);
+	expansion(tokens);
 }
 
 int	tokens_num(char *cwd)
@@ -53,9 +48,11 @@ int	tokens_num(char *cwd)
 	count = 0;
 	while (cwd[i])
 	{
-		if (cwd[i] == '|' || cwd[i] == '>')
+		if (cwd[i] == '|' || cwd[i] == '>' || cwd[i] == '<' \
+			|| !ft_strncmp(&cwd[i], "<<", 2) || !ft_strncmp(&cwd[i], ">>", 2))
 			i++;
-		while (!(cwd[i] == '|' || cwd[i] == '>') && cwd[i])
+		while (!(cwd[i] == '|' || cwd[i] == '>' || cwd[i] == '<' \
+			|| !ft_strncmp(&cwd[i], "<<", 2) || !ft_strncmp(&cwd[i], ">>", 2)) && cwd[i])
 				i++;
 		count++;
 		}
@@ -97,4 +94,29 @@ void free_tokens(void)
 		}
 		free(parser()->tokens);
 	}
+}
+
+void init_lists(char *av, t_tokens **tokens)
+{
+	int i;
+
+	i = -1;
+	parser()->tokens_n = tokens_num(av);
+	(*tokens) = (t_tokens *)malloc(sizeof(t_tokens));// possivel leak!
+	(*tokens)->prev = NULL;
+	while (++i < parser()->tokens_n)
+	{
+		(*tokens)->is_file = 0;
+		(*tokens)->next = (t_tokens *)malloc(sizeof(t_tokens));
+		(*tokens)->next->prev = (*tokens);
+		(*tokens) = (*tokens)->next;
+	}
+	(*tokens)->next = NULL;
+	go_head(tokens);
+}
+
+void	go_head(t_tokens **lst)
+{
+	while ((lst) && (*lst) && (*lst)->prev)
+		(*lst) = (*lst)->prev;
 }

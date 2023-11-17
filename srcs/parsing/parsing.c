@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/11/09 11:53:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:53:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,16 @@ int	parsing(char *av)
 
 int	parse_tokens2(char **av, int *i)
 {
-	if ((!ft_strncmp(av[*i], "|", 2) || !ft_strncmp(av[*i], ">", 2) \
-		|| !ft_strncmp(av[*i], "<", 2) || !ft_strncmp(av[*i], ">>", 2) || \
+	if ((!ft_strncmp(av[*i], "|", 1) || !ft_strncmp(av[*i], ">", 1) \
+		|| !ft_strncmp(av[*i], "<", 1) || !ft_strncmp(av[*i], ">>", 2) || \
 		!ft_strncmp(av[*i], "<<", 2)) && !av[(*i) + 1])
 		return (1);
 	if (!ft_strncmp(av[*i], "|", 2))
 		if (av[(*i) + 1] && !ft_strncmp(av[(*i) + 1], "|", 2))
 			return (1);
-	if (!ft_strncmp(av[*i], ">", 2) || !ft_strncmp(av[*i], "<", 2))
-		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">", 2) || \
-			!ft_strncmp(av[(*i) + 1], "<", 2)))
+	if (!ft_strncmp(av[*i], ">", 1) || !ft_strncmp(av[*i], "<", 1))
+		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">", 1) || \
+			!ft_strncmp(av[(*i) + 1], "<", 1)))
 			return (1);
 	if (!ft_strncmp(av[*i], ">>", 2) || !ft_strncmp(av[*i], "<<", 2))
 		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">>", 2) || \

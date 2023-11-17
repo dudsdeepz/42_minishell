@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/03 12:18:45 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:44:15 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,26 @@ static void v_helper(char *token, char *str, int start, int end, char *res)
 	}
 }
 
-void expansion(void)
+void expansion(t_tokens **tokens)
 {
-	int i;
 	int j;
-	int tmp;
-	int	a;
+	int i;
 
 	i = 0;
 	j = 0;
-	tmp = 0;
-	a = 0;
-	while (i < parser()->tokens_n)
+	go_head(tokens);
+	while ((*tokens)->next)
 	{
-		while (parser()->tokens[i].token[j])
+		while ((*tokens)->token[j])
 		{
 			(*synt()) = 0;
-			parser()->tokens[i].token[j] = check_expansion(parser()->tokens[i].token[j], tmp);
+			(*tokens)->token[j] = check_expansion((*tokens)->token[j], i);
 			j++;
 		}
 		j = 0;
-		i++;
+		(*tokens) = (*tokens)->next;
 	}
+	go_head(tokens);
 }
 
 char *check_expansion(char *token, int tmp)
@@ -87,11 +85,13 @@ char *check_expansion(char *token, int tmp)
 	{
 		if (!token[i])
 			return (token);
-		if (token[i] == '"' && token[i])
+		if (token[i] == '\"' && token[i])
 		{
 			token = quote_killa(token);
 			dolutil(&tmp);
 		}
+		if (token[i] && !difs("\'", token[i]) && !tmp - 1)
+			token = quote_killa(token);
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
 		if (*synt())
@@ -202,13 +202,18 @@ char	*free_da_str(char *str)
 
 int	check_dq(char *token, int i)
 {
+	int tmp;
+
+	tmp = 0;
+	i = 0;
 	while (token[i])
 	{
-		if (token[i] == '"')
+		if (token[i] == '"' || token[i] == '\'')
 		{
-			while (token[++i] != '"' && token[i])
+			tmp = token[i];
+			while (token[++i] != tmp && token[i])
 				continue ;
-			if (!token[i])
+			if (token[i] != tmp)
 				return (printf("Unclosed quotes"));
 		}
 		i++;

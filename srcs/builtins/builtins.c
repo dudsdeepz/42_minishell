@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/14 11:15:58 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 20:45:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,53 @@ void	free_matrix(char **mtx)
 }
 
 
-int	check_cmds(char **linei)
+int	exec_cmds(char **linei)
 {
 	if (linei[0] && !ft_strncmp(linei[0], "pwd", 4))
 		print_pwd(*linei);
-	else if (linei[0] && !ft_strncmp(linei[0], "exit", 5))
-		ft_exit(linei);
 	else if (linei[0] && !ft_strncmp(linei[0], "env", 4) && !linei[1])
 		display_env(parser()->envp);
-	else if (linei[0] && !ft_strncmp(linei[0], "cd", 3))
-		ft_cd(linei);
 	else if (linei[0] && !ft_strncmp(linei[0], "echo", 5))
 		ft_echo(linei);
+	else if (linei[0] && !ft_strncmp(linei[0], "exit", 5))
+		ft_exit(linei);
+		else if (linei[0] && !ft_strncmp(linei[0], "cd", 3))
+		ft_cd(linei);
 	else if (linei[0] && !ft_strncmp(linei[0], "export", 7))
 		ft_export(linei);
 	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
 		ft_unset(linei);
 	else
-	{
-		exec_system_cmd(linei);
-		return (1);
-	}
-	exit(0);
+		return (0);
 	return (1);
+}
+
+void	ft_exec(char **token)
+{
+	char *path;
+	
+	path = NULL;
+	if (!check_built(token))
+		path = get_path(*token, parser()->envp);
+	if (path)
+		execve(path, token, parser()->envp);
+}
+
+int	check_built(char **linei)
+{
+	if (linei[0] && !ft_strncmp(linei[0], "pwd", 4))
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "env", 4) && !linei[1])
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "echo", 5))
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "exit", 5))
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "cd", 3))
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "export", 7))
+		return (1);
+	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
+		return (1);
+	return (0);
 }

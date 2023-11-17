@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/13 11:05:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:11:00 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,27 +137,28 @@ char	**send_to_env(char *token, char **env, char *find)
 
 char **new_env(char *token, char **env, char *find)
 {
+	char **new;
 	int i;
 	
 	i = 0;
-	parser()->tmp_matrix = malloc(sizeof(char *) * (list_size(env) + 2));
-	while (env[i])
+	new = malloc(sizeof(char *) * (list_size(env) + 2));
+	while (env[i] != 0)
 	{
-		parser()->tmp_matrix[i] = ft_strdup(env[i]);
+		new[i] = ft_strdup(env[i]);
 		i++;
 	}
 	if (find)
 		token = ft_strjoin(find, token);
 	free(find);
-	parser()->tmp_matrix[i] = ft_strdup(token);
-	parser()->tmp_matrix[i + 1] = NULL;
+	new[i] = ft_strdup(token);
+	new[i + 1] = 0;
 	free_matrix(env);
-	return (parser()->tmp_matrix);
+	return (new);
 }
 
 
 void export_util(char *str, char **tmp)
 {
-	parser()->envp = send_to_env(tmp[1], parser()->envp, str);
-	parser()->export_env = send_to_env(tmp[1], parser()->export_env, str);
+	parser()->envp = dup_matrix(send_to_env(tmp[1], parser()->envp, str));
+	parser()->export_env = dup_matrix(send_to_env(tmp[1], parser()->export_env, str));
 }

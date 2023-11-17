@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/13 12:12:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 23:00:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,42 +22,19 @@ int	main(int ac, char **av, char **env)
 	if (ac == 1)
 	{
 		line = 0;
-		parser()->heredoc = malloc(sizeof(t_heredoc));
+		sig_actions();
 		parser()->envp = dup_matrix(env);
 		parser()->export_env = dup_matrix(env);
-		parser()->heredoc->h_content = NULL;
-		parser()->heredoc->in_heredoc = 0;
-		sig_actions();
 		while (1)
 		{
-			if (!parser()->heredoc->in_heredoc)
-			{
-				cwd = readline("m1n1sh1t: ");
-				if (!cwd)
-				{
-					return (0);
-				}
-				if (cwd && !ft_strncmp(cwd, "<<", 3))
-				{
-					parser()->heredoc->in_heredoc = 1;
-					parser()->heredoc->h_content = ft_strdup("");
-					continue ;
-				}
-				if (ft_strlen(cwd) > 0)
-					shell(cwd);
-				else
-					free(cwd);
-			}
+			cwd = readline("minishell: ");
+			if (!cwd)
+				return (0);
+			if (ft_strlen(cwd) > 0)
+				shell(cwd);
 			else
-			{
-				line[ft_strcspn(line, "\n")] = '\0';
-				if (ft_strncmp(line, "EOF", 4) == 0)
-					parser()->heredoc->in_heredoc = 0;
-				else
-					p_heredoc(line);
-			}
+				free(cwd);
 		}
-		free_heredoc(parser()->heredoc->h_content);
 	}
 	free(cwd);
 	return (0);
@@ -76,16 +53,15 @@ int	list_size(char **list)
 
 void shell(char *cwd)
 {
+	parser()->tokens = (t_tokens *)malloc(sizeof(t_tokens *));
 	add_history(cwd);
 	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (cwd)
 	{
 		if (parsing(cwd))
 		{
-			get_tokens(cwd);
-			expansion();
-			executor();
-			free_tokens();
+			get_tokens(cwd, &parser()->tokens);
+			executor(parser()->tokens);
 		}
 	}
 	free(cwd);

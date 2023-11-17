@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/07 13:53:40 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/16 22:34:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,3 +44,45 @@ void	print_tokens(char **av)
 	printf("====\n");
 }
 
+void	sig_actions(void)
+{
+	signal(SIGINT, handle_signals);
+	if (signal(SIGQUIT, handle_signals))
+		exit(0);
+}
+
+void	free_envs(void)
+{
+	free_matrix(parser()->envp);
+	free_matrix(parser()->export_env);
+}
+
+int	lstsize_tokens(t_tokens *lst)
+{
+	int		count;
+	t_tokens	*ptr;
+
+	count = 0;
+	if (!lst)
+		return (0);
+	ptr = lst;
+	while (ptr != NULL)
+	{
+		count++;
+		ptr = ptr->next;
+	}
+	return (count - 1);
+}
+
+
+t_tokens	*lstlast_tokens(t_tokens *lst)
+{
+	t_tokens	*ptr;
+
+	if (!lst)
+		return (NULL);
+	ptr = lst;
+	while (ptr->next)
+		ptr = ptr->next;
+	return (ptr);
+}

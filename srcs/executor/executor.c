@@ -6,180 +6,157 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/15 15:56:25 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 01:06:07 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	executor(void)
+void	executor(t_tokens *tokens)
 {
-	int 	i;
-	int 	status;
-	int 	j;
-	pid_t proc;
-
-	i = -1;
-	j = 0;
-	if (parser()->tokens)
+	kawasaki(tokens);
+	go_head(&tokens);
+	while (tokens->next)
 	{
-		while (++i < parser()->tokens_n)
-		{
-			if (parser()->tokens_n == 1)
-			{
-				one_command(i);
-				return ;
-			}
-			create_pipes();
-			if (list_size(parser()->tokens[i].token) > 0)
-			{
-				if (!check_cmds_(parser()->tokens[i].token))
-				{
-					proc = fork();
-					if (proc == 0)
-					{
-						if (!ft_strncmp(parser()->signs[i].sign, "|", 1) && i == 0)
-							dup2(parser()->tokens[i].fd[1], STDOUT_FILENO);
-						signs(parser()->signs[j].sign, i);
-						1check_cmds(parser()->tokens[i].token);
-						exit(1);
-					}
-				}
-			}
-			j++;
-		}
-		i = 0;
-		while (i < parser()->tokens_n)
-		{
-			waitpid(-1, &status, 0);
-				i++;
-		}
+		if (tokens->token[0])
+			waitpid(-1, &parser()->exit_status, 1);
+		if (!tokens->next)
+			break ;
+		tokens = tokens->next;
 	}
 }
 
-int	signs(char *sign, int tkid)
+void kricko(t_tokens *tokens)
 {
-	if ((!ft_strncmp(sign, ">", 1) || !ft_strncmp(sign, "<", 1)))
+	if (lstsize_tokens(tokens) == 1)
 	{
-		redirections(tkid, sign);
-		return (tkid);
-	}
-	if (tkid > 0)
-	{
-		if (!ft_strncmp(sign, "|", 2))
-		{
-			pipes(tkid);
-			return(tkid);
-		}
-	}
-	return (tkid);
-}
-
-int pipes(int tkid)
-{
-	if (tkid != 0)
-		dup2(parser()->tokens[tkid - 1].fd[0], STDIN_FILENO);
-	if (tkid != parser()->tokens_n - 1)
-	{
-		dup2(parser()->tokens[tkid].fd[1], STDOUT_FILENO);
-		close(parser()->tokens[tkid].fd[1]);
-	}
-	close(parser()->tokens[tkid].fd[0]);
-	close(parser()->tokens[tkid - 1].fd[1]);
-	return (tkid);
-}
-
-void	argument(int *fd, char **av, int fd_num, int fd_type)
-{
-	if (!ft_strncmp(*av, "exit", 4) && list_size(av) == 1)
-	{
-		check_cmds(av);
+		one_command(tokens);
 		return ;
 	}
-	if (dup2(fd[fd_num], fd_type) < 0)
-		close(fd[fd_num]);
-	check_cmds(av);
+	if (fork() == 0)
+	{
+		if (tokens->prev && tokens->fd_master[0] < 3)
+			ft_dup2(tokens->fd[0], STDOUT_FILENO);
+		else if (tokens->fd_master[0] > 2)
+			ft_dup2(tokens->fd_master[0], STDOUT_FILENO);
+		if (tokens->next && tokens->fd_master[1] < 3)
+			ft_dup2(STDIN_FILENO, tokens->next->fd[1]);
+		else if (tokens->fd_master[1] > 2)
+			ft_dup2(STDIN_FILENO, tokens->fd_master[1]);
+		estriper(tokens);
+		close(0);
+		exit(0);
+	}
+	else if (tokens->proc > 0)
+		wait(0);
+	close_fds(tokens, 0);
 }
 
-void	exec_system_cmd(char **tokens)
+void	estriper(t_tokens *tokens)
 {
-	char *getp;
+	if (!exec_cmds(tokens->token))
+	{
+		close_fds(tokens, 0);
+		execve(tokens->path, tokens->token, parser()->envp);
+		close(0);
+		close(1);
+		exit(0);
+	}
+}
+
+void	kawasaki(t_tokens *tokens)
+{
+	while (tokens && tokens->next)
+	{
+		if (tokens->token[0] && !tokens->is_file)
+		{
+			tokens->path = ft_path(tokens->token);
+			kricko(tokens);
+		}
+		if (!tokens->next)
+			break;
+		tokens = tokens->next;
+	}
+}
+
+void close_fds(t_tokens *tokens, int all)
+{
+	t_tokens *tmp;
 	
-	getp = NULL;
-	if (ft_strncmp(*tokens, "./", 2))
-		getp = get_path(*tokens, parser()->envp);
-	if (getp)
+	tmp = tokens;
+	if (all)
+		go_head(&tokens);
+	while (tokens->next)
 	{
-		if (execve(getp, tokens, parser()->envp) == -1)
-			exit(EXIT_FAILURE);
+		close(tokens->fd[0]);
+		close(tokens->fd[1]);
+		if (tokens->fd_master[0] > 2)
+			close(tokens->fd_master[0]);
+		if(tokens->fd_master[1] > 2)
+			close(tokens->fd_master[1]);
+		if (!all)
+			break ;
+		tokens = tokens->next;
 	}
-	free(getp);
-	return ;
+	tokens = tmp;
 }
 
-
-void one_command(int i)
+void	create_pipes(t_tokens **tokens)
 {
-	pid_t proc;
-
-	if (!check_cmds_(parser()->tokens[i].token))
+	if (parser()->tokens_n == 1)
+		return ;
+	go_head(tokens);
+	while((*tokens)->next)
 	{
-		proc = fork();
-		if (proc == 0)
-			check_cmds(parser()->tokens[i].token);
-		else if (proc > 0)
-			wait(0) ;
-	}
-}
-
-void close_fds()
-{
-	int i;
-
-	i = 0;
-	while (i < parser()->tokens_n)
-	{
-		close(parser()->tokens[i].fd[1]);
-		close(parser()->tokens[i].fd[0]);
-		i++;
+		(*tokens)->fd_master[0] = 0;
+		(*tokens)->fd_master[1] = 1;
+		pipe((*tokens)->fd);
+		if (options((*tokens)->sign))
+			redirections((*tokens));
+		(*tokens) = (*tokens)->next;
 	}
 }
-void	close_all(int *fd, int i, char *getp, char **comand)
-{
-	free(getp);
-	free_path(comand);
-	close(fd[i]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	exit(1);
-}
-void p_heredoc(char *line)
-{
-	char *new_content;
 
-	new_content = malloc(ft_strlen(parser()->heredoc->h_content) + ft_strlen(line) + 2);
-	ft_strcpy(new_content, parser()->heredoc->h_content);
-	ft_strcat(new_content, line);
-	ft_strcat(new_content, "\n");
-	free(parser()->heredoc->h_content);
-	parser()->heredoc->h_content = new_content;
-}
-
-void ft_dup(int *fd, int open, int closee, int fd_type)
+void	one_command(t_tokens *token)
 {
-	close(fd[closee]);
-	dup2(fd[open], fd_type);
-	close(fd[open]);
-}
-
-void	create_pipes(void)
-{
-	int i;
-
-	i = 0;
-	while(i < parser()->tokens_n)
+	if (!exec_cmds(token->token) && ft_strlen(token->path) > 0)
 	{
-		pipe(parser()->tokens[i].fd);
-		i++;
+		token->proc = fork();
+		if (token->proc == 0)
+			execve(token->path, token->token, parser()->envp);
+		else if (token->proc > 0)
+			wait(0);
+		waitpid(token->proc, &parser()->exit_status, 0);
+	}
+}
+
+
+char	*ft_path(char **token)
+{
+	char *path;
+	
+	path = NULL;
+	if (!check_built(token))
+	{
+		path = get_path(*token, parser()->envp);
+		if (path)
+			return (ft_strdup(path));
+		return (0);
+	}
+	return (0);
+}
+
+
+void ft_dup2(int input, int output)
+{
+	if (input != STDIN_FILENO)
+	{
+		dup2(input, STDIN_FILENO);
+		close(input);
+	}
+	if (output != STDOUT_FILENO	)
+	{
+		dup2(output, STDOUT_FILENO);
+		close(output);
 	}
 }

@@ -2,20 +2,21 @@
 #define EXECUTOR_H
 
 #include "../../minishell.h"
+# define REDIR_COMAND 1
+# define PIPE_COMMAND 2
 
-void		executor(void);
-void		p_heredoc(char *line);
-int 		pipes(int tkid);
-void		close_all(int *fd, int i, char *getp, char **comand);
-void		argument(int *fd, char **av, int fd_num, int fd_type);
-int 		redirections(int tkid, char *av);
-int			check_redir(char **av, int i);
-void		exec_system_cmd(char **tokens);
-void 		one_command(int i);
-void 		close_fds();
-int			check_cmds_(char **linei);
-int			signs(char *sign, int tkid);
-void 		ft_dup(int *fd, int open, int closee, int fd_type);
-void		create_pipes(void);
+void	executor(t_tokens *tokens);
+void	p_heredoc(char *line);
+int 	pipes(int tkid);
+int 	redirections(t_tokens *tokens);
+void 	close_fds(t_tokens *tokens, int all);
+void	create_pipes(t_tokens **tokens);
+void	kawasaki(t_tokens *tokens);
+void	ft_exec(char **token);
+void 	kricko(t_tokens *tokens);
+int		lstsize_tokens(t_tokens *lst);
+void	estriper(t_tokens *tokens);
+t_tokens	*lstlast_tokens(t_tokens *lst);
+void ft_dup2(int input, int output);
 
 #endif

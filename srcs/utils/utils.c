@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/09 17:03:24 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:45:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ char	*get_path(char *command, char **env)
 	}
 	if (!str)
 	{
-		printf("%sCommand not found !%s\n", RED, DEFAULT);
-		free_tokens();
-		exit(2);
+		printf("%sCommand not found: %s ! %s\n", RED, command, DEFAULT);
+		return ("\0");
 	}
 	free_path(path);
 	return (str);
