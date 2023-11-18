@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 21:56:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 18:07:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ int		parsing(char *av);
 int 	parse_tokens(char *av, char *newav, int *j, int *i);
 int		parse_tokens2(char **av, int *i);
 void	print_dp(char **str);
-int		tokens_num(char *cwd);
+int		tokens_num(char **cwd);
 void	clear_tokens(t_tokens **lst, void (*del)(void*));
 int		options(t_tokens *token);
 void	fukyu(t_tokens *tokens);
 void	one_command(t_tokens *token);
-void 	init_lists(char *av, t_tokens **tokens);
+void 	init_lists(char **av, t_tokens **tokens);
 int		check_built(char **linei);
 void	get_tokens_size(char **splited, t_tokens **tokens);
 void	alocate_tokens(t_tokens **tokens);

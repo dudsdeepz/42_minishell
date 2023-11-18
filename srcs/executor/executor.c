@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/17 22:35:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 18:22:05 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	estriper(t_tokens *tokens)
 
 void	kawasaki(t_tokens *tokens)
 {
+	go_head(&tokens);
 	while (tokens && tokens->next)
 	{
 		if (tokens->token[0] && !tokens->is_file)
@@ -111,8 +112,7 @@ void	create_pipes(t_tokens **tokens)
 		(*tokens)->fd_master[0] = 0;
 		(*tokens)->fd_master[1] = 1;
 		pipe((*tokens)->fd);
-		if ((*tokens)->sign)
-			if (options((*tokens)))
+		if ((*tokens)->sign && options((*tokens)))
 				redirections((*tokens));
 		if ((*tokens)->next)
 			(*tokens) = (*tokens)->next;
