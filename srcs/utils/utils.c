@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 00:45:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 13:42:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*get_path(char *command, char **env)
 	}
 	path = ft_split(env[i] + 5, ':');
 	i = 0;
+	if (access(command, X_OK) == 0)
+		return (ft_strdup(command));
 	while (path[i])
 	{
 		str = triple_strjoin(path[i++], "/", command);

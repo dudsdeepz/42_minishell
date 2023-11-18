@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 22:35:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 13:50:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,15 @@ void	get_tokens(char *av, t_tokens **tokens)
 	get_tokens_size(splited, tokens);
 	alocate_tokens(tokens);
 	separeites_tokens(tokens, splited);
+	// while ((*tokens)->next)
+	// {
+	// 	print_dp((*tokens)->token);
+	// 	if ((*tokens)->sign)
+	// 		printf("sign: %s\n", (*tokens)->sign);
+	// 	printf("================\n");
+	// 	(*tokens) = (*tokens)->next;
+	// }
 	create_pipes(tokens);
-	expansion(tokens);
 	go_head(tokens);
 }
 
@@ -122,8 +129,7 @@ void	get_tokens_size(char **splited, t_tokens **tokens)
 	go_head(tokens);
 	while (splited[++i])
 	{
-		if (!ft_strncmp(splited[i], "|", 1) || !ft_strncmp(splited[i], ">>", 1) || !ft_strncmp(splited[i],	 ">", 1) || !ft_strncmp(splited[i], "<", 1)\
-			|| !ft_strncmp(splited[i], "<", 1))
+		if (is_sign(splited[i]) && ft_strncmp(splited[i], "\"", 1))
 		{
 			(*tokens) = (*tokens)->next;
 			(*tokens)->token_size--;
@@ -137,7 +143,7 @@ void	alocate_tokens(t_tokens **tokens)
 	go_head(tokens);
 	while ((*tokens)->next)
 	{
-		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size + 10);
+		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size + 8);
 		(*tokens) = (*tokens)->next;
 	}
 }
@@ -148,11 +154,11 @@ int	is_sign(char *sign)
 		return (1); 
 	else if(!ft_strncmp(sign, ">", 1))
 		return (1);
-	else if(!ft_strncmp(sign, ">>", 1))
+	else if(!ft_strncmp(sign, ">>", 2))
 		return (1);
-	else if(!ft_strncmp(sign, "<<", 1))
+	else if(!ft_strncmp(sign, "<<", 2))
 		return (1);
-	else if(!ft_strncmp(sign, ">>", 1))
+	else if(!ft_strncmp(sign, "<", 1))
 		return (1);
 	return (0);
 }
@@ -161,23 +167,27 @@ void	separeites_tokens(t_tokens **tokens, char **splited)
 {
 	int i;
 	int j;
+	int exp_tmp;
 
-	i = 0;
+	i = -1;
 	j = 0;
+	exp_tmp = 0;
 	go_head(tokens);
-	while (splited[i])
+	while (splited[++i])
 	{
-		if (is_sign(splited[i]))
+		if (!is_sign(splited[i]) && splited[i] && ft_strncmp(splited[i], "\"", 1))
 		{
-			(*tokens)->sign = ft_strdup(splited[i]);
-			(*tokens)->token[j++] = 0;
-			j = 0;
-			if ((*tokens)->next)
-				(*tokens) = (*tokens)->next;
-			i++;
+			(*tokens)->token[j] = check_expansion(splited[i], exp_tmp);
+			j++;
 		}
-		(*tokens)->token[j++] = ft_strdup(splited[i]);
-		i++;
+		else
+		{
+			(*tokens)->token[j] = 0;
+			if (splited[i])
+				(*tokens)->sign = ft_strdup(splited[i]);
+			j = 0;
+			(*tokens) = (*tokens)->next;
+		}
 	}
 	(*tokens)->token[j] = 0;
 }

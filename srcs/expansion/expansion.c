@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 22:27:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 13:37:11 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ char *check_expansion(char *token, int tmp)
 	int i;
 
 	i = 0;
-	// if (check_dq(token, i))
-	// 	return (free_da_str(token));
 	while (token[i])
 	{
 		if (!token[i])
@@ -101,7 +99,7 @@ char *check_expansion(char *token, int tmp)
 		else
 			i++;
 	}
-	return (token);
+	return (ft_strdup(token));
 }
 
 char *get_expansion(char *token, int *i)
