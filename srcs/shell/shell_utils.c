@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 18:21:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 19:47:15 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	get_tokens(char *av, t_tokens **tokens)
 	char 	**splited;
 
 	splited = ft_split(av, '\2');
+	if (full_check_dq(splited))
+		return ;
 	init_lists(splited, tokens);
 	get_tokens_size(splited, tokens);
 	alocate_tokens(tokens);

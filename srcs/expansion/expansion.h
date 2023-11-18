@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:47:08 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 20:19:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 18:49:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char    *fk_token(char *token, char *str, int i, int a);
 int     difs(char *sign, char c);
 int 	*synt(void);
 char	*free_da_str(char *str);
-int		check_dq(char *token, int i);
+int	    check_dq(char *str);
 void	go_head(t_tokens **lst);
 
 #endif

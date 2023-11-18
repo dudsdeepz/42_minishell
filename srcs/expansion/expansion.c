@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 13:37:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 19:52:37 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ char *check_expansion(char *token, int tmp)
 			token = quote_killa(token);
 			dolutil(&tmp);
 		}
-		if (token[i] && !difs("\'", token[i]) && !tmp - 1)
-			token = quote_killa(token);
 		if (token[i] && !difs("\'", token[i]) && !tmp)
 			i = fk_quotes(token, i);
 		if (*synt())
@@ -198,23 +196,29 @@ char	*free_da_str(char *str)
 	return (str);
 }
 
-int	check_dq(char *token, int i)
+int	check_dq(char *str)
 {
-	int tmp;
+	int i;
 
-	tmp = 0;
 	i = 0;
-	while (token[i])
+	while (str[i])
 	{
-		if (token[i] == '"' || token[i] == '\'')
-		{
-			tmp = token[i];
-			while (token[++i] != tmp && token[i])
-				continue ;
-			if (token[i] != tmp)
-				return (printf("Unclosed quotes"));
-		}
 		i++;
+		// to do;
+	}
+	return (0);
+}
+
+int	full_check_dq(char **splited)
+{
+	int j;
+
+	j = 0;
+	while (splited[j])
+	{
+		if (check_dq(splited[j]))
+			return (1);
+		j++;
 	}
 	return (0);
 }
