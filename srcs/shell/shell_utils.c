@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 19:47:15 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 20:37:00 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	tokens_num(char **cwd)
 void	print_dp(char **str)
 {
 	int i;
-	
+
 	i = 0;
 	while (str[i] != 0)
 	{
@@ -74,7 +74,7 @@ void free_tokens(void)
 void init_lists(char **av, t_tokens **tokens)
 {
 	int count;
-	
+
 	count = tokens_num(av);
 	(*tokens) = (t_tokens *)malloc(sizeof(t_tokens));// possivel leak!
 	(*tokens)->prev = NULL;
@@ -136,7 +136,7 @@ void	alocate_tokens(t_tokens **tokens)
 int	is_sign(char *sign)
 {
 	if (!ft_strncmp(sign, "|", 1))
-		return (1); 
+		return (1);
 	else if(!ft_strncmp(sign, ">>", 2))
 		return (1);
 	else if(!ft_strncmp(sign, "<<", 2))
@@ -170,6 +170,11 @@ void	separeites_tokens(t_tokens **tokens, char **splited)
 			(*tokens)->token[j] = 0;
 			if (splited[i])
 				(*tokens)->sign = ft_strdup(splited[i]);
+			if (!ft_strncmp(splited[i], "<<", 2))
+			{
+				(*tokens)->is_file = 1;
+				(*tokens)->token[j++] = ft_strdup(splited[i + 1]);
+			}
 			j = 0;
 			(*tokens) = (*tokens)->next;
 		}

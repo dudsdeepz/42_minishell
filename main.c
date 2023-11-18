@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 19:54:34 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/18 20:34:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void shell(char *cwd)
 	{
 		if (parsing(cwd))
 		{
-			if (!!parser()->global_error)
+			if (!parser()->global_error)
 				get_tokens(cwd, &parser()->tokens);
 			if (!parser()->global_error)
 				executor(parser()->tokens);
@@ -67,4 +67,11 @@ void shell(char *cwd)
 		}
 	}
 	free(cwd);
+}
+
+int	ft_heredoc(char *a)
+{
+	printf("heredoc: char: %s\n", a);
+	return (0);
+	(void)a;
 }
