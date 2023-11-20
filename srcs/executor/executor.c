@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/18 20:24:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:38:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	executor(t_tokens *tokens)
 	go_head(&tokens);
 	while (tokens->next)
 	{
-		if (tokens->token[0])
+		if (tokens->token[0] > 0)
 			waitpid(-1, &parser()->exit_status, 1);
 		if (!tokens->next)
 			break ;
 		tokens = tokens->next;
 	}
+
 }
 
 void kricko(t_tokens *tokens)
@@ -35,32 +36,33 @@ void kricko(t_tokens *tokens)
 	}
 	if (fork() == 0)
 	{
-		if (tokens->prev && tokens->fd_master[0] < 3)
-			ft_dup2(tokens->fd[0], STDOUT_FILENO);
-		else if (tokens->fd_master[0] > 2)
-			ft_dup2(tokens->fd_master[0], STDOUT_FILENO);
+		pipe(tokens->fd);
+		if (!tokens->next)
+			return ;
 		if (tokens->next && tokens->fd_master[1] < 3)
-			ft_dup2(STDIN_FILENO, tokens->next->fd[1]);
+			dup2(tokens->fd[1], STDOUT_FILENO);
 		else if (tokens->fd_master[1] > 2)
-			ft_dup2(STDIN_FILENO, tokens->fd_master[1]);
+			dup2(tokens->fd_master[1], STDOUT_FILENO);
+		if (tokens->prev && tokens->fd_master[0] < 3)
+			dup2(tokens->next->fd[0], STDIN_FILENO);
+		else if (tokens->fd_master[0] > 2)
+			dup2(tokens->fd_master[0], STDIN_FILENO);
+		// close(tokens->fd_master[0]);
+		// close(tokens->fd_master[1]);
 		estriper(tokens);
-		close(0);
-		exit(0);
 	}
-	else if (tokens->proc > 0)
-		wait(0);
-	close_fds(tokens, 0);
+
 }
 
 void	estriper(t_tokens *tokens)
 {
+	//close_fds(tokens, 0);
 	if (!exec_cmds(tokens->token))
 	{
-		close_fds(tokens, 0);
 		execve(tokens->path, tokens->token, parser()->envp);
-		close(0);
 		close(1);
-		exit(0);
+		close(0);
+		//exit(0);
 	}
 }
 
@@ -89,8 +91,6 @@ void close_fds(t_tokens *tokens, int all)
 		go_head(&tokens);
 	while (tokens->next)
 	{
-		close(tokens->fd[0]);
-		close(tokens->fd[1]);
 		if (tokens->fd_master[0] > 2)
 			close(tokens->fd_master[0]);
 		if(tokens->fd_master[1] > 2)
@@ -100,6 +100,8 @@ void close_fds(t_tokens *tokens, int all)
 		tokens = tokens->next;
 	}
 	tokens = tmp;
+	close(tokens->fd[1]);
+	close(tokens->fd[0]);
 }
 
 void	create_pipes(t_tokens **tokens)
@@ -111,9 +113,10 @@ void	create_pipes(t_tokens **tokens)
 	{
 		(*tokens)->fd_master[0] = 0;
 		(*tokens)->fd_master[1] = 1;
-		pipe((*tokens)->fd);
-		if ((*tokens)->sign && options((*tokens)))
-				redirections((*tokens));
+		if ((*tokens)->sign)
+			redirections((*tokens));
+		if (!(*tokens)->next)
+			break ;
 		if ((*tokens)->next)
 			(*tokens) = (*tokens)->next;
 	}

@@ -6,24 +6,39 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 20:37:00 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 18:34:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	get_tokens(char *av, t_tokens **tokens)
+int	freedy_fazbear(char *av, t_tokens *tokens)
 {
 	char 	**splited;
 
-	splited = ft_split(av, '\2');
+	/*
+		do heredoc;
+		fix quote;
+		fix leaks;
+		fix executor(pipes & redirections)
+	*/
+	splited = NULL;
+	if (av)
+		splited = ft_split(av, '\2');
 	if (full_check_dq(splited))
-		return ;
-	init_lists(splited, tokens);
-	get_tokens_size(splited, tokens);
-	alocate_tokens(tokens);
-	separeites_tokens(tokens, splited);
-	create_pipes(tokens);
+		return (1);
+	tokens = (t_tokens *)malloc(sizeof(t_tokens *));
+	init_lists(splited, &tokens);
+	get_tokens_size(splited, &tokens);
+	alocate_tokens(&tokens);
+	separeites_tokens(&tokens, splited);
+	create_pipes(&tokens);
+	executor(tokens);
+	free_matrix(splited);
+	go_head(&tokens);
+	free_tokens(tokens);
+	free(av);
+	return (0);
 }
 
 int	tokens_num(char **cwd)
@@ -54,21 +69,16 @@ void	print_dp(char **str)
 	}
 }
 
-void free_tokens(void)
+void free_tokens(t_tokens *token)
 {
-	int i;
-
-	i = 0;
-	if (parser()->tokens)
+	while (token->next)
 	{
-		while (i < parser()->tokens_n)
-		{
-			if (parser()->tokens[i].token)
-				free_matrix(parser()->tokens[i].token);
-			i++;
-		}
-		free(parser()->tokens);
+		if (token->path)
+			free(token->path);
+		token = token->next;
+		free(token->prev);
 	}
+	free(token);
 }
 
 void init_lists(char **av, t_tokens **tokens)
@@ -162,8 +172,9 @@ void	separeites_tokens(t_tokens **tokens, char **splited)
 	{
 		if (!is_sign(splited[i]) && splited[i])
 		{
-			(*tokens)->token[j] = check_expansion(splited[i], exp_tmp);
-			j++;
+			(*tokens)->token[j++] = check_expansion(splited[i], exp_tmp);
+			if (!splited[i + 1])
+				(*tokens)->token[j++] = 0;
 		}
 		else
 		{
@@ -179,5 +190,4 @@ void	separeites_tokens(t_tokens **tokens, char **splited)
 			(*tokens) = (*tokens)->next;
 		}
 	}
-	(*tokens)->token[j++] = 0;
 }

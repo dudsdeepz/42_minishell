@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/17 00:43:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 17:46:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char *kill_da_quotes(char *str)
 	res = malloc(sizeof(char *) * ft_strlen(str) - quote_n(str) + 1);
 	while (str && str[i])
 	{
-		if (str[i] && (!check_sign("\"", str[i]) || !check_sign("\'", str[i])))
+		if (str[i] && (!check_sign("'\"", str[i])))
 		{
 			tmp = str[i];
 			i++;
