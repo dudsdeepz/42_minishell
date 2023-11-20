@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/20 17:38:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 22:14:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 void	executor(t_tokens *tokens)
 {
+	int status;
+	pid_t i;
+
 	kawasaki(tokens);
 	go_head(&tokens);
 	while (tokens->next)
 	{
-		if (tokens->token[0] > 0)
-			waitpid(-1, &parser()->exit_status, 1);
+		if (tokens->token[0])
+		{
+			i =	waitpid(-1, &status, 0);
+			if (i == -1 && WIFEXITED(status))
+				parser()->exit_status = WIFEXITED(status);
+		}
 		if (!tokens->next)
 			break ;
 		tokens = tokens->next;
@@ -29,51 +36,37 @@ void	executor(t_tokens *tokens)
 
 void kricko(t_tokens *tokens)
 {
-	if (lstsize_tokens(tokens) == 1)
+	if (check_built(tokens->token))
 	{
-		one_command(tokens);
+		tokens->_exec_cmd(&tokens);
 		return ;
 	}
 	if (fork() == 0)
 	{
-		pipe(tokens->fd);
-		if (!tokens->next)
-			return ;
 		if (tokens->next && tokens->fd_master[1] < 3)
-			dup2(tokens->fd[1], STDOUT_FILENO);
+			dup2(tokens->next->fd[1], STDOUT_FILENO);
 		else if (tokens->fd_master[1] > 2)
 			dup2(tokens->fd_master[1], STDOUT_FILENO);
 		if (tokens->prev && tokens->fd_master[0] < 3)
-			dup2(tokens->next->fd[0], STDIN_FILENO);
+			dup2(tokens->fd[0], STDIN_FILENO);
 		else if (tokens->fd_master[0] > 2)
 			dup2(tokens->fd_master[0], STDIN_FILENO);
-		// close(tokens->fd_master[0]);
-		// close(tokens->fd_master[1]);
-		estriper(tokens);
-	}
-
-}
-
-void	estriper(t_tokens *tokens)
-{
-	//close_fds(tokens, 0);
-	if (!exec_cmds(tokens->token))
-	{
-		execve(tokens->path, tokens->token, parser()->envp);
-		close(1);
+		tokens->_exec_cmd(&tokens);
 		close(0);
-		//exit(0);
+		exit(parser()->exit_status);
 	}
-}
+	close_fds(&tokens, 0);
+}	
 
 void	kawasaki(t_tokens *tokens)
 {
 	go_head(&tokens);
-	while (tokens && tokens->next)
+	while (tokens->next)
 	{
 		if (tokens->token[0] && !tokens->is_file)
 		{
 			tokens->path = ft_path(tokens->token);
+			ft_cmds(tokens);
 			kricko(tokens);
 		}
 		if (!tokens->next)
@@ -82,72 +75,33 @@ void	kawasaki(t_tokens *tokens)
 	}
 }
 
-void close_fds(t_tokens *tokens, int all)
+void close_fds(t_tokens **tokens, int all)
 {
 	t_tokens *tmp;
 	
-	tmp = tokens;
+	tmp = (*tokens);
 	if (all)
-		go_head(&tokens);
-	while (tokens->next)
+		go_head(tokens);
+	while ((*tokens)->next)
 	{
-		if (tokens->fd_master[0] > 2)
-			close(tokens->fd_master[0]);
-		if(tokens->fd_master[1] > 2)
-			close(tokens->fd_master[1]);
+		close((*tokens)->fd[0]);
+		close((*tokens)->fd[1]);
+		if ((*tokens)->fd_master[0] > 2)
+			close((*tokens)->fd_master[0]);
+		if((*tokens)->fd_master[1] > 2)
+			close((*tokens)->fd_master[1]);
 		if (!all)
 			break ;
-		tokens = tokens->next;
+		(*tokens) = (*tokens)->next;
 	}
-	tokens = tmp;
-	close(tokens->fd[1]);
-	close(tokens->fd[0]);
-}
-
-void	create_pipes(t_tokens **tokens)
-{
-	if (total_tokens_size(tokens) == 1)
-		return ;
-	go_head(tokens);
-	while((*tokens)->next)
-	{
-		(*tokens)->fd_master[0] = 0;
-		(*tokens)->fd_master[1] = 1;
-		if ((*tokens)->sign)
-			redirections((*tokens));
-		if (!(*tokens)->next)
-			break ;
-		if ((*tokens)->next)
-			(*tokens) = (*tokens)->next;
-	}
-}
-
-void	one_command(t_tokens *token)
-{
-	if (!exec_cmds(token->token) && ft_strlen(token->path) > 0)
-	{
-		token->proc = fork();
-		if (token->proc == 0)
-			execve(token->path, token->token, parser()->envp);
-		else if (token->proc > 0)
-			wait(0);
-		waitpid(token->proc, &parser()->exit_status, 0);
-	}
+	(*tokens) = tmp;
 }
 
 
-char	*ft_path(char **token)
-{
-	char *path;
-	
-	path = NULL;
-	if (!check_built(token))
-	{
-		path = get_path(*token, parser()->envp);
-		if (path)
-			return (ft_strdup(path));
-		return (0);
-	}
+char	*ft_path(char **tokens)
+{	
+	if (!check_built(tokens))
+		return (ft_strdup(get_path(tokens[0], parser()->envp)));
 	return (0);
 }
 

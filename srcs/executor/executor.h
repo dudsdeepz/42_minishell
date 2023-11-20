@@ -8,8 +8,8 @@
 void	executor(t_tokens *tokens);
 void	p_heredoc(char *line);
 int 	pipes(int tkid);
-int 	redirections(t_tokens *tokens);
-void 	close_fds(t_tokens *tokens, int all);
+int 	redirections(t_tokens *tokens, char *str);
+void 	close_fds(t_tokens **tokens, int all);
 void	create_pipes(t_tokens **tokens);
 void	kawasaki(t_tokens *tokens);
 void	ft_exec(char **token);
@@ -22,5 +22,5 @@ int		check_double_red(char *av, int i);
 int 	get_sign(t_tokens *tokens, int i, char *av);
 int	    stokens_num(char **cwd, char *sign);
 int	    total_tokens_size(t_tokens **tokens);
-
+void	invalid_fds(t_tokens *token);
 #endif

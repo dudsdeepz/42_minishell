@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 18:30:14 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 20:58:23 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,29 +195,17 @@ char	*free_da_str(char *str)
 
 int	check_dq(char *str)
 {
-	int i;
-	int tmp;
+	(void)str;
+	// int i;
+	// int tmp;
 
-	i = 0;
-	tmp = 0;
-	// still to fix;
-	while (str[i])
-	{
-		if (str[i] == '\"' || str[i] == '\'')
-		{
-			tmp = str[i];
-			i++;
-			break;
-		}
-		i++;
-	}
-	if (tmp)
-	{
-		while (str[i] != tmp && str[i])
-			i++;
-		if (!str[i])
-			return (printf("Unclosed quotes!\n"));
-	}
+	// i = 0;
+	// tmp = 0;
+	// // still to fix;
+	// while (str[i])
+	// {
+	// 	if (str[i] == '\'')
+	// }
 	return (0);
 }
 

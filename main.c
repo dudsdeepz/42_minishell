@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 18:28:25 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:49:03 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int	main(int ac, char **av, char **env)
 			if (!cwd)
 				return (0);
 			if (ft_strlen(cwd) > 0)
+			{
+				add_history(cwd);
 				shell(cwd);
-			else
-				free(cwd);
+			}
+			// free(cwd);
 		}
 	}
-	free(cwd);
 	return (0);
 }
 
@@ -54,7 +55,6 @@ void shell(char *cwd)
 	t_tokens *tokens;
 	
 	tokens = NULL;
-	add_history(cwd);
 	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (cwd)
 		if (parsing(cwd))

@@ -6,27 +6,27 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/15 16:54:54 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:25:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_echo(char **av)
+void	_ft_echo(t_tokens **token)
 {
 	int	i;
 
 	i = 0;
-	if (av[i + 1])
+	if ((*token)->token[i + 1])
 	{
-		if (!ft_strncmp(av[i + 1], "-n", 2))
-			n_case(av);
+		if (!ft_strncmp((*token)->token[i + 1], "-n", 2))
+			n_case((*token)->token);
 		else
 		{
-			while (av[++i])
+			while ((*token)->token[++i])
 			{				
-				ft_putstr_fd(av[i], STDIN_FILENO);
-				if (av[i + 1])
+				ft_putstr_fd((*token)->token[i], STDIN_FILENO);
+				if ((*token)->token[i + 1])
 					ft_putstr_fd(" ", STDIN_FILENO);
 			}
 			ft_putstr_fd("\n", STDIN_FILENO);

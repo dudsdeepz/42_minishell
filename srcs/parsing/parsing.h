@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 16:27:33 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:31:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ typedef struct s_redirect
 
 typedef struct s_tokens
 {	
+	void	(*_exec_cmd)(struct s_tokens **tokens);
 	int		token_size;
-	const char	*sign;
+	char	*sign;
 	int		is_file;
 	char	**token;
 	int		fd[2];
@@ -59,20 +60,19 @@ typedef struct s_parser
 }	t_parser;
 
 char	*get_prompt(char *av, char *newav);
-int		exec_cmds(char **linei);
 int		parsing(char *av);
 int 	parse_tokens(char *av, char *newav, int *j, int *i);
 int		parse_tokens2(char **av, int *i);
 void	print_dp(char **str);
 int		tokens_num(char **cwd);
-int		options(t_tokens *token);
+int		options(char *str);
 void	one_command(t_tokens *token);
-void 	init_lists(char **av, t_tokens **tokens);
+int 	init_lists(char **av, t_tokens **tokens);
 int		check_built(char **linei);
 void	get_tokens_size(char **splited, t_tokens **tokens);
 void	alocate_tokens(t_tokens **tokens);
 int		is_sign(char *sign);
-void	separeites_tokens(t_tokens **tokens, char **splited);
+int		separeites_tokens(t_tokens **tokens, char **splited);
 int		full_check_dq(char **splited);
 
 #endif

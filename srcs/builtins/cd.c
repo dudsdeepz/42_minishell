@@ -6,37 +6,37 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/10 09:42:58 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:36:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_cd(char **av)
+void	_ft_cd(t_tokens **token)
 {
-	char *token;
+	char *oldpwd;
 	char *tmp;
 
 	tmp = getcwd(NULL, 0);
-	if (av[1])
+	if ((*token)->token[1])
 	{		
-		if (access(av[1], F_OK == -1))
-			printf("cd: file or directory: %s\n", av[1]);
+		if (access((*token)->token[1], F_OK == -1))
+			printf("cd: file or directory: %s\n", (*token)->token[1]);
 		else
 		{
 			parser()->envp = send_to_env(tmp, parser()->envp, "OLDPWD");
-			token = oldpwd_aux("OLDPWD");
-			parser()->export_env = send_to_exportenv(token, parser()->envp);
-			free (token);
-			chdir(av[1]);
+			oldpwd = oldpwd_aux("OLDPWD");
+			parser()->export_env = send_to_exportenv(oldpwd, parser()->envp);
+			free (oldpwd);
+			chdir((*token)->token[1]);
 		}
 	}
 	else
 	{
 		parser()->envp = send_to_env(tmp, parser()->envp, "OLDPWD");
-		token = oldpwd_aux("OLDPWD");
-		parser()->export_env = send_to_exportenv(token, parser()->envp);
-		free (token);
+		oldpwd = oldpwd_aux("OLDPWD");
+		parser()->export_env = send_to_exportenv(oldpwd, parser()->envp);
+		free (oldpwd);
 		chdir(getenv("HOME"));	
 	}
 	free(tmp);

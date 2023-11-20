@@ -6,17 +6,17 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/20 16:53:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 20:45:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int redirections(t_tokens *tokens)
+int redirections(t_tokens *tokens, char *str)
 {
 	int op;
 	
-	op = options(tokens);
+	op = options(str);
 	if ((tokens->fd_master[0] != -1 && tokens->fd_master[1] != -1) || op == 1)
 	{
 		if (tokens->fd_master[0] > 2 && (op == 1 || op == 3))
@@ -35,21 +35,23 @@ int redirections(t_tokens *tokens)
 			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (op)
 			tokens->next->is_file = 1;
-		// invalid_fds(tokens);
+		invalid_fds(tokens);
 	}
+	if (str)
+		free(str);
 	return (1);
 }
 
 
-int	options(t_tokens *token)
+int	options(char *str)
 {
-	if (!ft_strncmp(token->sign, "<<", 2))
+	if (!ft_strncmp(str, "<<", 2))
 		return (1);
-	if (!ft_strncmp(token->sign, ">>", 2))
+	if (!ft_strncmp(str, ">>", 2))
 		return (2);
-	if (!ft_strncmp(token->sign, "<", 1))
+	if (!ft_strncmp(str, "<", 1))
 		return (3);
-	if (!ft_strncmp(token->sign, ">", 1))
+	if (!ft_strncmp(str, ">", 1))
 		return (4);
 	return (0);
 }
@@ -59,11 +61,13 @@ void	invalid_fds(t_tokens *token)
 	if (token->fd_master[0] == -1)
 	{
 		perror("");
+		parser()->exit_status = 1;
 		token->master_error[0] = 1;
 	}
 	if (token->fd_master[1] == -1)
 	{
 		perror("");
+		parser()->exit_status = 1;
 		token->master_error[1] = 1;
 	}
 }

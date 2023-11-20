@@ -6,26 +6,26 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 18:24:38 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:25:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	ft_exit(char **linei)
+void	_ft_exit(t_tokens **token)
 {
-	if (linei[1])
+	if ((*token)->token[1])
 	{
-		if (check_exit_str(linei[1]))
+		if (check_exit_str((*token)->token[1]))
 		{
 			free_envs();
-			printf("exit\nexit: %s: numeric argument required.\n", linei[1]);
+			printf("exit\nexit: %s: numeric argument required.\n", (*token)->token[1]);
 			exit(2) ;
 		}
 		else
 		{
 			free_envs();
-			exit(ft_atoi(linei[1]));
+			exit(ft_atoi((*token)->token[1]));
 		}
 	}
 	else

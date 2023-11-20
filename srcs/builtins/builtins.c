@@ -6,30 +6,30 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 20:45:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:43:15 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	print_pwd(char *av)
+void	_ft_pwd(t_tokens **token)
 {
 	char	*cwd;
 
-	//done, need to remove av
-	(void)av;
+	(void)token;
 	cwd = getcwd(NULL, 0);
 	printf("%s\n", cwd);
 	free(cwd);
-	return (0);
 }
 
-void	display_env(char **env)
+void	_ft_env(t_tokens **token)
 {
-	//done
+	char **env;
 	int	i;
 
 	i = 0;
+	(void)token;
+	env = parser()->envp;
 	while (env[i])
 	{
 		printf("%s\n",env[i]);
@@ -56,36 +56,24 @@ void	free_matrix(char **mtx)
 }
 
 
-int	exec_cmds(char **linei)
+void	ft_cmds(t_tokens *token)
 {
-	if (linei[0] && !ft_strncmp(linei[0], "pwd", 4))
-		print_pwd(*linei);
-	else if (linei[0] && !ft_strncmp(linei[0], "env", 4) && !linei[1])
-		display_env(parser()->envp);
-	else if (linei[0] && !ft_strncmp(linei[0], "echo", 5))
-		ft_echo(linei);
-	else if (linei[0] && !ft_strncmp(linei[0], "exit", 5))
-		ft_exit(linei);
-		else if (linei[0] && !ft_strncmp(linei[0], "cd", 3))
-		ft_cd(linei);
-	else if (linei[0] && !ft_strncmp(linei[0], "export", 7))
-		ft_export(linei);
-	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
-		ft_unset(linei);
+	if (!ft_strcmp(token->token[0], "pwd"))
+		token->_exec_cmd = _ft_pwd;
+	else if (!ft_strcmp(token->token[0], "cd"))
+		token->_exec_cmd = _ft_cd;
+	else if (!ft_strcmp(token->token[0], "echo"))
+		token->_exec_cmd = _ft_echo;
+	else if (!ft_strcmp(token->token[0], "env"))
+		token->_exec_cmd = _ft_env;
+	else if (!ft_strcmp(token->token[0], "exit"))
+		token->_exec_cmd = _ft_exit;
+	else if (!ft_strcmp(token->token[0], "export"))
+		token->_exec_cmd = _ft_export;
+	else if (!ft_strcmp(token->token[0], "unset"))
+		token->_exec_cmd = _ft_unset;
 	else
-		return (0);
-	return (1);
-}
-
-void	ft_exec(char **token)
-{
-	char *path;
-	
-	path = NULL;
-	if (!check_built(token))
-		path = get_path(*token, parser()->envp);
-	if (path)
-		execve(path, token, parser()->envp);
+		token->_exec_cmd = _ft_exec_cmd;
 }
 
 int	check_built(char **linei)
@@ -105,4 +93,14 @@ int	check_built(char **linei)
 	else if (linei[0] && !ft_strncmp(linei[0], "unset", 6))
 		return (1);
 	return (0);
+}
+
+void _ft_exec_cmd(t_tokens **token)
+{
+	close_fds(token, 1);
+	execve((*token)->path, (*token)->token, parser()->envp) ;
+	close(0);
+	close(1);
+	go_head(token);
+	exit(parser()->exit_status);
 }

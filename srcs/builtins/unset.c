@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/15 19:34:26 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:27:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,30 @@ char **new_env_unset(char *token, char **env)
 	return (new);
 }
 
-void	ft_unset(char **av)
+void	_ft_unset(t_tokens **token)
 {
 	int i;
 	char **tmp;
 
 	i = 0;
 	tmp = NULL;
-	if (av[1])
+	if ((*token)->token[1])
 	{
-		while (av[++i])
+		while ((*token)->token[++i])
 		{
-			if (check_export_str(av[i]))
+			if (check_export_str((*token)->token[i]))
 			{
-				printf("invalid unset string: %s\n", av[i]);
+				printf("invalid unset string: %s\n", (*token)->token[i]);
 				continue ;
 			}
-			if (!difs(av[i], '='))
+			if (!difs((*token)->token[i], '='))
 			{
-				tmp = ft_split(av[i], '=');
+				tmp = ft_split((*token)->token[i], '=');
 				unset_uti(tmp[0]);
 				free_path(tmp);
 			}
 			else
-				unset_uti(av[i]);
+				unset_uti((*token)->token[i]);
 		}
 	}
 	return ;

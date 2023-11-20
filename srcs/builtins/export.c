@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 16:11:00 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:26:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,29 @@ void    display_export(char **env)
 	return ;
 }
 
-void	ft_export(char **av)
+void	_ft_export(t_tokens **token)
 {
 	int i;
 	char **tmp;
 
 	i = 0;
-	if (av[1])
+	if ((*token)->token[1])
 	{
-		while (av[++i])
+		while ((*token)->token[++i])
 		{
-			if (check_export_str(av[i]))
+			if (check_export_str((*token)->token[i]))
 			{
-				printf("invalid export string: %s\n", av[i]);
+				printf("invalid export string: %s\n", (*token)->token[i]);
 				continue ;
 			}
-			if (!difs(av[i], '='))
+			if (!difs((*token)->token[i], '='))
 			{
-				tmp = ft_split(av[i], '=');
+				tmp = ft_split((*token)->token[i], '=');
 				export_util(tmp[0], tmp);
 				free_matrix(tmp);
 			}
 			else
-				parser()->export_env = send_to_exportenv(av[i], parser()->export_env);
+				parser()->export_env = send_to_exportenv((*token)->token[i], parser()->export_env);
 		}
 	}
 	else

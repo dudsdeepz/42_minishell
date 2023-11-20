@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 18:21:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:33:40 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ char		*ft_strcat(char *dest, char *src);
 size_t		ft_strcspn(const char *s, const char *reject);
 char		**get_signs(char *token);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
-void		ft_exit(char **linei);
 void		free_envs(void);
 int         ft_heredoc(char *a);
 void 		free_tokens(t_tokens *token);
+void	    list_vars(t_tokens **tokens);
+int	        ft_strcmp(char *s1, char *s2);
 
 #endif

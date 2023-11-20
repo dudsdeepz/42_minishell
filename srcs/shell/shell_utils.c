@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 18:34:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/20 22:14:55 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,15 @@ int	freedy_fazbear(char *av, t_tokens *tokens)
 		fix executor(pipes & redirections)
 	*/
 	splited = NULL;
-	if (av)
+	if (ft_strlen(av) > 0)
+	{
 		splited = ft_split(av, '\2');
-	if (full_check_dq(splited))
-		return (1);
-	tokens = (t_tokens *)malloc(sizeof(t_tokens *));
-	init_lists(splited, &tokens);
-	get_tokens_size(splited, &tokens);
-	alocate_tokens(&tokens);
-	separeites_tokens(&tokens, splited);
-	create_pipes(&tokens);
-	executor(tokens);
-	free_matrix(splited);
-	go_head(&tokens);
-	free_tokens(tokens);
-	free(av);
+		tokens = (t_tokens *)malloc(sizeof(t_tokens *));
+		init_lists(splited, &tokens);
+		executor(tokens);
+	}
+	else
+		parser()->exit_status = 0;
 	return (0);
 }
 
@@ -81,7 +75,7 @@ void free_tokens(t_tokens *token)
 	free(token);
 }
 
-void init_lists(char **av, t_tokens **tokens)
+int init_lists(char **av, t_tokens **tokens)
 {
 	int count;
 
@@ -90,7 +84,10 @@ void init_lists(char **av, t_tokens **tokens)
 	(*tokens)->prev = NULL;
 	while (count--)
 	{
+		(*tokens)->fd_master[0] = 0;
+		(*tokens)->fd_master[1] = 1;
 		(*tokens)->token_size = 1;
+		pipe((*tokens)->fd);
 		(*tokens)->is_file = 0;
 		(*tokens)->sign = NULL;
 		(*tokens)->next = (t_tokens *)malloc(sizeof(t_tokens));
@@ -98,6 +95,9 @@ void init_lists(char **av, t_tokens **tokens)
 		(*tokens) = (*tokens)->next;
 	}
 	(*tokens)->next = NULL;
+	get_tokens_size(av, tokens);
+	separeites_tokens(tokens, av);
+	return (0);
 }
 
 void	go_head(t_tokens **lst)
@@ -131,6 +131,7 @@ void	get_tokens_size(char **splited, t_tokens **tokens)
 		(*tokens)->token_size++;
 		i++;
 	}
+	alocate_tokens(tokens);
 }
 
 void	alocate_tokens(t_tokens **tokens)
@@ -158,7 +159,7 @@ int	is_sign(char *sign)
 	return (0);
 }
 
-void	separeites_tokens(t_tokens **tokens, char **splited)
+int	separeites_tokens(t_tokens **tokens, char **splited)
 {
 	int i;
 	int j;
@@ -190,4 +191,18 @@ void	separeites_tokens(t_tokens **tokens, char **splited)
 			(*tokens) = (*tokens)->next;
 		}
 	}
+	go_head(tokens);
+	while ((*tokens)->next)
+	{
+		if ((*tokens)->sign)
+			redirections((*tokens), (*tokens)->sign);
+		(*tokens) = (*tokens)->next;
+	}
+	return (0);
 }
+
+
+// void	list_vars(t_tokens *tokens)
+// {
+
+// }
