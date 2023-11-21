@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 21:49:03 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:28:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,12 @@ int	list_size(char **list)
 
 void shell(char *cwd)
 {
-	t_tokens *tokens;
-	
-	tokens = NULL;
 	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (cwd)
 		if (parsing(cwd))
-			freedy_fazbear(cwd, tokens);
+			shell_output(cwd);
+	if (cwd)
+		free(cwd);
 }
 
 int	ft_heredoc(char *a)

@@ -5,10 +5,10 @@
 # define REDIR_COMAND 1
 # define PIPE_COMMAND 2
 
-void	executor(t_tokens *tokens);
+void	executor(t_tokens **tokens);
 void	p_heredoc(char *line);
 int 	pipes(int tkid);
-int 	redirections(t_tokens *tokens, char *str);
+int 	redirections(char **splited, int *i, t_tokens *tokens);
 void 	close_fds(t_tokens **tokens, int all);
 void	create_pipes(t_tokens **tokens);
 void	kawasaki(t_tokens *tokens);

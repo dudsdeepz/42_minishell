@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 21:31:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:34:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,11 @@ typedef struct s_tokens
 {	
 	void	(*_exec_cmd)(struct s_tokens **tokens);
 	int		token_size;
-	char	*sign;
-	int		is_file;
 	char	**token;
 	int		fd[2];
 	int		master_error[2];
 	int		fd_master[2];
-	int		token_fork;
-	int		file;
 	char	*path;
-	int		op;
-	pid_t	proc;
 	struct s_tokens *prev;
 	struct s_tokens *next;
 }			t_tokens ;
@@ -67,7 +61,7 @@ void	print_dp(char **str);
 int		tokens_num(char **cwd);
 int		options(char *str);
 void	one_command(t_tokens *token);
-int 	init_lists(char **av, t_tokens **tokens);
+t_tokens *init_lists(char **av, t_tokens *token);
 int		check_built(char **linei);
 void	get_tokens_size(char **splited, t_tokens **tokens);
 void	alocate_tokens(t_tokens **tokens);

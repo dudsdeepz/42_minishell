@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 21:33:40 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:31:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_parser	*parser(void);
 char		*ft_strremove(char *substr) ;
 char		**dup_matrix(char **src);
 void		free_matrix(char **mtx);
-int			freedy_fazbear(char *av, t_tokens *tokens);
+int			shell_output(char *av);
 char		*get_path(char *command, char **env);
 void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
@@ -66,5 +66,9 @@ int         ft_heredoc(char *a);
 void 		free_tokens(t_tokens *token);
 void	    list_vars(t_tokens **tokens);
 int	        ft_strcmp(char *s1, char *s2);
+t_tokens	*ft_lstlasttoken(t_tokens *lst);
+void		ft_lstadd_token(t_tokens **lst, t_tokens *new);
+t_tokens	*ft_lstnewtoken(int token_size);
+int 		token_size(char **splited, int i);
 
 #endif

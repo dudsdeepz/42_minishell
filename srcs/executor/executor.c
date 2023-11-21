@@ -6,37 +6,38 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/20 22:14:38 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 14:37:49 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	executor(t_tokens *tokens)
+void	executor(t_tokens **tokens)
 {
 	int status;
 	pid_t i;
 
-	kawasaki(tokens);
-	go_head(&tokens);
-	while (tokens->next)
+	kawasaki((*tokens));
+	go_head(tokens);
+	while (tokens)
 	{
-		if (tokens->token[0])
+		if ((*tokens)->token[0])
 		{
 			i =	waitpid(-1, &status, 0);
 			if (i == -1 && WIFEXITED(status))
 				parser()->exit_status = WIFEXITED(status);
 		}
-		if (!tokens->next)
+		if (!(*tokens)->next)
 			break ;
-		tokens = tokens->next;
+		(*tokens) = (*tokens)->next;
+		// free(tokens->prev);
 	}
 
 }
 
 void kricko(t_tokens *tokens)
 {
-	if (check_built(tokens->token))
+	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1)
 	{
 		tokens->_exec_cmd(&tokens);
 		return ;
@@ -61,14 +62,15 @@ void kricko(t_tokens *tokens)
 void	kawasaki(t_tokens *tokens)
 {
 	go_head(&tokens);
-	while (tokens->next)
+	while (tokens)
 	{
-		if (tokens->token[0] && !tokens->is_file)
+		if (tokens->token[0])
 		{
-			tokens->path = ft_path(tokens->token);
+			ft_path(tokens->token, tokens);
 			ft_cmds(tokens);
 			kricko(tokens);
 		}
+		// free_matrix(tokens->token);
 		if (!tokens->next)
 			break;
 		tokens = tokens->next;
@@ -98,11 +100,23 @@ void close_fds(t_tokens **tokens, int all)
 }
 
 
-char	*ft_path(char **tokens)
+void ft_path(char **tokens, t_tokens *token)
 {	
+	char *tmp;
+
 	if (!check_built(tokens))
-		return (ft_strdup(get_path(tokens[0], parser()->envp)));
-	return (0);
+	{
+		tmp = get_path(tokens[0], parser()->envp);
+		if (ft_strlen(tmp) > 1)
+		{
+			token->path = ft_strdup(tmp);
+			free(tmp);
+		}
+		else
+			token->path = NULL;
+		return ;
+	}
+	return ;
 }
 
 
