@@ -6,17 +6,17 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/21 14:39:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 20:27:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int redirections(char **splited, int *i, t_tokens *tokens)
+int redirections(char **str, int i, t_tokens *tokens)
 {
 	int op;
 	
-	op = options(splited[(*i)]);
+	op = options(str[i]);
 	if ((tokens->fd_master[0] != -1 && tokens->fd_master[1] != -1) || op == 1)
 	{
 		if (tokens->fd_master[0] > 2 && (op == 1 || op == 3))
@@ -24,20 +24,20 @@ int redirections(char **splited, int *i, t_tokens *tokens)
 		if (tokens->fd_master[1] > 2 && (op == 2 || op == 4))
 			close(tokens->fd_master[1]);
 		if (op == 2)
-			tokens->fd_master[1] = open(splited[(*i) + 1], \
+			tokens->fd_master[1] = open(str[i + 1], \
 			O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else if (op == 1)
-			tokens->fd_master[0] = ft_heredoc(splited[(*i) + 1]);
+			tokens->fd_master[0] = ft_heredoc(str[i + 1]);
 		else if (op == 3)
-			tokens->fd_master[0] = open(splited[(*i) + 1], O_RDONLY, 0644);
+			tokens->fd_master[0] = open(str[i + 1], O_RDONLY, 0644);
 		else if (op == 4)
-			tokens->fd_master[1] = open(splited[(*i) + 1], \
+			tokens->fd_master[1] = open(str[i + 1], \
 			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		invalid_fds(tokens);
 	}
 	// if (str)
 	// 	free(str);
-	return (1);
+	return (i);
 }
 
 

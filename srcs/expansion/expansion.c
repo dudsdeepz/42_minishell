@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 20:58:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:42:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char *check_expansion(char *token, int tmp)
 	}
 	if (!ft_strncmp(token, "\"", 1) || !ft_strncmp(token, "\'", 1))
 		token = quote_killa(token);
-	return (ft_strdup(token));
+	return (token);
 }
 
 char *get_expansion(char *token, int *i)
@@ -195,17 +195,25 @@ char	*free_da_str(char *str)
 
 int	check_dq(char *str)
 {
-	(void)str;
-	// int i;
-	// int tmp;
+	int i;
+	int tmp;
 
-	// i = 0;
-	// tmp = 0;
-	// // still to fix;
-	// while (str[i])
-	// {
-	// 	if (str[i] == '\'')
-	// }
+	i = 0;
+	tmp = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			tmp = str[i];
+			while (str[i])
+				i++;
+			if (str[i - 1] != tmp)
+				return (1);
+			else
+				break ;
+		}
+		i++;
+	}
 	return (0);
 }
 
@@ -217,7 +225,7 @@ int	full_check_dq(char **splited)
 	while (splited[j])
 	{
 		if (check_dq(splited[j]))
-			return (1);
+			return (printf("Unclose quotes !\n"));
 		j++;
 	}
 	return (0);

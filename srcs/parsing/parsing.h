@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 15:34:20 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:43:41 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	print_dp(char **str);
 int		tokens_num(char **cwd);
 int		options(char *str);
 void	one_command(t_tokens *token);
-t_tokens *init_lists(char **av, t_tokens *token);
+t_tokens *init_lists(char **av, t_tokens *tokens);
 int		check_built(char **linei);
 void	get_tokens_size(char **splited, t_tokens **tokens);
 void	alocate_tokens(t_tokens **tokens);
 int		is_sign(char *sign);
-int		separeites_tokens(t_tokens **tokens, char **splited);
+t_tokens *separeites_tokens(t_tokens **tokens, char **splited);
 int		full_check_dq(char **splited);
 
 #endif

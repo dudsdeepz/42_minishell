@@ -8,7 +8,7 @@
 void	executor(t_tokens **tokens);
 void	p_heredoc(char *line);
 int 	pipes(int tkid);
-int 	redirections(char **splited, int *i, t_tokens *tokens);
+int 	redirections(char **str, int i, t_tokens *tokens);
 void 	close_fds(t_tokens **tokens, int all);
 void	create_pipes(t_tokens **tokens);
 void	kawasaki(t_tokens *tokens);

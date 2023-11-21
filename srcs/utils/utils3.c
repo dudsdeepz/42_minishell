@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 15:42:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:52:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,14 +144,9 @@ void	ft_lstadd_token(t_tokens **lst, t_tokens *new)
 	}
 }
 
-t_tokens	*ft_lstnewtoken(int token_size)
+t_tokens	*ft_lstnewtoken(int token_size, t_tokens *new)
 {
-	t_tokens	*new;
-
-	new = (t_tokens *)malloc(sizeof(*new));
-	if (!new)
-		return (NULL);
-	new->token = malloc(sizeof(char *) * token_size);
+	new->token = malloc(sizeof(char *) * token_size + 1);
 	pipe(new->fd);
 	new->fd_master[0] = 0;
 	new->fd_master[1] = 1;

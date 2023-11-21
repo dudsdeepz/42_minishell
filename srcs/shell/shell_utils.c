@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 15:46:46 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:41:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ int	shell_output(char *av)
 {
 	char 	**splited;
 	t_tokens *token;
+
 	splited = NULL;
+	token = NULL;
 	if (ft_strlen(av) > 0)
 	{
 		splited = ft_split(av, '\2');
-		token = ft_lstnewtoken(token_size(splited, 0));
+		if (full_check_dq(splited))
+			return (0);
 		token = init_lists(splited, token);
-		// executor(token);
-		// if (splited[0] && splited)
-		// 	free_matrix(splited);
+		executor(&token);
+		if (splited[0] && splited)
+			free_matrix(splited);
+		free_tokens(&token);
 	}
 	else
 		parser()->exit_status = 0;
@@ -36,13 +40,12 @@ int	tokens_num(char **cwd)
 	int i;
 	int count;
 
-	i = 0;
+	i = -1;
 	count = 0;
-	while (cwd[i])
+	while (cwd[++i])
 	{
-		if (is_sign(cwd[i]) || !cwd[i + 1])
-			
-		i++;
+		if (cwd[i][0] == '|' || !cwd[i + 1])
+			count++;
 	}
 	return (count);
 }
@@ -59,33 +62,27 @@ void	print_dp(char **str)
 	}
 }
 
-t_tokens *init_lists(char **av, t_tokens *token)
+t_tokens *init_lists(char **av, t_tokens *tokens)
 {
-	int i;
-	int j;
-	char **tmp;
+	int count;
 
-	j = 0;	
-	i = -1;
-	tmp = NULL;
-	while (av && av[++i])
+	count = tokens_num(av);
+	tokens = malloc(sizeof(t_tokens));
+	tokens->prev = NULL;
+	while (count--)
 	{
-		if (av[i][0] == '|' || !av[i + 1])
-		{
-			ft_lstadd_token(&token, ft_lstnewtoken(j));
-			token->token = dup_matrix(tmp);
-			print_dp(token->token);	
-			free_matrix(tmp);
-			if (token->next)
-				token = token->next;
-			j = 0;
-		}
-		else if (options(av[i]))
-			redirections(av, &i, token);
-		else
-			tmp[j++] = ft_strdup(check_expansion(av[i], 0));
+		tokens->fd_master[0] = 0;
+		tokens->fd_master[1] = 1;
+		tokens->token_size = 1;
+		pipe(tokens->fd);
+		tokens->next =	malloc(sizeof(t_tokens));
+		tokens->next->prev = tokens;
+		tokens = tokens->next;
 	}
-	return (0);
+	tokens->next = NULL;
+	get_tokens_size(av, &tokens);
+	separeites_tokens(&tokens, av);
+	return (tokens);
 }
 
 int	is_sign(char *sign)
@@ -103,40 +100,52 @@ int	is_sign(char *sign)
 	return (0);
 }
 
-int	separeites_tokens(t_tokens **tokens, char **splited)
+t_tokens *separeites_tokens(t_tokens **tokens, char **splited)
 {
 	int i;
 	int j;
-	int exp_tmp;
 
 	i = -1;
 	j = 0;
-	exp_tmp = 0;
 	go_head(tokens);
-	while (splited[++i])
+	while (splited && splited[++i])
 	{
-		if (!is_sign(splited[i]) && splited[i])
-		{
-			(*tokens)->token[j++] = check_expansion(splited[i], exp_tmp);
-			if (!splited[i + 1])
-				(*tokens)->token[j] = 0;
-		}
-		else
+		if (splited[i][0] == '|')
 		{
 			(*tokens)->token[j] = 0;
+			if ((*tokens)->next)
+				(*tokens) = (*tokens)->next;
 			j = 0;
-			(*tokens) = (*tokens)->next;
 		}
+		else if (options(splited[i]))
+		{
+			redirections(splited, i, (*tokens));
+			i++;
+		}
+		else
+			(*tokens)->token[j++] = ft_strdup(check_expansion(splited[i], 0));
 	}
-	return (0);
+	(*tokens)->token[j++] = 0;
+	return ((*tokens));
 }
 
+void	get_tokens_size(char **splited, t_tokens **tokens)
+{
+	int i;
 
-// void	list_vars(t_tokens *tokens)
-// {
-
-// }
-
+	i = -1;
+	go_head(tokens);
+	while (splited[++i] && splited)
+	{
+		if (splited[i][0] == '|')
+			(*tokens) = (*tokens)->next;
+		else if (options(splited[i]))
+			i++;
+		else			
+			(*tokens)->token_size++;
+	}
+	alloc_tokens(tokens);
+}
 
 
 int token_size(char **splited, int i)
@@ -144,4 +153,32 @@ int token_size(char **splited, int i)
 	while (splited[i] && splited[i][0] != '|')
 		i++;
 	return (1);
+}
+
+void	alloc_tokens(t_tokens **tokens)
+{
+	go_head(tokens);
+	while ((*tokens)->next)
+	{
+		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size);
+		(*tokens) = (*tokens)->next;
+	}
+}
+
+
+void	free_tokens(t_tokens **tokens)
+{
+	while ((*tokens)->next)
+	{
+		if (ft_strlen((*tokens)->path) > 2)
+			free((*tokens)->path);
+		if ((*tokens)->token)
+			free_matrix((*tokens)->token);
+		if ((*tokens)->next)
+		{
+			(*tokens) = (*tokens)->next;
+			free((*tokens)->prev);
+		}
+	}
+	free((*tokens));
 }

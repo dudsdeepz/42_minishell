@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/21 14:37:49 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/21 22:10:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	executor(t_tokens **tokens)
 
 	kawasaki((*tokens));
 	go_head(tokens);
-	while (tokens)
+	while ((*tokens)->next)
 	{
 		if ((*tokens)->token[0])
 		{
@@ -30,7 +30,6 @@ void	executor(t_tokens **tokens)
 		if (!(*tokens)->next)
 			break ;
 		(*tokens) = (*tokens)->next;
-		// free(tokens->prev);
 	}
 
 }
@@ -61,8 +60,7 @@ void kricko(t_tokens *tokens)
 
 void	kawasaki(t_tokens *tokens)
 {
-	go_head(&tokens);
-	while (tokens)
+	while (tokens->next)
 	{
 		if (tokens->token[0])
 		{
