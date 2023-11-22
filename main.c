@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 22:57:34 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 23:09:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	ft_heredoc(char *a)
 
 void	hd_loop(char *str, int *fd)
 {
-	char	*res;
 	char	*in;
 
 	in = NULL;
@@ -91,19 +90,16 @@ void	hd_loop(char *str, int *fd)
 	{
 		write(0, ">", 1);
 		in = get_next_line(0);
+		in = check_expansion(in, 0);
 		if (!in && heredoc_error(str))
 			break ;
-		res = ft_strjoin(in, "\n");
-		// free(in);
-		if (res)
-		{
-			if (!ft_strlen(res) || !ft_strncmp(res, str, ft_strlen(str)))
-				break ;
-			free(res);
-		}
+		if ((ft_strncmp(in, str, ft_strlen(str)) == 0) && \
+			(ft_strlen(in) - 1 == ft_strlen(str)))
+			break ;
+		write(fd[1], in, ft_strlen(in));
+		free(in);
+		in = NULL;
 	}
-	if (res)
-		free(res);
 	close(fd[1]);
 	close(fd[0]);
 	exit(0);
