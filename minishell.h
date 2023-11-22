@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 22:37:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:06:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,23 @@
 # define SHELL_ERROR 0
 
 void		init_shell(void);
-int			ft_strcpy(char *dst, char *src);
 void		handle_signals(int sig);
 char		*ft_putstr(char *str, char *color);
 char		*get_shell_prompt(char *username, char *pc_name);
 void		sig_actions(void);
 t_parser	*parser(void);
-char		*ft_strremove(char *substr) ;
 char		**dup_matrix(char **src);
 void		free_matrix(char **mtx);
 int			shell_output(char *av);
 char		*get_path(char *command, char **env);
-void		free_path(char **list);
 char		*triple_strjoin(char *s1, char *s2, char *s3);
 int			list_size(char **list);
 void		shell(char *cwd);
-void		free_heredoc(char *heredoc_content);
-char		*ft_strcat(char *dest, char *src);
-size_t		ft_strcspn(const char *s, const char *reject);
-char		**get_signs(char *token);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
 void		free_envs(void);
 int         ft_heredoc(char *a);
 void		free_tokens(t_tokens **tokens);
-void	    list_vars(t_tokens **tokens);
 int	        ft_strcmp(char *s1, char *s2);
-t_tokens	*ft_lstlasttoken(t_tokens *lst);
-void		ft_lstadd_token(t_tokens **lst, t_tokens *new);
-t_tokens	*ft_lstnewtoken(int token_size, t_tokens *new);
-int 		token_size(char **splited, int i);
 void		alloc_tokens(t_tokens **tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 22:41:59 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:50:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	shell_output(char *av)
 		executor(&token);
 		if (splited[0] && splited)
 			free_matrix(splited);
-		free_tokens(&token);
+		// free_tokens(&token);
 	}
 	else
 		parser()->exit_status = 0;
@@ -71,10 +71,10 @@ t_tokens *init_lists(char **av, t_tokens *tokens)
 	tokens->prev = NULL;
 	while (count--)
 	{
-		tokens->fd_master[0] = 0;
-		tokens->fd_master[1] = 1;
+		tokens->fd_redir[0] = 0;
+		tokens->fd_redir[1] = 1;
 		tokens->token_size = 1;
-		pipe(tokens->fd);
+		tokens->path = NULL;
 		tokens->next =	malloc(sizeof(t_tokens));
 		tokens->next->prev = tokens;
 		tokens = tokens->next;
@@ -112,7 +112,7 @@ t_tokens *separeites_tokens(t_tokens **tokens, char **splited)
 	{
 		if (splited[i][0] == '|')
 		{
-			(*tokens)->token[j] = 0;
+			(*tokens)->token[j++] = 0;
 			if ((*tokens)->next)
 				(*tokens) = (*tokens)->next;
 			j = 0;
@@ -147,20 +147,13 @@ void	get_tokens_size(char **splited, t_tokens **tokens)
 	alloc_tokens(tokens);
 }
 
-
-int token_size(char **splited, int i)
-{
-	while (splited[i] && splited[i][0] != '|')
-		i++;
-	return (1);
-}
-
 void	alloc_tokens(t_tokens **tokens)
 {
 	go_head(tokens);
 	while ((*tokens)->next)
 	{
 		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size);
+		pipe((*tokens)->fd);
 		(*tokens) = (*tokens)->next;
 	}
 }
@@ -168,17 +161,13 @@ void	alloc_tokens(t_tokens **tokens)
 
 void	free_tokens(t_tokens **tokens)
 {
-	while ((*tokens)->next)
+	while ((*tokens)->prev)
 	{
-		if (ft_strlen((*tokens)->path) > 2)
-			free((*tokens)->path);
-		if ((*tokens)->token)
-			free_matrix((*tokens)->token);
-		if ((*tokens)->next)
-		{
-			(*tokens) = (*tokens)->next;
-			free((*tokens)->prev);
-		}
+		// free_matrix((*tokens)->token);
+		free((*tokens)->next);
+		(*tokens) = (*tokens)->prev;		
 	}
+	// free((*tokens)->path);
+	free_matrix((*tokens)->token);
 	free((*tokens));
 }

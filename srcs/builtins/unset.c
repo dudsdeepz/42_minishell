@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 21:27:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:05:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	_ft_unset(t_tokens **token)
 			{
 				tmp = ft_split((*token)->token[i], '=');
 				unset_uti(tmp[0]);
-				free_path(tmp);
+				free_matrix(tmp);
 			}
 			else
 				unset_uti((*token)->token[i]);

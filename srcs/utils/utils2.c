@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/15 18:50:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:04:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,49 +49,4 @@ char	*ft_subtokens(const char *s, unsigned int start, size_t len)
 		i[b++] = s[start++];
 	i[b] = '\0';
 	return (i);
-}
-
-size_t  ft_strcspn(const char *s, const char *reject)
-{
-	size_t	i;
-	size_t	k;
-
-	i = 0;
-	k = 0;
-	while (s[i] != '\0')
-	{
-		while (reject[k] != '\0')
-		{
-			if (reject[k] == s[i])
-				return (i);
-			k++;
-		}
-		k = 0;
-		i++;
-	}
-	return (i);
-}
-
-void free_heredoc(char *heredoc_content)
-{
-	if (heredoc_content != NULL)
-		free(heredoc_content);
-}
-
-char *ft_strcat(char *dest, char *src)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (dest[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0')
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
 }

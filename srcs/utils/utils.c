@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 13:11:16 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:06:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,6 @@ t_parser	*parser(void)
 	return (&parser);
 }
 
-char *ft_strremove(char *substr) 
-{
-    size_t i;
-
-	i = 0;
-	while (substr[i] != 0)
-	{
-		i++;
-		substr[i - 1] = '\0';
-	}
-	substr[i] -= 1;
-    return (substr);
-}
-
 char	*get_path(char *command, char **env)
 {
 	int		i;
@@ -88,7 +74,7 @@ char	*get_path(char *command, char **env)
 		free(str);
 		str = NULL;
 	}
-	free_path(path);
+	free_matrix(path);
 	if (!str)
 	{
 		free(str);
@@ -101,17 +87,4 @@ char	*get_path(char *command, char **env)
 	free(str);
 	str = NULL;
 	return (tmp);
-}
-
-void	free_path(char **list)
-{
-	int	i;
-
-	if (list)
-	{
-		i = 0;
-		while (list[i])
-			free(list[i++]);
-		free(list);
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/16 15:15:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:15:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ void	init_shell(void)
 		YELLOW, DEFAULT, pc_name);
 	printf("%s===================%s\n", WHITE, DEFAULT);
 }
-
-int	ft_strcpy(char *dst, char *src)
-{
-	int		i;
-	int		srclen;
-
-	srclen = ft_strlen(src);
-	if (!dst || !src)
-		return (0);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (srclen);
-}
-
 void	handle_signals(int sig)
 {
 	if (sig == SIGINT)

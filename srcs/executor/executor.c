@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/21 22:10:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:48:12 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	executor(t_tokens **tokens)
 	int status;
 	pid_t i;
 
+	go_head(tokens);
 	kawasaki((*tokens));
 	go_head(tokens);
+	i = 0;
 	while ((*tokens)->next)
 	{
 		if ((*tokens)->token[0])
@@ -43,14 +45,14 @@ void kricko(t_tokens *tokens)
 	}
 	if (fork() == 0)
 	{
-		if (tokens->next && tokens->fd_master[1] < 3)
+		if (tokens->next && tokens->fd_redir[1] < 3)
 			dup2(tokens->next->fd[1], STDOUT_FILENO);
-		else if (tokens->fd_master[1] > 2)
-			dup2(tokens->fd_master[1], STDOUT_FILENO);
-		if (tokens->prev && tokens->fd_master[0] < 3)
+		else if (tokens->fd_redir[1] > 2)
+			dup2(tokens->fd_redir[1], STDOUT_FILENO);
+		if (tokens->prev && tokens->fd_redir[0] < 3)
 			dup2(tokens->fd[0], STDIN_FILENO);
-		else if (tokens->fd_master[0] > 2)
-			dup2(tokens->fd_master[0], STDIN_FILENO);
+		else if (tokens->fd_redir[0] > 2)
+			dup2(tokens->fd_redir[0], STDIN_FILENO);
 		tokens->_exec_cmd(&tokens);
 		close(0);
 		exit(parser()->exit_status);
@@ -67,6 +69,7 @@ void	kawasaki(t_tokens *tokens)
 			ft_path(tokens->token, tokens);
 			ft_cmds(tokens);
 			kricko(tokens);
+			// free(tokens->path);
 		}
 		// free_matrix(tokens->token);
 		if (!tokens->next)
@@ -86,10 +89,10 @@ void close_fds(t_tokens **tokens, int all)
 	{
 		close((*tokens)->fd[0]);
 		close((*tokens)->fd[1]);
-		if ((*tokens)->fd_master[0] > 2)
-			close((*tokens)->fd_master[0]);
-		if((*tokens)->fd_master[1] > 2)
-			close((*tokens)->fd_master[1]);
+		if ((*tokens)->fd_redir[0] > 2)
+			close((*tokens)->fd_redir[0]);
+		if((*tokens)->fd_redir[1] > 2)
+			close((*tokens)->fd_redir[1]);
 		if (!all)
 			break ;
 		(*tokens) = (*tokens)->next;

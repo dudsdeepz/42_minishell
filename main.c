@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 15:28:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:22:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	main(int ac, char **av, char **env)
 				add_history(cwd);
 				shell(cwd);
 			}
-			// free(cwd);
 		}
 	}
 	return (0);
@@ -52,12 +51,13 @@ int	list_size(char **list)
 
 void shell(char *cwd)
 {
-	cwd = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
-	if (cwd)
-		if (parsing(cwd))
-			shell_output(cwd);
-	if (cwd)
-		free(cwd);
+	char *tmp;
+	
+	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
+	if (tmp)
+		if (parsing(tmp))
+			shell_output(tmp);
+	free(tmp);
 }
 
 int	ft_heredoc(char *a)
