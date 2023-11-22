@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:15:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:36:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 typedef struct s_heredoc
 {
-	char	*h_content;
-	int		in_heredoc;
 	char	*line;
 }			t_heredoc;
 
@@ -45,9 +43,11 @@ typedef struct s_parser
 {
 	char			**export_env;
 	char			**tmp_matrix;
+	char			*tmp_var;
 	char			**envp;
 	t_heredoc		*heredoc;
 	int				exit_status;
+	struct termios termios_save;
 }	t_parser;
 
 char	*get_prompt(char *av, char *newav);

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:29:53 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 10:00:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:37:27 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void 	n_case(char **av);
 int 	check_exit_str(char *str);
 void	unset_uti(char *str);
 void 	export_util(char *str, char **tmp);
-void	ft_path(char **tokens, t_tokens *token);
+int		ft_path(char **tokens, t_tokens *token);
 void	ft_cmds(t_tokens *token);
 void    _ft_exec_cmd(t_tokens **token);
+int		search_envvar(char *str);
+
 #endif

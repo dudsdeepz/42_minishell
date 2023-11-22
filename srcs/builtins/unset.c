@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:05:20 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:45:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 char **new_env_unset(char *token, char **env)
 
 {
-	char **new;
 	int i;
 	int a;
 	
 	i = 0;
 	a = 0;
-	new = malloc(sizeof(char *) * list_size(env) + 1);
+	parser()->tmp_matrix = malloc(sizeof(char *) * list_size(env) + 1);
 	while (env[a++])
 	{
 		if (env[a] && !ft_strncmp(token, env[a], ft_strlen(token)))
 			a++;
 		if (env[a])
-			new[i++] = ft_strdup(env[a]);
+			parser()->tmp_matrix[i++] = ft_strdup(env[a]);
 	}
-	new[i] = 0;
-	// free_matrix(env);
-	return (new);
+	parser()->tmp_matrix[i] = 0;
+	if (env != NULL)
+		free_matrix(env);
+	return (dup_matrix(parser()->tmp_matrix));
 }
 
 void	_ft_unset(t_tokens **token)
@@ -66,6 +66,8 @@ void	_ft_unset(t_tokens **token)
 
 void	unset_uti(char *str)
 {
-	parser()->envp = dup_matrix(new_env_unset(str, parser()->envp));
-	parser()->export_env = dup_matrix(new_env_unset(str, parser()->export_env));
+	parser()->envp = new_env_unset(str, parser()->envp);
+	free_matrix(parser()->tmp_matrix);
+	parser()->export_env = new_env_unset(str, parser()->export_env);
+	free_matrix(parser()->tmp_matrix);
 }

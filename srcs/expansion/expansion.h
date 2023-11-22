@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:47:08 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 18:49:33 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:34:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../../minishell.h"
 
-void 	expansion(t_tokens **tokens);
 char 	*check_expansion(char *token, int tmp);
 char 	*search_env(char *str, char **env);
 char    *get_expansion(char *token, int *i);

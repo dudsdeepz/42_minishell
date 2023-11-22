@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:06:56 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 22:51:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <curses.h>
+# include <termios.h>
 # include <term.h>
+# include <errno.h>
 # include <stdlib.h>
+# include <sgtty.h>
 # include <dirent.h>
 # include <signal.h>
 # include <limits.h>
@@ -31,13 +34,14 @@
 # include "./srcs/expansion/expansion.h"
 # include "./srcs/executor/executor.h"
 # include "./srcs/builtins/builtins.h"
+# include "./srcs/gnl/get_next_line.h"
 
 # define RED "\033[0;31m"
 # define BLUE "\033[0;34m"
 # define DEFAULT "\033[0m"
 # define WHITE "\033[0;37m"
 # define YELLOW "\033[0;33m"
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 10
 # define SHELL_ERROR 0
 
 void		init_shell(void);
@@ -56,8 +60,11 @@ void		shell(char *cwd);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
 void		free_envs(void);
 int         ft_heredoc(char *a);
-void		free_tokens(t_tokens **tokens);
+void		free_tokens(t_tokens *token);
 int	        ft_strcmp(char *s1, char *s2);
 void		alloc_tokens(t_tokens **tokens);
-
+void		hd_loop(char *str, int *fd);
+void		hd_signs(int sig);
+void		term_change(void);
+int 		heredoc_error(char *str);
 #endif

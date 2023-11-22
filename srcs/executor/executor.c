@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/22 11:48:12 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 22:09:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,11 @@ void	executor(t_tokens **tokens)
 	kawasaki((*tokens));
 	go_head(tokens);
 	i = 0;
+	status = 0;
 	while ((*tokens)->next)
 	{
 		if ((*tokens)->token[0])
-		{
-			i =	waitpid(-1, &status, 0);
-			if (i == -1 && WIFEXITED(status))
-				parser()->exit_status = WIFEXITED(status);
-		}
+			waitpid(-1, &status, 0);
 		if (!(*tokens)->next)
 			break ;
 		(*tokens) = (*tokens)->next;
@@ -67,11 +64,14 @@ void	kawasaki(t_tokens *tokens)
 		if (tokens->token[0])
 		{
 			ft_path(tokens->token, tokens);
-			ft_cmds(tokens);
-			kricko(tokens);
-			// free(tokens->path);
+			if (tokens->path)
+			{
+				parser()->exit_status = 1;
+				ft_cmds(tokens);
+				kricko(tokens);
+				free(tokens->path);
+			}
 		}
-		// free_matrix(tokens->token);
 		if (!tokens->next)
 			break;
 		tokens = tokens->next;
@@ -101,23 +101,27 @@ void close_fds(t_tokens **tokens, int all)
 }
 
 
-void ft_path(char **tokens, t_tokens *token)
+int ft_path(char **tokens, t_tokens *token)
 {	
 	char *tmp;
 
 	if (!check_built(tokens))
 	{
 		tmp = get_path(tokens[0], parser()->envp);
-		if (ft_strlen(tmp) > 1)
+		if (tmp)
 		{
 			token->path = ft_strdup(tmp);
 			free(tmp);
+			return (1);
 		}
 		else
+		{
 			token->path = NULL;
-		return ;
+			return (2);
+		}
 	}
-	return ;
+	token->path = ft_strdup(tokens[0]);
+	return (0);
 }
 
 

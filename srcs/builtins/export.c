@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 22:36:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 19:11:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,25 @@ int check_export_str(char *str)
 char	**send_to_exportenv(char *token, char **env)
 {
 	int i;
-	char **tmp;
 
 	i = 0;
-	tmp = dup_matrix(env);
-	free_matrix(env);
-	while (tmp[i])
+	while (env[i])
 	{
-		if (!ft_strncmp(token, tmp[i], ft_strlen(token)))
+		if (!ft_strncmp(token, env[i], ft_strlen(token)))
 			break ;
 		i++;
 	}
-	if (tmp[i])
+	if (env[i])
 	{
-		free(tmp[i]);
-		tmp[i] = ft_strdup(token);
+		free(env[i]);
+		env[i] = ft_strdup(token);
 	}
 	else
-		tmp = new_env(token, tmp, NULL);
-	return (tmp);
+	{
+		env = new_env(token, env, NULL);
+		free_matrix(parser()->tmp_matrix);
+	}
+	return (env);
 }
 
 char	**send_to_env(char *token, char **env, char *find)
@@ -134,29 +134,33 @@ char	**send_to_env(char *token, char **env, char *find)
 		free(str);
 	}
 	else
+	{
 		env = new_env(token, env, ft_strjoin(find, "="));
+		free_matrix(parser()->tmp_matrix);
+	}
 	return (env);
 }
 
 char **new_env(char *token, char **env, char *find)
 {
-	char **new;
 	int i;
+	char *tmp;
 	
 	i = 0;
-	new = malloc(sizeof(char *) * (list_size(env) + 2));
+	tmp = 0;
+	parser()->tmp_matrix = malloc(sizeof(char *) * (list_size(env) + 2));
 	while (env[i] != 0)
 	{
-		new[i] = ft_strdup(env[i]);
+		parser()->tmp_matrix[i] = ft_strdup(env[i]);
 		i++;
 	}
 	if (find)
 		token = ft_strjoin(find, token);
 	free(find);
-	new[i] = ft_strdup(token);
-	new[i + 1] = 0;
+	parser()->tmp_matrix[i] = ft_strdup(token);
+	parser()->tmp_matrix[i + 1] = 0;
 	free_matrix(env);
-	return (new);
+	return (dup_matrix(parser()->tmp_matrix));
 }
 
 

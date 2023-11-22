@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:15:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 22:46:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,16 @@ char	*get_shell_prompt(char *username, char *pc_name)
 	first = ft_strjoin(username, "@");
 	second = ft_strjoin(first, pc_name);
 	return (ft_strjoin(second, ": "));
+}
+
+
+void	hd_signs(int sig)
+{
+	if (sig == SIGQUIT)
+		SIG_IGN ;
+	else if (sig == SIGINT)
+	{
+		write(2, " ", 1);
+		exit(1);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/21 22:42:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:56:00 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,6 @@ static void v_helper(char *token, char *str, int start, int end, char *res)
 		if (token[i])
 			i++;
 		j++;
-	}
-}
-
-void expansion(t_tokens **tokens)
-{
-	int j;
-	int i;
-
-	i = 0;
-	j = 0;
-	go_head(tokens);
-	while ((*tokens)->next)
-	{
-		while ((*tokens)->token[j])
-		{
-			(*synt()) = 0;
-			(*tokens)->token[j] = check_expansion((*tokens)->token[j], i);
-			j++;
-		}
-		j = 0;
-		if ((*tokens)->next)
-			(*tokens) = (*tokens)->next;
 	}
 }
 
@@ -204,13 +182,18 @@ int	check_dq(char *str)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			tmp = str[i];
-			while (str[i])
-				i++;
-			if (str[i - 1] != tmp)
-				return (1);
-			else
-				break ;
+			tmp = str[i++];
+			while (str[i] != tmp)
+			{
+				if (str[i] == tmp)
+					return (0);
+				else if (str[i] == 0)
+					return (1);
+			}
+			// if (!str[i] && str[i - 1] != tmp)
+			// 	return (1);
+			// if (str[i] == '\0')
+			// 	return (1);				
 		}
 		i++;
 	}

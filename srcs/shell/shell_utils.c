@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 11:50:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:55:06 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ int	shell_output(char *av)
 	if (ft_strlen(av) > 0)
 	{
 		splited = ft_split(av, '\2');
-		if (full_check_dq(splited))
-			return (0);
-		token = init_lists(splited, token);
-		executor(&token);
-		if (splited[0] && splited)
-			free_matrix(splited);
-		// free_tokens(&token);
+		if (ft_strlen(splited[0]) > 0)
+		{
+			if (full_check_dq(splited))
+				return (0);
+			token = init_lists(splited, token);
+			executor(&token);
+			free_tokens(token);
+		}
+		free_matrix(splited);
 	}
-	else
-		parser()->exit_status = 0;
 	return (0);
 }
 
@@ -74,6 +74,7 @@ t_tokens *init_lists(char **av, t_tokens *tokens)
 		tokens->fd_redir[0] = 0;
 		tokens->fd_redir[1] = 1;
 		tokens->token_size = 1;
+		tokens->token = NULL;
 		tokens->path = NULL;
 		tokens->next =	malloc(sizeof(t_tokens));
 		tokens->next->prev = tokens;
@@ -123,7 +124,10 @@ t_tokens *separeites_tokens(t_tokens **tokens, char **splited)
 			i++;
 		}
 		else
+		{
 			(*tokens)->token[j++] = ft_strdup(check_expansion(splited[i], 0));
+			free(parser()->tmp_var);
+		}
 	}
 	(*tokens)->token[j++] = 0;
 	return ((*tokens));
@@ -159,15 +163,14 @@ void	alloc_tokens(t_tokens **tokens)
 }
 
 
-void	free_tokens(t_tokens **tokens)
+void	free_tokens(t_tokens *token)
 {
-	while ((*tokens)->prev)
+	while (token->prev)
 	{
-		// free_matrix((*tokens)->token);
-		free((*tokens)->next);
-		(*tokens) = (*tokens)->prev;		
+		token = token->prev;
+		if (token->token[0] != NULL && token->token)
+			free_matrix(token->token);
+		free(token->next);
 	}
-	// free((*tokens)->path);
-	free_matrix((*tokens)->token);
-	free((*tokens));
+	free(token);
 }

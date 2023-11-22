@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 11:37:52 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 21:59:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ void	free_matrix(char **mtx)
 {
 	int	p;
 
-	p = 0;
-	while (mtx[p])
+	p = -1;
+	while (mtx[++p])
 	{
 		if (mtx[p])
 			free(mtx[p]);
-		p++;
 	}
 	free(mtx);
 }
@@ -96,8 +95,6 @@ void _ft_exec_cmd(t_tokens **token)
 {
 	close_fds(token, 1);
 	execve((*token)->path, (*token)->token, parser()->envp) ;
-	// free((*token)->path);
-	// free_matrix((*token)->token);
 	close(0);
 	close(1);
 	go_head(token);

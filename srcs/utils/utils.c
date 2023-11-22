@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:06:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:58:58 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,21 @@ char	*get_path(char *command, char **env)
 	char	*str;
 	char 	*tmp;
 
-	i = 0;
-	while (env[i])
+	i = -1;
+	while (env[++i])
 	{
 		if (!ft_strncmp(env[i], "PATH=", 5))
 			break;
-		i++;
 	}
 	if (!env[i] || ft_strlen(env[i]) < 6)
 	{
 		printf("path not found !\n");
-		return ("\0");
+		return (0);
 	}
-	path = ft_split(env[i] + 5, ':');
-	i = 0;
 	if (access(command, X_OK) == 0)
 		return (ft_strdup(command));
+	path = ft_split(env[i] + 5, ':');
+	i = 0;
 	while (path[i])
 	{
 		str = triple_strjoin(path[i++], "/", command);
@@ -81,7 +80,7 @@ char	*get_path(char *command, char **env)
 		str = NULL;
 		printf("%sCommand not found: %s ! %s\n", RED, command, DEFAULT);
 		parser()->exit_status = 127;
-		return ("\0");
+		return (0);
 	}
 	tmp = ft_strdup(str);
 	free(str);
