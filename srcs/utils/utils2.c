@@ -6,13 +6,13 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:04:38 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:52:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char **dup_matrix(char **src)
+char	**dup_matrix(char **src)
 {
 	int		p;
 	char	**res;

@@ -6,13 +6,13 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:39:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/18 19:34:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:35:51 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int parse_tokens(char *av, char *newav, int *j, int *i)
+int	parse_tokens(char *av, char *newav, int *j, int *i)
 {
 	if (av[(*i) + 1] == '|')
 		newav[(*j)++] = '\2';

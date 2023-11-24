@@ -6,53 +6,69 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/20 21:25:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:36:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+int	valid_n(char token)
+{
+	if (token == 'n')
+		return (1);
+	return (0);
+}
+
+static void	echo_print(char **str, size_t i)
+{
+	size_t	j;
+
+	j = 0;
+	while (str[j])
+		j++;
+	while (str[i])
+	{
+		if ((i + 1) != j)
+			printf("%s ", str[i]);
+		else
+			printf("%s", str[i]);
+		i++;
+	}
+}
+
 void	_ft_echo(t_tokens **token)
+{
+	int	flag;
+	int	j;
+
+	j = 1;
+	flag = 0;
+	if ((*token)->token[1] && (*token)->token[1][0] \
+		== '-' && (*token)->token[1][1] == 'n')
+		n_case(token, &flag);
+	if (flag == 1 || !flag)
+	{
+		echo_print((*token)->token, 1);
+		printf("\n");
+	}
+	else if (flag == 2)
+		echo_print((*token)->token, 2);
+}
+
+void	n_case(t_tokens **token, int *flag)
 {
 	int	i;
 
-	i = 0;
-	if ((*token)->token[i + 1])
+	i = 1;
+	while ((*token)->token[1][i])
 	{
-		if (!ft_strncmp((*token)->token[i + 1], "-n", 2))
-			n_case((*token)->token);
-		else
+		if (!(valid_n((*token)->token[1][i])))
 		{
-			while ((*token)->token[++i])
-			{				
-				ft_putstr_fd((*token)->token[i], STDIN_FILENO);
-				if ((*token)->token[i + 1])
-					ft_putstr_fd(" ", STDIN_FILENO);
-			}
-			ft_putstr_fd("\n", STDIN_FILENO);
-		}
-	}
-	else
-		ft_putstr_fd("\n", STDOUT_FILENO);
-}
-
-void n_case(char **av)
-{
-	int i;
-	int a;
-
-	i = 2;
-	a = 0;
-	while (av[i])
-	{
-		while (av[i][a])
-		{
-			if (av[i][a] == '\n')
-				a++;
-			ft_putchar_fd(av[i][a], STDOUT_FILENO);
-			a++;
+			(*flag)++;
+			break ;
 		}
 		i++;
 	}
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	if (!(*flag))
+		(*flag) = 2;
 }

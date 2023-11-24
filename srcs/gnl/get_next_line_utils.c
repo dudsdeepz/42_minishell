@@ -6,13 +6,63 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 21:31:16 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:32:30 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-	
-char	*ft_strjoin(char *s1, char *s2)
+
+int	ft_strclean(char *str)
+{
+	int	i;
+	int	j;
+	int	line;
+
+	i = 0;
+	j = 0;
+	line = 0;
+	while (str[i])
+	{
+		if (line)
+			str[j++] = str[i];
+		if (str[i] == '\n')
+			line = 1;
+		str[i++] = '\0';
+	}
+	return (line);
+}
+
+int	heredoc_error(char *str)
+{
+	write(2, "warning: here-document at line 1 \
+	delimited by end-of-file (wanted `", 67);
+	write(2, str, ft_strlen(str));
+	write(2, "')\n", 3);
+	return (1);
+}
+
+void	term_change(void)
+{
+	int				rc;
+	struct termios	termios_new;
+
+	rc = tcgetattr(0, &parser()->termios_save);
+	if (rc)
+	{
+		perror("");
+		return ;
+	}
+	termios_new = parser()->termios_save;
+	termios_new.c_lflag |= IEXTEN;
+	rc = tcsetattr(0, 0, &termios_new);
+	if (rc)
+	{
+		perror("");
+		return ;
+	}
+}
+
+char	*ft_strjoingnl(char *s1, char *s2)
 {
 	char	*a;
 	int		i;
@@ -35,24 +85,4 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	a[i] = '\0';
 	return (a);
-}
-
-int	ft_strclean(char *str)
-{
-	int	i;
-	int	j;
-	int	line;
-
-	i = 0;
-	j = 0;
-	line = 0;
-	while (str[i])
-	{
-		if (line)
-			str[j++] = str[i];
-		if (str[i] == '\n')
-			line = 1;
-		str[i++] = '\0';
-	}
-	return (line);
 }

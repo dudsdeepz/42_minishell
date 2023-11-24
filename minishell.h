@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 22:51:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:53:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,17 @@ int			list_size(char **list);
 void		shell(char *cwd);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
 void		free_envs(void);
-int         ft_heredoc(char *a);
+int			ft_heredoc(char *a);
 void		free_tokens(t_tokens *token);
-int	        ft_strcmp(char *s1, char *s2);
+int			ft_strcmp(char *s1, char *s2);
 void		alloc_tokens(t_tokens **tokens);
 void		hd_loop(char *str, int *fd);
 void		hd_signs(int sig);
 void		term_change(void);
-int 		heredoc_error(char *str);
+int			heredoc_error(char *str);
+int			path_helper(char **env, int *i);
+void		free_str_h(char *str, char *command);
+int			free_path_helper(char *str, char *command, char **path);
+char		**prep_str(char **str);
+
 #endif

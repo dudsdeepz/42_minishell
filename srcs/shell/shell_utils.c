@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 21:55:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:37:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	shell_output(char *av)
 {
-	char 	**splited;
-	t_tokens *token;
+	t_tokens	*token;
+	char		**splited;
 
 	splited = NULL;
 	token = NULL;
@@ -26,9 +26,11 @@ int	shell_output(char *av)
 		{
 			if (full_check_dq(splited))
 				return (0);
+			splited = prep_str(splited);
 			token = init_lists(splited, token);
 			executor(&token);
 			free_tokens(token);
+			free(parser()->exp_var);
 		}
 		free_matrix(splited);
 	}
@@ -37,8 +39,8 @@ int	shell_output(char *av)
 
 int	tokens_num(char **cwd)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = -1;
 	count = 0;
@@ -52,7 +54,7 @@ int	tokens_num(char **cwd)
 
 void	print_dp(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != 0)
@@ -62,9 +64,9 @@ void	print_dp(char **str)
 	}
 }
 
-t_tokens *init_lists(char **av, t_tokens *tokens)
+t_tokens	*init_lists(char **av, t_tokens *tokens)
 {
-	int count;
+	int	count;
 
 	count = tokens_num(av);
 	tokens = malloc(sizeof(t_tokens));
@@ -73,104 +75,33 @@ t_tokens *init_lists(char **av, t_tokens *tokens)
 	{
 		tokens->fd_redir[0] = 0;
 		tokens->fd_redir[1] = 1;
+		tokens->fd[0] = 0;
 		tokens->token_size = 1;
 		tokens->token = NULL;
 		tokens->path = NULL;
-		tokens->next =	malloc(sizeof(t_tokens));
+		tokens->next = malloc(sizeof(t_tokens));
 		tokens->next->prev = tokens;
+		tokens->next->fd[1] = 1;
 		tokens = tokens->next;
 	}
 	tokens->next = NULL;
 	get_tokens_size(av, &tokens);
+	go_head(&tokens);
 	separeites_tokens(&tokens, av);
 	return (tokens);
 }
 
 int	is_sign(char *sign)
 {
-	if (!ft_strncmp(sign, "|", 1))
+	if (!ft_strncmp(sign, "|", 2))
 		return (1);
-	else if(!ft_strncmp(sign, ">>", 2))
+	else if (!ft_strncmp(sign, ">>", 2))
 		return (1);
-	else if(!ft_strncmp(sign, "<<", 2))
+	else if (!ft_strncmp(sign, "<<", 2))
 		return (1);
-	else if(!ft_strncmp(sign, ">", 1))
+	else if (!ft_strncmp(sign, ">", 2))
 		return (1);
-	else if(!ft_strncmp(sign, "<", 1))
+	else if (!ft_strncmp(sign, "<", 2))
 		return (1);
 	return (0);
-}
-
-t_tokens *separeites_tokens(t_tokens **tokens, char **splited)
-{
-	int i;
-	int j;
-
-	i = -1;
-	j = 0;
-	go_head(tokens);
-	while (splited && splited[++i])
-	{
-		if (splited[i][0] == '|')
-		{
-			(*tokens)->token[j++] = 0;
-			if ((*tokens)->next)
-				(*tokens) = (*tokens)->next;
-			j = 0;
-		}
-		else if (options(splited[i]))
-		{
-			redirections(splited, i, (*tokens));
-			i++;
-		}
-		else
-		{
-			(*tokens)->token[j++] = ft_strdup(check_expansion(splited[i], 0));
-			free(parser()->tmp_var);
-		}
-	}
-	(*tokens)->token[j++] = 0;
-	return ((*tokens));
-}
-
-void	get_tokens_size(char **splited, t_tokens **tokens)
-{
-	int i;
-
-	i = -1;
-	go_head(tokens);
-	while (splited[++i] && splited)
-	{
-		if (splited[i][0] == '|')
-			(*tokens) = (*tokens)->next;
-		else if (options(splited[i]))
-			i++;
-		else			
-			(*tokens)->token_size++;
-	}
-	alloc_tokens(tokens);
-}
-
-void	alloc_tokens(t_tokens **tokens)
-{
-	go_head(tokens);
-	while ((*tokens)->next)
-	{
-		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size);
-		pipe((*tokens)->fd);
-		(*tokens) = (*tokens)->next;
-	}
-}
-
-
-void	free_tokens(t_tokens *token)
-{
-	while (token->prev)
-	{
-		token = token->prev;
-		if (token->token[0] != NULL && token->token)
-			free_matrix(token->token);
-		free(token->next);
-	}
-	free(token);
 }

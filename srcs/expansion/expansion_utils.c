@@ -6,16 +6,16 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:51:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 16:32:06 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:16:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char *join_all(char **token)
+char	*join_all(char **token)
 {
-	int i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	new = token[0];
@@ -27,37 +27,9 @@ char *join_all(char **token)
 	return (new);
 }
 
-static char *kill_da_quotes(char *str)
-{
-	int i;
-	int j;
-	char tmp;
-	char *res;
-	
-	i = 0;
-	j = 0;
-	tmp = 0;
-	res = malloc(sizeof(char) * ft_strlen(str) - quote_n(str) + 1);
-	while (str && str[i])
-	{
-		if (str[i] && (!check_sign("'\"", str[i])))
-		{
-			tmp = str[i];
-			i++;
-			while (str[i] && str[i] != tmp)
-				res[j++] = str[i++];
-		}
-		else
-			res[j++] = str[i];
-		i++;
-	}
-	res[j] = 0;
-	return (res);
-}
-
 int	check_sign(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (c && str[i] && c != str[i])
@@ -67,43 +39,9 @@ int	check_sign(char *str, char c)
 	return (0);
 }
 
-int	quote_n(char *str)
+int	fk_quotes(char *token, int i)
 {
-	int i;
-	int ct;
-	int qt;
-
-	i = 0;
-	ct = 0;
-	while (str[i])
-	{
-		if (str[i] && !check_sign("'\"", str[i]))
-		{
-			qt = str[i];
-			i++;
-			while (str[i] && str[i] != qt)
-				i++;
-			ct += 2;
-		}
-		i++;
-	}
-	return (ct);
-}
-
-char *quote_killa(char *str)
-{
-	char *res;
-	char *tmp;
-	
-	tmp = kill_da_quotes(str);
-	res = ft_strdup(tmp);
-	free(tmp);
-	return (res);
-}
-
-int fk_quotes(char *token, int i)
-{
-	char tmp;
+	char	tmp;
 
 	tmp = token[i++];
 	while (token[i] && token[i] != tmp)
@@ -116,9 +54,22 @@ int fk_quotes(char *token, int i)
 	return (i);
 }
 
-int *synt(void)
+int	*synt(void)
 {
 	static int	bruh;
 
 	return (&bruh);
+}
+
+int	dq_aux(char *str, int i)
+{
+	int	tmp;
+
+	tmp = str[i];
+	while (str[++i] != tmp && str[i])
+		continue ;
+	if (!str[i])
+		return (0);
+	else
+		return (i);
 }

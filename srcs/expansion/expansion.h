@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:47:08 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 16:34:09 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:40:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 
 # include "../../minishell.h"
 
-char 	*check_expansion(char *token, int tmp);
-char 	*search_env(char *str, char **env);
-char    *get_expansion(char *token, int *i);
-int 	fk_quotes(char *token, int i);
-char 	*join_all(char **token);
+char	*check_expansion(char *token, int tmp);
+char	*search_env(char *str, char **env);
+char	*get_expansion(char *token, int *i);
+int		fk_quotes(char *token, int i);
+char	*join_all(char **token);
 int		check_sign(char *str, char c);
-char 	*quote_killa(char *str);
+char	*remove_quotes(char *str);
 int		quote_n(char *str);
-int     fe_sign(char *str);
-char    *fk_token(char *token, char *str, int i, int a);
-int     difs(char *sign, char c);
-int 	*synt(void);
+int		fe_sign(char *str);
+char	*exp_token(char *token, char *str, int i, int a);
+int		difs(char *sign, char c);
+int		*synt(void);
 char	*free_da_str(char *str);
-int	    check_dq(char *str);
+int		check_dq(char *str);
 void	go_head(t_tokens **lst);
+int		dq_aux(char *str, int i);
 
 #endif

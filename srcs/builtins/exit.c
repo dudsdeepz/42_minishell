@@ -6,36 +6,55 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 14:07:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:33:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+static void	exit_aux(char *token)
+{
+	int	tmp;
+
+	tmp = 0;
+	tmp = ft_atoi(token);
+	if (tmp > 225)
+		tmp %= 225;
+	free_envs();
+	exit(tmp);
+}
+
 void	_ft_exit(t_tokens **token)
 {
 	if ((*token)->token[1])
 	{
-		if (check_exit_str((*token)->token[1]))
+		if ((*token)->token[2])
+		{
+			parser()->exit_status = 1;
+			printf("exit: too manny arguments\n");
+		}
+		else if (check_exit_str((*token)->token[1]))
 		{
 			free_envs();
-			printf("exit\nexit: %s: numeric argument required.\n", (*token)->token[1]);
-			exit(2) ;
+			printf("exit\nexit: %s: numeric argument \
+				required.\n", (*token)->token[1]);
+			clear_history();
+			exit(2);
 		}
 		else
-		{
-			free_envs();
-			exit(ft_atoi((*token)->token[1]));
-		}
+			exit_aux((*token)->token[1]);
 	}
 	else
+	{
+		clear_history();
 		exit(parser()->exit_status);
+	}
 }
 
-int check_exit_str(char *str)
+int	check_exit_str(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{

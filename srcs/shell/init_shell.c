@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 22:46:59 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:43:25 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ void	init_shell(void)
 		YELLOW, DEFAULT, pc_name);
 	printf("%s===================%s\n", WHITE, DEFAULT);
 }
+
 void	handle_signals(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
-		rl_on_new_line();
+		parser()->exit_status = 130;
+		write(2, "\n", 1);
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
@@ -49,7 +51,6 @@ char	*get_shell_prompt(char *username, char *pc_name)
 	return (ft_strjoin(second, ": "));
 }
 
-
 void	hd_signs(int sig)
 {
 	if (sig == SIGQUIT)
@@ -59,4 +60,18 @@ void	hd_signs(int sig)
 		write(2, " ", 1);
 		exit(1);
 	}
+}
+
+void	free_tokens(t_tokens *token)
+{
+	while (token->prev)
+	{
+		token = token->prev;
+		if (token->token[0] != NULL && token->token)
+			free_matrix(token->token);
+		free(token->next);
+		token->next = NULL;
+	}
+	free(token);
+	token = NULL;
 }

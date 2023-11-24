@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 18:58:58 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:53:34 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 char	*ft_putstr(char *str, char *color)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	if (color)
 	{
 		while (color[i])
@@ -48,21 +50,13 @@ char	*get_path(char *command, char **env)
 	int		i;
 	char	**path;
 	char	*str;
-	char 	*tmp;
+	char	*tmp;
 
-	i = -1;
-	while (env[++i])
-	{
-		if (!ft_strncmp(env[i], "PATH=", 5))
-			break;
-	}
-	if (!env[i] || ft_strlen(env[i]) < 6)
-	{
-		printf("path not found !\n");
-		return (0);
-	}
+	tmp = NULL;
 	if (access(command, X_OK) == 0)
 		return (ft_strdup(command));
+	if (!path_helper(env, &i))
+		return (0);
 	path = ft_split(env[i] + 5, ':');
 	i = 0;
 	while (path[i])
@@ -73,17 +67,33 @@ char	*get_path(char *command, char **env)
 		free(str);
 		str = NULL;
 	}
-	free_matrix(path);
-	if (!str)
+	if (str)
+		tmp = ft_strdup(str);
+	if (!free_path_helper(str, command, path))
+		return (0);
+	return (tmp);
+}
+
+int	path_helper(char **env, int *i)
+{
+	(*i) = -1;
+	while (env[++(*i)])
 	{
-		free(str);
-		str = NULL;
-		printf("%sCommand not found: %s ! %s\n", RED, command, DEFAULT);
-		parser()->exit_status = 127;
+		if (!ft_strncmp(env[(*i)], "PATH=", 5) && ft_strlen(env[(*i)]) > 5)
+			return (1);
+	}
+	if (!env[(*i)])
+	{
+		printf("path not found !\n");
 		return (0);
 	}
-	tmp = ft_strdup(str);
+	return (1);
+}
+
+void	free_str_h(char *str, char *command)
+{
 	free(str);
 	str = NULL;
-	return (tmp);
+	printf("%sCommand not found: %s ! %s\n", RED, command, DEFAULT);
+	parser()->exit_status = 127;
 }

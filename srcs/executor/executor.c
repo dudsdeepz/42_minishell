@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/22 22:09:38 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 09:57:48 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	executor(t_tokens **tokens)
 {
-	int status;
-	pid_t i;
+	int		status;
+	pid_t	i;
 
 	go_head(tokens);
-	kawasaki((*tokens));
+	exec_start((*tokens));
 	go_head(tokens);
 	i = 0;
 	status = 0;
@@ -30,12 +30,11 @@ void	executor(t_tokens **tokens)
 			break ;
 		(*tokens) = (*tokens)->next;
 	}
-
 }
 
-void kricko(t_tokens *tokens)
+void	exec_doit(t_tokens *tokens)
 {
-	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1)
+	if (check_built(tokens->token) && lstsize_tokens(tokens) <= 1)
 	{
 		tokens->_exec_cmd(&tokens);
 		return ;
@@ -55,9 +54,9 @@ void kricko(t_tokens *tokens)
 		exit(parser()->exit_status);
 	}
 	close_fds(&tokens, 0);
-}	
+}
 
-void	kawasaki(t_tokens *tokens)
+void	exec_start(t_tokens *tokens)
 {
 	while (tokens->next)
 	{
@@ -66,22 +65,22 @@ void	kawasaki(t_tokens *tokens)
 			ft_path(tokens->token, tokens);
 			if (tokens->path)
 			{
-				parser()->exit_status = 1;
+				parser()->exit_status = 0;
 				ft_cmds(tokens);
-				kricko(tokens);
+				exec_doit(tokens);
 				free(tokens->path);
 			}
 		}
 		if (!tokens->next)
-			break;
+			break ;
 		tokens = tokens->next;
 	}
 }
 
-void close_fds(t_tokens **tokens, int all)
+void	close_fds(t_tokens **tokens, int all)
 {
-	t_tokens *tmp;
-	
+	t_tokens	*tmp;
+
 	tmp = (*tokens);
 	if (all)
 		go_head(tokens);
@@ -91,7 +90,7 @@ void close_fds(t_tokens **tokens, int all)
 		close((*tokens)->fd[1]);
 		if ((*tokens)->fd_redir[0] > 2)
 			close((*tokens)->fd_redir[0]);
-		if((*tokens)->fd_redir[1] > 2)
+		if ((*tokens)->fd_redir[1] > 2)
 			close((*tokens)->fd_redir[1]);
 		if (!all)
 			break ;
@@ -100,10 +99,9 @@ void close_fds(t_tokens **tokens, int all)
 	(*tokens) = tmp;
 }
 
-
-int ft_path(char **tokens, t_tokens *token)
-{	
-	char *tmp;
+int	ft_path(char **tokens, t_tokens *token)
+{
+	char	*tmp;
 
 	if (!check_built(tokens))
 	{
@@ -122,19 +120,4 @@ int ft_path(char **tokens, t_tokens *token)
 	}
 	token->path = ft_strdup(tokens[0]);
 	return (0);
-}
-
-
-void ft_dup2(int input, int output)
-{
-	if (input != STDIN_FILENO)
-	{
-		dup2(input, STDIN_FILENO);
-		close(input);
-	}
-	if (output != STDOUT_FILENO	)
-	{
-		dup2(output, STDOUT_FILENO);
-		close(output);
-	}
 }

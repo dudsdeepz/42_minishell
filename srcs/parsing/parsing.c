@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/11/22 10:16:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:17:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_prompt(char *av, char *newav)
 	int		i;
 	int		j;
 	bool	s;
-	
+
 	s = false;
 	i = -1;
 	j = 0;
@@ -25,7 +25,7 @@ char	*get_prompt(char *av, char *newav)
 	{
 		if ((av[i] == '\"' || av[i] == '\''))
 			s = !s;
-		if (s == false && av[i] == ' ')
+		if (s == false && (av[i] == ' ' || av[i] == '\t'))
 			av[i] = '\2';
 		newav[j++] = av[i];
 		if (s == false)
@@ -46,6 +46,7 @@ int	parsing(char *av)
 	if (parse[i] && !ft_strncmp(parse[i], "|", 2))
 	{
 		printf("Minishell: Syntax error!\n");
+		free_matrix(parse);
 		return (0);
 	}
 	while (parse[i])
@@ -62,22 +63,32 @@ int	parsing(char *av)
 	return (1);
 }
 
+static int	check_tokens2(char **av, int *i)
+{
+	if ((!ft_strncmp(av[*i + 1], "|", 1) || !ft_strncmp(av[*i + 1], ">", 1) \
+		|| !ft_strncmp(av[*i + 1], "<", 1) || !ft_strncmp(av[*i + 1], ">>", 2) \
+		|| !ft_strncmp(av[*i + 1], "<<", 2)))
+		return (1);
+	return (0);
+}
+
 int	parse_tokens2(char **av, int *i)
 {
 	if ((!ft_strncmp(av[*i], "|", 1) || !ft_strncmp(av[*i], ">", 1) \
 		|| !ft_strncmp(av[*i], "<", 1) || !ft_strncmp(av[*i], ">>", 2) || \
-		!ft_strncmp(av[*i], "<<", 2)) && !av[(*i) + 1])
+		!ft_strncmp(av[*i], "<<", 2)) && (!av[*i + 1] || \
+		(check_tokens2(av, i))))
 		return (1);
 	if (!ft_strncmp(av[*i], "|", 2))
 		if (av[(*i) + 1] && !ft_strncmp(av[(*i) + 1], "|", 2))
 			return (1);
-	if (!ft_strncmp(av[*i], ">", 1) || !ft_strncmp(av[*i], "<", 1))
-		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">", 1) || \
-			!ft_strncmp(av[(*i) + 1], "<", 1)))
-			return (1);
 	if (!ft_strncmp(av[*i], ">>", 2) || !ft_strncmp(av[*i], "<<", 2))
 		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">>", 2) || \
 			!ft_strncmp(av[(*i) + 1], "<<", 2)))
+			return (1);
+	if (!ft_strncmp(av[*i], ">", 1) || !ft_strncmp(av[*i], "<", 1))
+		if (av[(*i) + 1] && (!ft_strncmp(av[(*i) + 1], ">", 1) || \
+			!ft_strncmp(av[(*i) + 1], "<", 1)))
 			return (1);
 	return (0);
 }

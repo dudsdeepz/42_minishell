@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 10:14:45 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:02:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ char	*triple_strjoin(char *s1, char *s2, char *s3)
 
 void	print_tokens(char **av)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (av[i])
 	{
@@ -58,7 +58,7 @@ void	free_envs(void)
 
 int	lstsize_tokens(t_tokens *lst)
 {
-	int		count;
+	int			count;
 	t_tokens	*ptr;
 
 	count = 0;
@@ -72,91 +72,3 @@ int	lstsize_tokens(t_tokens *lst)
 	}
 	return (count - 1);
 }
-
-
-t_tokens	*lstlast_tokens(t_tokens *lst)
-{
-	t_tokens	*ptr;
-
-	if (!lst)
-		return (NULL);
-	ptr = lst;
-	while (ptr->next)
-		ptr = ptr->next;
-	return (ptr);
-}
-
-int	total_tokens_size(t_tokens **tokens)
-{
-	int count;
-
-	count = 0;
-	go_head(tokens);
-	while ((*tokens)->next)
-	{
-		(*tokens) = (*tokens)->next;
-		count++;
-	}
-	return (count);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	unsigned int	i;
-
-	if (s1 && s2)
-	{
-		i = 0;
-		while (s1[i] == s2[i] && (s1[i] != '\0' && s2[i] != '\0'))
-			i++;
-		return (s1[i] - s2[i]);
-	}
-	return (1);
-}
-
-
-t_tokens	*ft_lstlasttoken(t_tokens *lst)
-{
-	t_tokens	*ptr;
-
-	if (!lst)
-		return (NULL);
-	ptr = lst;
-	while (ptr->next)
-		ptr = ptr->next;
-	return (ptr);
-}
-
-void	ft_lstadd_token(t_tokens **lst, t_tokens *new)
-{
-	if (!lst || !new)
-		return ;
-	if (lst)
-	{
-		if (*lst)
-		{
-			new->prev = ft_lstlasttoken(*lst);
-			ft_lstlasttoken(*lst)->next = new;
-		}
-		else
-			*lst = new;
-
-	}
-}
-
-t_tokens	*ft_lstnewtoken(int token_size, t_tokens *new)
-{
-	new->token = malloc(sizeof(char *) * token_size + 1);
-	pipe(new->fd);
-	new->fd_redir[0] = 0;
-	new->fd_redir[1] = 1;
-	return (new);
-}
-
-
-void	go_head(t_tokens **lst)
-{
-	while ((lst) && (*lst) && (*lst)->prev)
-		(*lst) = (*lst)->prev;
-}
-

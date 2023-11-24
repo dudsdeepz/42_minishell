@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:37 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 20:52:55 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:33:05 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_next_line(int fd)
 	}
 	while (saved[0] || read(fd, saved, BUFFER_SIZE) > 0)
 	{
-		line = ft_strjoin(line, saved);
+		line = ft_strjoingnl(line, saved);
 		if (ft_strclean(saved))
 			break ;
 	}

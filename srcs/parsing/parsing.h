@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 21:36:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:51:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,54 @@
 # define PARSING_H
 # include "../../minishell.h"
 
-typedef struct s_heredoc
-{
-	char	*line;
-}			t_heredoc;
-
 typedef struct s_redirect
 {
 	int		input_red;
 	int		output_red;
 	int		m_args;
-}		 	t_redirect;
+}			t_redirect;
 
 typedef struct s_tokens
-{	
-	void	(*_exec_cmd)(struct s_tokens **tokens);
-	int		token_size;
-	char	**token;
-	int		fd[2];
-	int		master_error[2];
-	int		fd_redir[2];
-	char	*path;
-	struct s_tokens *prev;
-	struct s_tokens *next;
-}			t_tokens ;
+{
+	void			(*_exec_cmd)(struct s_tokens **tokens);
+	int				token_size;
+	char			**token;
+	int				fd[2];
+	int				master_error[2];
+	int				fd_redir[2];
+	char			*path;
+	struct s_tokens	*prev;
+	struct s_tokens	*next;
+}			t_tokens;
 
 typedef struct s_parser
 {
+	char			*exp_var;
 	char			**export_env;
 	char			**tmp_matrix;
 	char			*tmp_var;
+	char			*tmp_var2;
 	char			**envp;
-	t_heredoc		*heredoc;
+	char			**splited;
+	t_tokens		*head_token;
 	int				exit_status;
-	struct termios termios_save;
-}	t_parser;
+	struct termios	termios_save;
+}					t_parser;
 
-char	*get_prompt(char *av, char *newav);
-int		parsing(char *av);
-int 	parse_tokens(char *av, char *newav, int *j, int *i);
-int		parse_tokens2(char **av, int *i);
-void	print_dp(char **str);
-int		tokens_num(char **cwd);
-int		options(char *str);
-void	one_command(t_tokens *token);
-t_tokens *init_lists(char **av, t_tokens *tokens);
-int		check_built(char **linei);
-void	get_tokens_size(char **splited, t_tokens **tokens);
-void	alocate_tokens(t_tokens **tokens);
-int		is_sign(char *sign);
-t_tokens *separeites_tokens(t_tokens **tokens, char **splited);
-int		full_check_dq(char **splited);
+char		*get_prompt(char *av, char *newav);
+int			parsing(char *av);
+int			parse_tokens(char *av, char *newav, int *j, int *i);
+int			parse_tokens2(char **av, int *i);
+void		print_dp(char **str);
+int			tokens_num(char **cwd);
+int			options(char *str);
+void		one_command(t_tokens *token);
+t_tokens	*init_lists(char **av, t_tokens *tokens);
+int			check_built(char **linei);
+void		get_tokens_size(char **splited, t_tokens **tokens);
+void		alocate_tokens(t_tokens **tokens);
+int			is_sign(char *sign);
+t_tokens	*separeites_tokens(t_tokens **tokens, char **splited);
+int			full_check_dq(char **splited);
 
 #endif

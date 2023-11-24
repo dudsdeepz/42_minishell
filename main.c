@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/22 23:09:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:37:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	main(int ac, char **av, char **env)
 		parser()->envp = dup_matrix(env);
 		parser()->export_env = dup_matrix(env);
 		parser()->tmp_matrix = NULL;
-		parser()->tmp_var = NULL;
 		while (1)
 		{
-			cwd = readline("minishell: ");
+			if (getenv("SHLVL"))
+				cwd = readline("minishell: ");
 			if (!cwd)
 				return (0);
 			if (ft_strlen(cwd) > 0)
@@ -42,7 +42,7 @@ int	main(int ac, char **av, char **env)
 
 int	list_size(char **list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (list[i])
@@ -50,22 +50,22 @@ int	list_size(char **list)
 	return (i);
 }
 
-
-void shell(char *cwd)
+void	shell(char *cwd)
 {
-	char *tmp;
-	
+	char	*tmp;
+
 	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (tmp)
 		if (parsing(tmp))
 			shell_output(tmp);
 	free(tmp);
+	tmp = NULL;
 }
 
 int	ft_heredoc(char *a)
 {
-	int fd[2];
-	int status;
+	int	fd[2];
+	int	status;
 
 	status = 0;
 	signal(SIGQUIT, SIG_IGN);
@@ -90,12 +90,13 @@ void	hd_loop(char *str, int *fd)
 	{
 		write(0, ">", 1);
 		in = get_next_line(0);
-		in = check_expansion(in, 0);
 		if (!in && heredoc_error(str))
 			break ;
 		if ((ft_strncmp(in, str, ft_strlen(str)) == 0) && \
 			(ft_strlen(in) - 1 == ft_strlen(str)))
 			break ;
+		if (in)
+			in = check_expansion(in, 0);
 		write(fd[1], in, ft_strlen(in));
 		free(in);
 		in = NULL;
@@ -103,34 +104,4 @@ void	hd_loop(char *str, int *fd)
 	close(fd[1]);
 	close(fd[0]);
 	exit(0);
-}
-
-void	term_change(void)
-{
-	int				rc;
-	struct termios	termios_new;
-
-	rc = tcgetattr(0, &parser()->termios_save);
-	if (rc)
-	{
-		perror("");
-		return ;
-	}
-	termios_new = parser()->termios_save;
-	termios_new.c_lflag |= IEXTEN;
-	rc = tcsetattr(0, 0, &termios_new);
-	if (rc)
-	{
-		perror("");
-		return ;
-	}
-}
-
-int heredoc_error(char *str)
-{
-	write(2, "warning: here-document at line 1 \
-	delimited by end-of-file (wanted `", 67);
-	write(2, str, ft_strlen(str));
-	write(2, "')\n", 3);
-	return (1);
 }

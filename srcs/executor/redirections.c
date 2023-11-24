@@ -6,16 +6,16 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/22 10:14:25 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:05:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int redirections(char **str, int i, t_tokens *tokens)
+int	redirections(char **str, int i, t_tokens *tokens)
 {
-	int op;
-	
+	int	op;
+
 	op = options(str[i]);
 	if ((tokens->fd_redir[0] != -1 && tokens->fd_redir[1] != -1) || op == 1)
 	{
@@ -35,11 +35,8 @@ int redirections(char **str, int i, t_tokens *tokens)
 			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		invalid_fds(tokens);
 	}
-	// if (str)
-	// 	free(str);
 	return (i);
 }
-
 
 int	options(char *str)
 {
