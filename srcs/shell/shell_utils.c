@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 14:37:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:20:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	shell_output(char *av)
 
 	splited = NULL;
 	token = NULL;
+	parser()->exp_var = NULL;
 	if (ft_strlen(av) > 0)
 	{
 		splited = ft_split(av, '\2');
