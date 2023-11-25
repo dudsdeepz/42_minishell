@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 20:48:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 21:11:58 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	**prep_str(char **str)
 
 	i = -1;
 	parser()->hd = 0;
+	if (is_sign(str[++i]))
+		parser()->was_hd = 1;
 	while (str[++i])
 	{
 		if (is_sign(str[i]))
