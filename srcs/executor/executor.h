@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 12:13:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 09:30:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 21:58:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int		lstsize_tokens(t_tokens *lst);
 int		check_double_red(char *av, int i);
 int		total_tokens_size(t_tokens **tokens);
 void	invalid_fds(t_tokens *token);
+void	fds_caseclose(t_tokens *token);
 
 #endif
