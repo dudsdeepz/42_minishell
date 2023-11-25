@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 13:53:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 18:39:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <string.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/time.h>
@@ -71,5 +72,6 @@ int			path_helper(char **env, int *i);
 void		free_str_h(char *str, char *command);
 int			free_path_helper(char *str, char *command, char **path);
 char		**prep_str(char **str);
-
+void        go_top(t_tokens **lst);
+void        handle_signals2(int sig);
 #endif

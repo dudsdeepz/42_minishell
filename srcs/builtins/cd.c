@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 12:07:53 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 22:55:49 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	cd_aux(char *oldpwd, char *tmp, char *token)
 
 	envp = parser()->envp;
 	export_env = parser()->export_env;
-	envp = send_to_env(tmp, envp, "OLDPWD");
+	parser()->envp = send_to_env(tmp, envp, "OLDPWD");
 	oldpwd = oldpwd_aux("OLDPWD");
-	export_env = send_to_exportenv(oldpwd, envp);
+	parser()->export_env = send_to_exportenv(oldpwd, export_env);
 	free (oldpwd);
 	oldpwd = NULL;
 	chdir(token);

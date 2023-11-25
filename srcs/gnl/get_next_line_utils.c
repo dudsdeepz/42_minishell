@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/23 16:32:30 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:08:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*ft_strjoingnl(char *s1, char *s2)
 		i++;
 	}
 	free (s1);
+	s1 = NULL;
 	while (*s2)
 	{
 		a[i++] = *s2;

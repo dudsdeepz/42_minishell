@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/24 09:57:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:33:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 void	executor(t_tokens **tokens)
 {
 	int		status;
-	pid_t	i;
 
 	go_head(tokens);
 	exec_start((*tokens));
 	go_head(tokens);
-	i = 0;
 	status = 0;
 	while ((*tokens)->next)
 	{
@@ -34,9 +32,13 @@ void	executor(t_tokens **tokens)
 
 void	exec_doit(t_tokens *tokens)
 {
-	if (check_built(tokens->token) && lstsize_tokens(tokens) <= 1)
+	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1 && \
+		tokens->fd_redir[1] < 2)
 	{
 		tokens->_exec_cmd(&tokens);
+		if ((!ft_strncmp(tokens->token[0], "exit", 5)) \
+		&& write(2, "exit\n", 5))
+			exit(parser()->exit_status);
 		return ;
 	}
 	if (fork() == 0)
@@ -65,9 +67,9 @@ void	exec_start(t_tokens *tokens)
 			ft_path(tokens->token, tokens);
 			if (tokens->path)
 			{
-				parser()->exit_status = 0;
 				ft_cmds(tokens);
 				exec_doit(tokens);
+				parser()->exit_status = 0;
 				free(tokens->path);
 			}
 		}

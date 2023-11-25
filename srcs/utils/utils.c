@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 14:53:34 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 23:10:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ void	free_str_h(char *str, char *command)
 {
 	free(str);
 	str = NULL;
-	printf("%sCommand not found: %s ! %s\n", RED, command, DEFAULT);
+	(void)command;
+	ft_putstr_fd("command not found: ", STDERR_FILENO);
+	ft_putstr_fd(command, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	parser()->exit_status = 127;
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/23 19:14:30 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/24 23:15:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	_ft_pwd(t_tokens **token)
 
 	(void)token;
 	cwd = getcwd(NULL, 0);
-	printf("%s\n", cwd);
+	ft_putstr_fd(cwd, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	free(cwd);
 }
 
@@ -32,7 +33,8 @@ void	_ft_env(t_tokens **token)
 	env = parser()->envp;
 	while (env[i])
 	{
-		printf("%s\n", env[i]);
+		ft_putstr_fd(env[i], STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		++i;
 	}
 	return ;

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 16:20:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:13:25 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ int	shell_output(char *av)
 		if (ft_strlen(splited[0]) > 0)
 		{
 			if (full_check_dq(splited))
+			{
+				free_matrix(splited);
 				return (0);
+			}
 			splited = prep_str(splited);
 			token = init_lists(splited, token);
-			executor(&token);
+			if (!parser()->pause)
+				executor(&token);
 			free_tokens(token);
 			free(parser()->exp_var);
 		}
@@ -96,9 +100,9 @@ int	is_sign(char *sign)
 {
 	if (!ft_strncmp(sign, "|", 2))
 		return (1);
-	else if (!ft_strncmp(sign, ">>", 2))
+	else if (!ft_strcmp(sign, ">>"))
 		return (1);
-	else if (!ft_strncmp(sign, "<<", 2))
+	else if (!ft_strcmp(sign, "<<"))
 		return (1);
 	else if (!ft_strncmp(sign, ">", 2))
 		return (1);

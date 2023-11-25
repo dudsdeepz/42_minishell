@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 16:19:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 18:41:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_parser
 	char			**splited;
 	t_tokens		*head_token;
 	int				exit_status;
+	int				hd;
+	int				pause;
 	struct termios	termios_save;
 }					t_parser;
 
