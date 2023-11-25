@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 14:35:36 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:29:26 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,28 @@ static void	v_helper(char *token, char *str, int start, int end)
 char	*get_expansion(char *token, int *i)
 {
 	int		a;
-	char	*tmp;
 	char	*res;
 
 	a = (*i) + 1;
 	if (token[a] == '?')
 	{
-		tmp = ft_itoa(parser()->exit_status);
-		return (tmp);
+		return (get_status(token, *i, ft_itoa(parser()->exit_status)));
 		(*i)++;
 	}
 	while (token[a] && token_valid_char(token[a]))
 		a++;
-	if (a == (*i) + 1)
+	if (a == (*i) + 1)	
 	{
 		(*i)++;
 		return (token);
 	}
 	res = exp_token(token, search_env(ft_substr(token, (*i) + 1, a - 1), \
 		parser()->envp), (*i) + 1, a - 1);
+	if (parser()->hd_free)
+	{
+		free(parser()->hd_free);
+		parser()->hd_free = NULL;
+	}
 	return (res);
 }
 

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:58:10 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 11:50:58 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:02:54 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,15 @@ int	difs(char *sign, char c)
 	if (!sign[i])
 		return (1);
 	return (0);
+}
+
+char	*get_status(char *str, int i, char *val)
+{
+	char	*res;
+
+	res = malloc(ft_strlen(str) - 2 + ft_strlen(val) + 1);
+	get_stts_utils(str, i, val, &res);
+	parser()->free_stts = res;
+	free(val);
+	return (res);
 }

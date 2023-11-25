@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:47:08 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 11:40:59 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:56:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ char	*free_da_str(char *str);
 int		check_dq(char *str);
 void	go_head(t_tokens **lst);
 int		dq_aux(char *str, int i);
-
+void	get_stts_utils(char *str, int i, char *val, char **res);
 #endif

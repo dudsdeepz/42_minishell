@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 19:02:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:55:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,33 @@ void	handle_signals2(int sig)
 		write(1, "Quit", 5);
 		return ;
 	}
+}
+
+void	get_stts_utils(char *str, int i, char *val, char **res)
+{
+	int		k;
+	int		j;
+	int		l;
+
+	l = 0;
+	k = 0;
+	j = 0;
+	while (str[k + l])
+	{
+		if ((k + j) == i)
+		{
+			while (val[j])
+			{
+				(*res)[k + j] = val[j];
+				j++;
+			}
+			l = 2;
+		}
+		else
+		{
+			(*res)[k + j] = str[k + l];
+			k++;
+		}
+	}
+	(*res)[k + j] = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 19:08:13 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:22:50 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_strjoingnl(char *s1, char *s2)
 
 	i = 0;
 	a = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	parser()->hd_free = a;
 	if (!a)
 		return (NULL);
 	while (s1 && s1[i])

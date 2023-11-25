@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 18:41:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:41:42 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ typedef struct s_parser
 	int				hd;
 	int				pause;
 	struct termios	termios_save;
+	char			*free_stts;
+	char			*hd_free;
+	char			**hd_free_2;
+	int				was_hd;
 }					t_parser;
 
 char		*get_prompt(char *av, char *newav);
@@ -57,7 +61,6 @@ int			parse_tokens2(char **av, int *i);
 void		print_dp(char **str);
 int			tokens_num(char **cwd);
 int			options(char *str);
-void		one_command(t_tokens *token);
 t_tokens	*init_lists(char **av, t_tokens *tokens);
 int			check_built(char **linei);
 void		get_tokens_size(char **splited, t_tokens **tokens);
@@ -65,5 +68,6 @@ void		alocate_tokens(t_tokens **tokens);
 int			is_sign(char *sign);
 t_tokens	*separeites_tokens(t_tokens **tokens, char **splited);
 int			full_check_dq(char **splited);
+char		*get_status(char *str, int i, char *val);
 
 #endif

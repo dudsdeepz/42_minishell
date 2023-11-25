@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 18:42:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:53:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int ac, char **av, char **env)
 	{
 		parser()->envp = dup_matrix(env);
 		parser()->export_env = dup_matrix(env);
+		parser()->was_hd = 0;
 		sig_actions();
 		while (1)
 		{
@@ -56,10 +57,20 @@ void	shell(char *cwd)
 	char	*tmp;
 
 	parser()->tmp_matrix = NULL;
+	parser()->free_stts = NULL;
+	parser()->hd_free_2 = NULL;
+	parser()->exp_var = NULL;
 	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (tmp)
 		if (parsing(tmp))
 			shell_output(tmp);
+	if (parser()->was_hd)
+	{
+		free_matrix(parser()->hd_free_2);
+		parser()->was_hd = !parser()->was_hd;
+	}
+	if (parser()->free_stts)
+		free(parser()->free_stts);
 	free(tmp);
 	tmp = NULL;
 }
@@ -70,6 +81,7 @@ int	ft_heredoc(char *a)
 	int	status;
 
 	status = 0;
+	parser()->hd_free = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, hd_signs);
 	parser()->hd = 1;
@@ -82,6 +94,7 @@ int	ft_heredoc(char *a)
 	sig_actions();
 	waitpid(0, &status, 0);
 	close(fd[1]);
+	parser()->was_hd = 1;
 	parser()->hd = 0;
 	return (fd[0]);
 }
@@ -98,7 +111,8 @@ void	hd_loop(char *str, int *fd)
 		in = get_next_line(0);
 		if (!in && heredoc_error(str))
 			break ;
-		in = check_expansion(in, 0);
+		if (in)
+			in = check_expansion(in, 0);
 		if ((ft_strncmp(in, str, ft_strlen(str)) == 0) && \
 			(ft_strlen(in) - 1 == ft_strlen(str)) && !check_dq(in))
 			break ;

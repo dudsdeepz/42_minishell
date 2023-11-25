@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/25 19:33:09 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:43:56 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ void	exec_doit(t_tokens *tokens)
 	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1 && \
 		tokens->fd_redir[1] < 2)
 	{
+		if ((!ft_strncmp(tokens->token[0], "exit", 5)))
+			return(_ft_exit(&tokens));
 		tokens->_exec_cmd(&tokens);
-		if ((!ft_strncmp(tokens->token[0], "exit", 5)) \
-		&& write(2, "exit\n", 5))
-			exit(parser()->exit_status);
 		return ;
 	}
 	if (fork() == 0)

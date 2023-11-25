@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 18:36:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/25 20:48:39 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	alloc_tokens(t_tokens **tokens)
 	while ((*tokens)->next)
 	{
 		(*tokens)->token = malloc(sizeof(char *) * (*tokens)->token_size);
+		parser()->hd_free_2 = (*tokens)->token;
 		pipe((*tokens)->fd);
 		(*tokens) = (*tokens)->next;
 	}
