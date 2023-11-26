@@ -6,18 +6,16 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 22:02:37 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:05:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	shell_output(char *av)
+int	shell_output(char *av, char **splited)
 {
 	t_tokens	*token;
-	char		**splited;
 
-	splited = NULL;
 	token = NULL;
 	if (ft_strlen(av) > 0)
 	{
@@ -35,10 +33,7 @@ int	shell_output(char *av)
 				token = init_lists(splited, token);
 				executor(&token);
 			}
-			if (parser()->was_hd)
-				fds_caseclose(token);
-			free_tokens(token);
-			free(parser()->exp_var);
+			aux_shelloutput(token);
 		}
 		free_matrix(splited);
 	}

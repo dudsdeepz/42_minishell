@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 22:57:58 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:09:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	_ft_echo(t_tokens **token)
 	}
 	else if (flag == 2)
 		echo_print((*token)->token, 2);
+	close_fds(token, 0);
 }
 
 void	n_case(t_tokens **token, int *flag)

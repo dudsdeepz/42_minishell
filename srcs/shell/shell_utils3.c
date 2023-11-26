@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:32:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 13:34:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:03:54 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,12 @@ void    shell_aux(char **env)
 	parser()->envp = dup_matrix(env);
 	parser()->export_env = dup_matrix(env);
 	parser()->was_hd = 0;
+}
+
+void	aux_shelloutput(t_tokens *token)
+{
+	if (parser()->was_hd)
+		fds_caseclose(token);
+	free_tokens(token);
+	free(parser()->exp_var);
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 14:03:03 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 15:55:35 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	shell(char *cwd)
 	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 5));
 	if (tmp)
 		if (parsing(tmp))
-			shell_output(tmp);
+			shell_output(tmp, NULL);
 	if (parser()->was_hd)
 	{
 		free_matrix(parser()->hd_free_2);

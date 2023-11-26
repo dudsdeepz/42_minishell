@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 09:33:27 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:36:42 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	_ft_export(t_tokens **token)
 	int		i;
 
 	i = 0;
+	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
 		while ((*token)->token[++i])

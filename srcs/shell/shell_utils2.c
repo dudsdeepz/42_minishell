@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 14:03:21 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 15:48:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ t_tokens	*separeites_tokens(t_tokens **tokens, char **splited)
 	return ((*tokens));
 }
 
+static void	aux_prepstr(void)
+{
+	if (parser()->pas_exp)
+	{
+		free(parser()->exp_var);
+		parser()->exp_var = NULL;
+	}
+}
+
 char	**prep_str(char **str)
 {
 	int		i;
@@ -85,9 +94,7 @@ char	**prep_str(char **str)
 		free(str[i]);
 		str[i] = ft_strdup(tmp);
 		free(tmp);
-		if (parser()->pas_exp)
-			free(parser()->exp_var);
-		parser()->exp_var = NULL;
+		aux_prepstr();
 		if (parser()->free_stts)
 		{
 			free(parser()->free_stts);

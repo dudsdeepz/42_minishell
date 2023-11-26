@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 13:40:27 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:32:47 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	_ft_cd(t_tokens **token)
 		printf("cd: invalid home path\n");
 	free(tmp);
 	tmp = NULL;
+	close_fds(token, 0);
 }
 
 char	*oldpwd_aux(char *token)

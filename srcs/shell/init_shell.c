@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 22:12:21 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 16:12:20 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,15 @@ void	free_tokens(t_tokens *token)
 {
 	while (token->prev)
 	{
+		// close(token->fd_redir[0]);
+		// close(token->fd_redir[1]);
 		token = token->prev;
 		close(token->fd[0]);
 		close(token->fd[1]);
+		if (token->fd_redir[0] > 2)
+			close(token->fd_redir[0]);
+		if (token->fd_redir[1] > 2)
+			close(token->fd_redir[1]);
 		if (token->token[0] != NULL && token->token)
 			free_matrix(token->token);
 		free(token->next);
