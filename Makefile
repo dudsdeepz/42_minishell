@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/24 16:13:42 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/11/26 13:32:30 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SOURCES = main.c\
 			srcs/shell/init_shell.c\
 			srcs/shell/shell_utils.c\
 			srcs/shell/shell_utils2.c\
+			srcs/shell/shell_utils3.c\
 			srcs/parsing/parsing.c\
 			srcs/parsing/parsing_checks.c\
 			srcs/expansion/expansion.c\

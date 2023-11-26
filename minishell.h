@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 22:16:36 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 13:33:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ int			free_path_helper(char *str, char *command, char **path);
 char		**prep_str(char **str);
 void        go_top(t_tokens **lst);
 void        handle_signals2(int sig);
+void        shell_aux(char **env);
+
 #endif

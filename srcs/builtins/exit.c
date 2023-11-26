@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 16:22:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 12:12:24 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void	exit_aux(char *token)
 
 	tmp = 0;
 	tmp = ft_atoi(token);
-	if (tmp > 225)
-		tmp %= 225;
+	if (tmp > 256)
+		tmp %= 256;
 	free_envs();
 	exit(tmp);
 }

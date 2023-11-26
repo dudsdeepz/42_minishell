@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:59:33 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 20:29:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 13:46:21 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,11 @@ char	*check_expansion(char *token, int tmp)
 		if (*synt())
 			return (free_da_str(token));
 		if (token[i] && !difs("$", token[i]))
+		{
 			token = get_expansion(token, &i);
+			parser()->free_pas_ex = token;
+			parser()->pas_exp = 1;
+		}
 		else
 			i++;
 	}

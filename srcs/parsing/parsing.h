@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 20:41:42 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 13:46:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_tokens
 
 typedef struct s_parser
 {
+	int				pas_exp;
 	char			*exp_var;
 	char			**export_env;
 	char			**tmp_matrix;
@@ -52,6 +53,7 @@ typedef struct s_parser
 	char			*hd_free;
 	char			**hd_free_2;
 	int				was_hd;
+	char			*free_pas_ex;
 }					t_parser;
 
 char		*get_prompt(char *av, char *newav);

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 22:55:49 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 13:40:27 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ void	_ft_cd(t_tokens **token)
 	tmp = getcwd(NULL, 0);
 	if ((*token)->token[1])
 	{
+		if ((*token)->token[2])
+			ft_putstr_fd("cd: too many arguments!\n", STDERR_FILENO);
 		if (access((*token)->token[1], F_OK == -1))
-			printf("cd: no such file or directory: %s\n", (*token)->token[1]);
+		{
+			parser()->exit_status = 1;
+			printf("cd: %s: no such file or directory!\n", (*token)->token[1]);
+		}
 		else
 			cd_aux(oldpwd, tmp, (*token)->token[1]);
 	}

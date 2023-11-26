@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 22:11:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/26 14:03:21 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ char	**prep_str(char **str)
 		free(str[i]);
 		str[i] = ft_strdup(tmp);
 		free(tmp);
+		if (parser()->pas_exp)
+			free(parser()->exp_var);
+		parser()->exp_var = NULL;
 		if (parser()->free_stts)
 		{
 			free(parser()->free_stts);
