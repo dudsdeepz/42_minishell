@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/26 16:07:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:10:39 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,12 @@ void	executor(t_tokens **tokens)
 
 void	exec_doit(t_tokens *tokens)
 {
-	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1 && \
-		tokens->fd_redir[1] < 2)
+	if (check_built(tokens->token) && lstsize_tokens(tokens) == 1)
 	{
 		if ((!ft_strncmp(tokens->token[0], "exit", 5)))
-			return(_ft_exit(&tokens));
-		tokens->_exec_cmd(&tokens);
-		return ;
+			return (_ft_exit(&tokens));
+		if (tokens->fd_redir[1] < 2)
+			return (tokens->_exec_cmd(&tokens));
 	}
 	if (fork() == 0)
 	{
@@ -52,6 +51,8 @@ void	exec_doit(t_tokens *tokens)
 			dup2(tokens->fd_redir[0], STDIN_FILENO);
 		tokens->_exec_cmd(&tokens);
 		close(0);
+		if (check_built(tokens->token))
+			builtins_close(tokens);
 		exit(parser()->exit_status);
 	}
 	close_fds(&tokens, 0);

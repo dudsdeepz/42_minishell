@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 16:09:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:11:11 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	echo_print(char **str, size_t i)
 void	_ft_echo(t_tokens **token)
 {
 	int	flag;
-	
+
 	flag = 0;
 	if ((*token)->token[1] && (*token)->token[1][0] \
 		== '-' && (*token)->token[1][1] == 'n')

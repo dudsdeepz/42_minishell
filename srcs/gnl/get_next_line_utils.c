@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 21:51:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 12:18:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	term_change(void)
 		return ;
 	}
 	termios_new = parser()->termios_save;
-	termios_new.c_lflag &= ~ECHOCTL;
+	termios_new.c_lflag &= ~ECHONL;
 	rc = tcsetattr(0, 0, &termios_new);
 	if (rc)
 	{

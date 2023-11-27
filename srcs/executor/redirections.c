@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/25 22:16:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:10:50 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,15 @@ int	check_double_red(char *av, int i)
 
 void	fds_caseclose(t_tokens *token)
 {
+	go_top(&token);
 	while (token->prev)
 	{
 		token = token->prev;
-		close(token->fd[0]);
-		close(token->fd[1]);
 		if (token->fd_redir[0] > 2)
 			close(token->fd_redir[0]);
 		if (token->fd_redir[1] > 2)
 			close(token->fd_redir[1]);
+		close(token->fd[0]);
+		close(token->fd[1]);
 	}
 }

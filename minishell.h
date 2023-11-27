@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 15:56:03 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:15:01 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,11 @@ int			path_helper(char **env, int *i);
 void		free_str_h(char *str, char *command);
 int			free_path_helper(char *str, char *command, char **path);
 char		**prep_str(char **str);
-void        go_top(t_tokens **lst);
-void        handle_signals2(int sig);
-void        shell_aux(char **env);
-void        aux_shelloutput(t_tokens *token);
+void		go_top(t_tokens **lst);
+void		handle_signals2(int sig);
+void		shell_aux(char **env);
+void		aux_shelloutput(t_tokens *token);
+void		aux_vars(void);
+void		builtins_close(t_tokens *tokens);
 
 #endif

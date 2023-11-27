@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:09:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 13:44:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:10:13 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_expansion(char *token, int *i)
 	}
 	while (token[a] && token_valid_char(token[a]))
 		a++;
-	if (a == (*i) + 1)	
+	if (a == (*i) + 1)
 	{
 		(*i)++;
 		return (token);

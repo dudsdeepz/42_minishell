@@ -6,13 +6,13 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:32:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 16:03:54 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/27 14:13:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void    shell_aux(char **env)
+void	shell_aux(char **env)
 {
 	parser()->envp = dup_matrix(env);
 	parser()->export_env = dup_matrix(env);
@@ -21,8 +21,24 @@ void    shell_aux(char **env)
 
 void	aux_shelloutput(t_tokens *token)
 {
-	if (parser()->was_hd)
-		fds_caseclose(token);
+	fds_caseclose(token);
 	free_tokens(token);
 	free(parser()->exp_var);
+}
+
+void	aux_vars(void)
+{
+	parser()->pause = 0;
+	parser()->tmp_matrix = NULL;
+	parser()->free_stts = NULL;
+	parser()->hd_free_2 = NULL;
+	parser()->exp_var = NULL;
+	parser()->pas_exp = 0;
+	parser()->free_pas_ex = NULL;
+}
+
+void	builtins_close(t_tokens *tokens)
+{
+	close(1);
+	fds_caseclose(tokens);
 }
