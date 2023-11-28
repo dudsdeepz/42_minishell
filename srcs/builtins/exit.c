@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 13:55:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:19:36 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,18 @@ static void	exit_aux(char *token)
 
 void	_ft_exit(t_tokens **token)
 {
-	fds_caseclose((*token));
-	close(1);
-	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
 		if ((*token)->token[2])
 		{
 			parser()->exit_status = 1;
-			printf("exit: too manny arguments\n");
+			printf("exit\nexit: too many arguments\n");
 		}
 		else if (check_exit_str((*token)->token[1]))
 		{
 			free_envs();
-			printf("exit\nexit: %s: numeric argument \
-				required.\n", (*token)->token[1]);
+			printf("exit\nexit: %s: numeric argument required.\n", \
+			(*token)->token[1]);
 			clear_history();
 			exit(2);
 		}
@@ -48,7 +45,12 @@ void	_ft_exit(t_tokens **token)
 			exit_aux((*token)->token[1]);
 	}
 	else
+	{
+		fds_caseclose((*token));
+		close(1);
+		close_fds(token, 0);
 		exit(parser()->exit_status);
+	}
 }
 
 int	check_exit_str(char *str)
