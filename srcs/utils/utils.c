@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 10:05:12 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 21:28:59 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:51:09 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ void	free_str_h(char *str, char *command)
 	free(str);
 	str = NULL;
 	(void)command;
-	ft_putstr_fd("command not found: ", STDERR_FILENO);
 	ft_putstr_fd(command, STDERR_FILENO);
+	ft_putstr_fd(": command not found", STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 	parser()->exit_status = 127;
 }
