@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 19:33:32 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:45:46 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_tokens(char **av)
 void	sig_actions(void)
 {
 	signal(SIGINT, handle_signals);
-	signal(SIGQUIT, handle_signals2);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	free_envs(void)

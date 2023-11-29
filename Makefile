@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/28 18:49:28 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/11/29 10:52:40 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ $(LIBFT_NAME):
 
 $(NAME): $(OBJECTS)
 	@echo "\033[4;33m[+] Compiling..\033[1;0m"
+	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(SOURCES) -o ${NAME} ./libft/${LIBFT_NAME} -lreadline
 	@echo "\033[4;32m[✓] Ready!\033[1;0m"
 
@@ -67,11 +68,13 @@ $(NAME): $(OBJECTS)
 clean:
 	@echo "\033[4;33m[+] Cleaning objects..\033[1;0m"
 	$(RM) $(OBJECTS)
+	make clean -C $(LIBFT_PATH)
 	@echo "\e[4;32m[✓]Objects cleaned!\033[1;0m"
 
 fclean: clean
 	@echo "\033[4;33m[+] Cleaning functions..\033[1;0m"
 	$(RM) $(NAME) minishell
+	make fclean -C $(LIBFT_PATH)
 	@echo "\033[4;32m[✓]Functions cleaned!\033[1;0m"
 
 re: fclean all

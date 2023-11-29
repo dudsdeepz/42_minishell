@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/28 19:51:14 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:14:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 void	executor(t_tokens **tokens)
 {
 	int		status;
+	pid_t	i;
 
 	go_head(tokens);
 	exec_start((*tokens));
 	go_head(tokens);
+	i = 0;
 	status = 0;
 	while ((*tokens)->next)
 	{
 		if ((*tokens)->token[0])
-			waitpid(-1, &status, 0);
+		{
+			i = waitpid(-1, &status, 0);
+			if (i != -1 && WIFEXITED(status))
+				parser()->exit_status = WIFEXITED(status);
+		}
 		if (!(*tokens)->next)
 			break ;
 		(*tokens) = (*tokens)->next;
@@ -68,7 +74,6 @@ void	exec_start(t_tokens *tokens)
 			{
 				ft_cmds(tokens);
 				exec_doit(tokens);
-				parser()->exit_status = 0;
 				free(tokens->path);
 			}
 		}

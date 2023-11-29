@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/25 19:55:56 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:47:14 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,21 @@ void	go_top(t_tokens **lst)
 		(*lst) = (*lst)->next;
 }
 
-void	handle_signals2(int sig)
-{
-	pid_t	pid;
-	int		status;
+// void	handle_signals2(int sig)
+// {
+	// pid_t	pid;
+	// int		status;
 
-	(void)sig;
-	pid = waitpid(-1, &status, 0);
-	if (pid == -1)
-		SIG_IGN ;
-	else if (!parser()->hd)
-	{
-		write(1, "Quit", 5);
-		return ;
-	}
-}
+	// (void)sig;
+	// pid = waitpid(-1, &status, 0);
+	// if (pid == -1)
+	// 	SIG_IGN ;
+	// else if (!parser()->hd)
+	// {
+	// 	write(1, "Quit\n", 5);
+	// 	return ;
+	// }
+// }
 
 void	get_stts_utils(char *str, int i, char *val, char **res)
 {
