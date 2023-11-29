@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/27 14:10:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:51:14 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ void	exec_start(t_tokens *tokens)
 {
 	while (tokens->next)
 	{
-		if (tokens->token[0])
+		if (tokens->token[0] && !tokens->error)
 		{
-			ft_path(tokens->token, tokens);
-			if (tokens->path)
+			if (ft_path(tokens->token, tokens))
 			{
 				ft_cmds(tokens);
 				exec_doit(tokens);
@@ -116,10 +115,11 @@ int	ft_path(char **tokens, t_tokens *token)
 		}
 		else
 		{
+			token->error = 1;
 			token->path = NULL;
-			return (2);
+			return (0);
 		}
 	}
 	token->path = ft_strdup(tokens[0]);
-	return (0);
+	return (2);
 }

@@ -6,22 +6,24 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 14:11:47 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:01:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	cd_aux(char *oldpwd, char *tmp, char *token)
+static void	cd_aux(char *tmp, char *token)
 {
 	char	**envp;
 	char	**export_env;
+	char	*oldpwd;
 
+	(void)tmp;
+	oldpwd = oldpwd_aux("OLDPWD");
 	envp = parser()->envp;
 	export_env = parser()->export_env;
-	envp = send_to_env(tmp, envp, "OLDPWD");
-	oldpwd = oldpwd_aux("OLDPWD");
-	export_env = send_to_exportenv(oldpwd, export_env);
+	envp = send_to_env(envp, oldpwd);
+	export_env = send_to_env(export_env, oldpwd);
 	free (oldpwd);
 	oldpwd = NULL;
 	chdir(token);
@@ -29,10 +31,8 @@ static void	cd_aux(char *oldpwd, char *tmp, char *token)
 
 void	_ft_cd(t_tokens **token)
 {
-	char	*oldpwd;
 	char	*tmp;
 
-	oldpwd = NULL;
 	tmp = getcwd(NULL, 0);
 	if ((*token)->token[1])
 	{
@@ -44,10 +44,10 @@ void	_ft_cd(t_tokens **token)
 			printf("cd: %s: no such file or directory!\n", (*token)->token[1]);
 		}
 		else
-			cd_aux(oldpwd, tmp, (*token)->token[1]);
+			cd_aux(tmp, (*token)->token[1]);
 	}
 	else if (search_envvar("HOME"))
-		cd_aux(oldpwd, tmp, getenv("HOME"));
+		cd_aux(tmp, getenv("HOME"));
 	else
 		printf("cd: invalid home path\n");
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 14:15:01 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:31:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int			ft_heredoc(char *a, t_tokens *token);
 void		free_tokens(t_tokens *token);
 int			ft_strcmp(char *s1, char *s2);
 void		alloc_tokens(t_tokens **tokens);
-void		hd_loop(char *str, int *fd);
+void		hd_loop(char *str, int *fd, int flag);
 void		hd_signs(int sig);
 void		term_change(void);
 int			heredoc_error(char *str);

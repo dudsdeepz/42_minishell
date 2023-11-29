@@ -6,40 +6,42 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:33:46 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/24 12:11:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:43:50 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	**send_to_env(char *token, char **env, char *find)
+char	**send_to_env(char **env, char *find)
 {
 	int		i;
-	char	*str;
+	char	**str;
+	char	**tmp;
 
 	i = -1;
-	if (!token)
-		token = "\0";
+	if (!find)
+		find = "\0";
 	while (env[++i])
 	{
-		if (!ft_strncmp(find, env[i], ft_strlen(find)))
-			break ;
+		tmp = ft_split(find, '=');
+		str = ft_split(env[i], '=');
+		if (!ft_strcmp(str[0], tmp[0]))
+		{
+			free_matrix(str);
+			free_matrix(tmp);
+			break;
+		}
+		free_matrix(tmp);
+		free_matrix(str);
 	}
 	if (env[i])
-	{
-		free(env[i]);
-		find = ft_strjoin(find, "=");
-		str = ft_strjoin(find, token);
-		free(find);
-		env[i] = ft_strdup(str);
-		free(str);
-	}
+		env[i] = aux_envi(env[i], find);
 	else
-		env = env_help(env, token, find);
+		env = env_help(env, find);
 	return (env);
 }
 
-char	**new_env(char *token, char **env, char *find)
+char	**new_env(char **env, char *find)
 {
 	int		i;
 	char	*tmp;
@@ -52,53 +54,40 @@ char	**new_env(char *token, char **env, char *find)
 		parser()->tmp_matrix[i] = ft_strdup(env[i]);
 		i++;
 	}
-	if (find)
-	{
-		tmp = ft_strjoin(find, token);
-		parser()->tmp_matrix[i] = ft_strdup(tmp);
-		free(tmp);
-		free(find);
-		find = NULL;
-		tmp = NULL;
-	}
-	else
-		parser()->tmp_matrix[i] = ft_strdup(token);
-	parser()->tmp_matrix[i + 1] = 0;
+	parser()->tmp_matrix[i] = ft_strdup(find);
+	parser()->tmp_matrix[++i] = 0;
 	free_matrix(env);
 	return (dup_matrix(parser()->tmp_matrix));
 }
 
-void	export_util(char *str, char **tmp)
+void	export_util(char *str)
 {
 	char	**tmp1;
 	char	**tmp2;
 
-	tmp1 = send_to_env(tmp[1], parser()->envp, str);
+	tmp1 = send_to_env(parser()->envp, str);
 	parser()->envp = tmp1;
-	tmp2 = send_to_env(tmp[1], parser()->export_env, str);
+	tmp2 = send_to_env(parser()->export_env, str);
 	parser()->export_env = tmp2;
 }
 
 char	**send_to_exportenv(char *token, char **env)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
+	int		i;
+	char	**tmp;
+	
+	i = -1;
+	while (env[++i])
 	{
-		if (!ft_strncmp(token, env[i], ft_strlen(token)))
-			break ;
-		i++;
+		tmp = ft_split(env[i], '=');
+		if (!ft_strcmp(token, tmp[0]))
+		{
+			free_matrix(tmp);
+			return (env);
+		}
+		free_matrix(tmp);
 	}
-	if (env[i])
-	{
-		free(env[i]);
-		env[i] = ft_strdup(token);
-	}
-	else
-	{
-		env = new_env(token, env, NULL);
-		free_matrix(parser()->tmp_matrix);
-	}
+	env = new_env(env, token);
+	free_matrix(parser()->tmp_matrix);
 	return (env);
 }

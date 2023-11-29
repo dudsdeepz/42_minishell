@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 14:14:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 09:30:27 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	hd_signs(int sig)
 		SIG_IGN ;
 	else if (sig == SIGINT)
 	{
+		close(parser()->hd_fd[0]);
+		close(parser()->hd_fd[1]);
 		write(2, " ", 1);
 		exit(1);
 	}
@@ -78,10 +80,15 @@ void	free_tokens(t_tokens *token)
 			close(token->fd_redir[0]);
 		if (token->fd_redir[1] > 2)
 			close(token->fd_redir[1]);
-		if (token->token[0] != NULL && token->token)
+		if (token->token[0])
 			free_matrix(token->token);
 		free(token->next);
 		token->next = NULL;
+	}
+	if (parser()->was_hd && token->token[0])
+	{
+		free_matrix(token->token);
+		parser()->was_hd = !parser()->was_hd;
 	}
 	free(token);
 	token = NULL;

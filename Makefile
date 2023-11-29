@@ -6,7 +6,7 @@
 #    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/26 13:32:30 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/11/28 18:49:28 by eduarodr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SOURCES = main.c\
 			srcs/builtins/builtins.c\
 			srcs/builtins/export.c\
 			srcs/builtins/export_util.c\
+			srcs/builtins/export_utils2.c\
 			srcs/builtins/cd.c\
 			srcs/builtins/unset.c\
 			srcs/builtins/echo.c\

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 10:58:37 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:55:58 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_tokens	*init_lists(char **av, t_tokens *tokens)
 	int	count;
 
 	count = tokens_num(av);
+	parser()->list_size = count;
 	tokens = malloc(sizeof(t_tokens));
 	tokens->prev = NULL;
 	while (count--)
@@ -82,6 +83,7 @@ t_tokens	*init_lists(char **av, t_tokens *tokens)
 		tokens->token_size = 1;
 		tokens->token = NULL;
 		tokens->path = NULL;
+		tokens->error = 0;
 		tokens->next = malloc(sizeof(t_tokens));
 		tokens->next->prev = tokens;
 		tokens->next->fd[1] = 1;

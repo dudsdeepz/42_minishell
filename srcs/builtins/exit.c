@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 13:55:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 09:56:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ static void	exit_aux(char *token)
 void	_ft_exit(t_tokens **token)
 {
 	fds_caseclose((*token));
-	close(1);
-	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
 		if ((*token)->token[2])
@@ -41,14 +39,17 @@ void	_ft_exit(t_tokens **token)
 			free_envs();
 			printf("exit\nexit: %s: numeric argument \
 				required.\n", (*token)->token[1]);
-			clear_history();
 			exit(2);
 		}
 		else
 			exit_aux((*token)->token[1]);
 	}
 	else
+	{
+		close(1);
+		close_fds(token, 0);
 		exit(parser()->exit_status);
+	}
 }
 
 int	check_exit_str(char *str)
