@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 10:47:14 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:03:26 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**dup_matrix(char **src)
 	p = -1;
 	while (src[++p] != 0)
 		res[p] = ft_strdup(src[p]);
-	res[p++] = 0;
+	res[p] = 0;
 	return (res);
 }
 
