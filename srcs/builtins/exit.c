@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 13:25:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:28:36 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	exit_aux(char *token)
 
 void	_ft_exit(t_tokens **token)
 {
+	// free_tokens((*token));
 	fds_caseclose((*token));
 	if ((*token)->token[1])
 	{

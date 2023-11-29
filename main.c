@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 09:21:12 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:56:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	ft_heredoc(char *a, t_tokens *token)
 	int	status;
 	int	flag;
 
+	close(token->fd[0]);
+	close(token->fd[1]);
 	flag = 0;
 	status = 0;
-	close(token->fd[1]);
-	close(token->fd[0]);
 	parser()->pas_exp = 0;
 	parser()->hd_free = NULL;
 	signal(SIGQUIT, SIG_IGN);

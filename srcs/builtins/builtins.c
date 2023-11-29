@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 11:13:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:11:34 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int	check_built(char **linei)
 
 void	_ft_exec_cmd(t_tokens **token)
 {
-	fds_caseclose((*token));
 	close_fds(token, 1);
 	execve((*token)->path, (*token)->token, parser()->envp);
 	close(0);
