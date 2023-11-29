@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 09:56:04 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:10:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	_ft_exit(t_tokens **token)
 		if ((*token)->token[2])
 		{
 			parser()->exit_status = 1;
-			printf("exit: too manny arguments\n");
+			printf("exit\nexit: too many arguments\n");
 		}
 		else if (check_exit_str((*token)->token[1]))
 		{
