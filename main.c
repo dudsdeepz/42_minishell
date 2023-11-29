@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 13:56:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:57:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ void	shell(char *cwd)
 	aux_vars();
 	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 3));
 	if (tmp)
+	{
 		if (parsing(tmp))
 			shell_output(tmp, NULL);
+	}
 	free(tmp);
 	tmp = NULL;
 }

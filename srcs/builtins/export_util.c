@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:33:46 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 12:19:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:17:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ char	**new_env(char **env, char *find)
 	parser()->tmp_matrix[i] = ft_strdup(find);
 	parser()->tmp_matrix[++i] = 0;
 	free_matrix(env);
-	return (dup_matrix(parser()->tmp_matrix));
+	env = dup_matrix(parser()->tmp_matrix);
+	return (env);
 }
 
 void	export_util(char *str)
