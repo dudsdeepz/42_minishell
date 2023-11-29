@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/28 19:22:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:31:40 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,21 @@ char	**new_env_unset(char *token, char **env)
 	
 	i = 0;
 	a = -1;
-	parser()->tmp_matrix = malloc(sizeof(char *) * list_size(env) + 8);
+	(void)token;
+	parser()->tmp_matrix = malloc(sizeof(char *) * list_size(env));
 	while (env[++a])
 	{
 		tmp = ft_split(env[i], '=');
 		if (env[a] && !ft_strcmp(token, tmp[0]))
-			a++;
+		{
+			free_matrix(tmp);
+			continue ;
+		}
 		free_matrix(tmp);
-		if (env[a])
-			parser()->tmp_matrix[i++] = ft_strdup(env[a]);
+		// if (env[a])
+		parser()->tmp_matrix[i++] = ft_strdup(env[a]);
 	}
-	parser()->tmp_matrix[i--] = 0;
+	parser()->tmp_matrix[--i] = 0;
 	free_matrix(env);
 	return (dup_matrix(parser()->tmp_matrix));
 }
@@ -40,8 +44,7 @@ void	unset_uti(char *str)
 	char	**tmp;
 	char	**tmp2;
 	
-	tmp = NULL;
-	tmp2 = NULL;
+
 	tmp = new_env_unset(str, parser()->envp);
 	parser()->envp = tmp;
 	free_matrix(parser()->tmp_matrix);
