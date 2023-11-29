@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 12:29:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:25:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	_ft_exit(t_tokens **token)
 	{
 		close(1);
 		close_fds(token, 0);
+		// free_matrix(parser()->tmp_matrix);
 		exit(parser()->exit_status);
 	}
 }
