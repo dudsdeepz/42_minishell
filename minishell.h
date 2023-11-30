@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 14:26:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:39:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			list_size(char **list);
 void		shell(char *cwd);
 char		*ft_subtokens(char const *s, unsigned int start, size_t len);
 void		free_envs(void);
-int			ft_heredoc(char *a, t_tokens *token);
+int			ft_heredoc(char *a);
 void		free_tokens(t_tokens *token);
 int			ft_strcmp(char *s1, char *s2);
 void		alloc_tokens(t_tokens **tokens);
@@ -79,5 +79,6 @@ void		aux_shelloutput(t_tokens *token);
 void		aux_vars(void);
 void		builtins_close(t_tokens *tokens);
 char		*file_quotes(char *str);
+void		create_pipes(t_tokens *tokens);
 
 #endif

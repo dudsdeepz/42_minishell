@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/30 15:56:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:40:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void	executor(t_tokens **tokens)
 	int		status;
 	pid_t	i;
 
+	create_pipes((*tokens));
 	go_head(tokens);
 	exec_start((*tokens));
 	go_head(tokens);
+	close_fds(tokens, 1);
 	i = 0;
 	status = 0;
 	while ((*tokens)->next)

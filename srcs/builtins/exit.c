@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 15:42:41 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:14:09 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ static void	exit_aux(char *token)
 	exit(tmp);
 }
 
+static void	cd_aux(void)
+{
+	free_envs();
+	ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
+	clear_history();
+}
+
 void	_ft_exit(t_tokens **token)
 {
 	close_fds(token, 0);
@@ -36,15 +43,18 @@ void	_ft_exit(t_tokens **token)
 		}
 		else if (check_exit_str((*token)->token[1]))
 		{
-			free_envs();
-			ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
+			cd_aux();
 			exit(2);
 		}
 		else
+		{
+			clear_history();
 			exit_aux((*token)->token[1]);
+		}
 	}
 	else
 	{
+		clear_history();
 		close(1);
 		exit(parser()->exit_status);
 	}

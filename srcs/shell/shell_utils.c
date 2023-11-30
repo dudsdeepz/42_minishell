@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 13:55:15 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:41:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,15 @@ int	is_sign(char *sign)
 	else if (!ft_strncmp(sign, "<", 2))
 		return (1);
 	return (0);
+}
+
+
+void	create_pipes(t_tokens *tokens)
+{
+	go_head(&tokens);
+	while (tokens->next)
+	{
+		pipe(tokens->fd);
+		tokens = tokens->next;
+	}
 }
