@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 11:56:46 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 15:00:26 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:00:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	free_matrix(char **mtx)
 	{
 		while (mtx[++p])
 		{
-			if (mtx[p] == NULL)
-				p++;
-			else
+			if (mtx[p] != NULL)
 			{
 				free(mtx[p]);
 				mtx[p] = NULL;

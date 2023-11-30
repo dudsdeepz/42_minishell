@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:32:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 15:01:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:16:44 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	shell_aux(char **env)
 {
 	parser()->envp = dup_matrix(env);
 	parser()->export_env = dup_matrix(env);
-	parser()->was_hd = 0;
+	parser()->was_redir = 0;
 	parser()->exit_status = 0;
 }
 

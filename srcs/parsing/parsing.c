@@ -6,25 +6,36 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/11/28 11:20:38 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:38:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static char	prompt_aux(bool *s, char i)
+{
+	(*s) = !(*s);
+	return (i);
+}
 
 char	*get_prompt(char *av, char *newav)
 {
 	int		i;
 	int		j;
 	bool	s;
+	char	tmp;
 
 	s = false;
 	i = -1;
 	j = 0;
+	tmp = 0;
 	while (av[++i])
 	{
 		if ((av[i] == '\"' || av[i] == '\''))
-			s = !s;
+		{
+			if ((tmp == av[i]) || !tmp)
+				tmp = prompt_aux(&s, av[i]);
+		}
 		if (s == false && (av[i] == ' ' || av[i] == '\t'))
 			av[i] = '\2';
 		newav[j++] = av[i];

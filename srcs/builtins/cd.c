@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 16:23:07 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:02:54 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	_ft_cd(t_tokens **token)
 			printf("cd: %s: no such file or directory!\n", (*token)->token[1]);
 		}
 		else
+		{
+			parser()->exit_status = 0;
 			cd_aux(tmp, (*token)->token[1]);
+		}
 	}
 	else if (search_envvar("HOME"))
 		cd_aux(tmp, getenv("HOME"));

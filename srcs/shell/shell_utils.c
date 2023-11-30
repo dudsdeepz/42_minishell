@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 14:46:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:45:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ int	shell_output(char *av, char **splited)
 				free_matrix(splited);
 				return (0);
 			}
-			splited = prep_str(splited);
 			if (!parser()->pause)
 			{
-				token = init_lists(splited, token);
+				token = init_lists(prep_str(splited), token);
 				executor(&token);
+				free_matrix(splited);
 			}
 			aux_shelloutput(token);
 		}
-		free_matrix(splited);
+		else
+			free_matrix(splited);
 	}
 	return (0);
 }
@@ -92,7 +93,6 @@ t_tokens	*init_lists(char **av, t_tokens *tokens)
 	parser()->head_token = tokens->next;
 	tokens->next = NULL;
 	get_tokens_size(av, &tokens);
-	go_head(&tokens);
 	separeites_tokens(&tokens, av);
 	return (tokens);
 }

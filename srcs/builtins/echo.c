@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/28 11:17:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:45:49 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	_ft_echo(t_tokens **token)
 	if (!(list_size((*token)->token) > 1 && n_case((*token)->token[1])) \
 		|| !(*token)->token[1][0])
 		printf("\n");
-	return ;
+	parser()->exit_status = 0;
 }
 
 int	n_case(char *flag)

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 15:57:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:46:53 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ void	shell(char *cwd)
 	aux_vars();
 	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 3));
 	if (tmp)
-	{
 		if (parsing(tmp))
 			shell_output(tmp, NULL);
-	}
 	free(tmp);
 	tmp = NULL;
 }
@@ -82,13 +80,14 @@ int	ft_heredoc(char *a, t_tokens *token)
 	parser()->hd = 1;
 	if (pipe(parser()->hd_fd) == -1)
 		printf("Error creating pipe\n");
-	if (!ft_strncmp(a, "\"", 1) || !ft_strncmp(a, "\'", 1))
+	if (parser()->was_redir)
 		flag = 1;
 	if (fork() == 0)
 		hd_loop(a, parser()->hd_fd, flag);
 	sig_actions();
 	waitpid(0, &status, 0);
 	parser()->hd = 0;
+	parser()->was_redir = 0;
 	close(parser()->hd_fd[1]);
 	return (parser()->hd_fd[0]);
 }

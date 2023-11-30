@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 16:03:11 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:00:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	alloc_tokens(t_tokens **tokens)
 void	get_tokens_size(char **splited, t_tokens **tokens)
 {
 	int	i;
+	char *tmp;
 
 	i = -1;
+	tmp = NULL;
 	go_head(tokens);
 	while (splited[++i] && splited)
 	{
@@ -48,6 +50,7 @@ t_tokens	*separeites_tokens(t_tokens **tokens, char **splited)
 
 	i = -1;
 	j = 0;
+	go_head(tokens);
 	while (splited && splited[++i])
 	{
 		if (splited[i][0] == '|')
@@ -60,7 +63,7 @@ t_tokens	*separeites_tokens(t_tokens **tokens, char **splited)
 		else if (options(splited[i]))
 			redirections(splited, i++, (*tokens));
 		else
-			(*tokens)->token[j++] = remove_quotes(splited[i]);
+			(*tokens)->token[j++] = ft_strdup(splited[i]);
 	}
 	(*tokens)->token[j] = 0;
 	return ((*tokens));
@@ -88,7 +91,7 @@ char	**prep_str(char **str)
 			i++;
 		tmp = ft_strdup(check_expansion(str[i], 0));
 		free(str[i]);
-		str[i] = ft_strdup(tmp);
+		str[i] = remove_quotes(tmp);
 		free(tmp);
 		aux_prepstr();
 		if (parser()->free_stts)

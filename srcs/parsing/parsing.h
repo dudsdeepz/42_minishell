@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/28 16:55:23 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:47:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_tokens
 	int				token_size;
 	char			**token;
 	int				fd[2];
-	int				master_error[2];
 	int				fd_redir[2];
 	char			*path;
 	struct s_tokens	*prev;
@@ -53,7 +52,7 @@ typedef struct s_parser
 	char			*free_stts;
 	char			*hd_free;
 	char			**hd_free_2;
-	int				was_hd;
+	int				was_redir;
 	int				hd_fd[2];
 	char			*free_pas_ex;
 	int				list_size;

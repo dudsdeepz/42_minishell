@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 10:59:33 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/26 13:46:21 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/29 20:12:05 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_dq(char *str)
 {
 	int	i;
 
-	i = 0;
+	i = 0;	
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
