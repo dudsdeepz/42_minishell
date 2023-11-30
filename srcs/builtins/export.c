@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 17:42:51 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:27:28 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,25 @@ void	_ft_export(t_tokens **token)
 	int		i;
 
 	i = 0;
-	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
 		while ((*token)->token[++i])
 		{
 			if (check_export_str((*token)->token[i]))
 			{
-				printf("export: %s: invalid identifier\n", (*token)->token[i]);
-				continue ;
+				parser()->exit_status = 1;
+				ft_putstr_fd(" not a valid identifier", STDERR_FILENO);
+				continue;
 			}
 			if (!difs((*token)->token[i], '='))
 				help_me2((*token)->token[i]);
 			else
 				help_me((*token)->token[i]);
+			parser()->exit_status = 0;
 		}
 	}
 	else
 		display_export(parser()->export_env);
-	parser()->exit_status = 0;
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 21:21:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:27:34 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,17 @@ static void	exit_aux(char *token)
 
 void	_ft_exit(t_tokens **token)
 {
-	fds_caseclose((*token));
 	if ((*token)->token[1])
 	{
 		if ((*token)->token[2])
 		{
 			parser()->exit_status = 1;
-			ft_putstr_fd(" to many arguments", STDERR_FILENO);
+			ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
 		}
 		else if (check_exit_str((*token)->token[1]))
 		{
 			free_envs();
-			printf("exit: exit: %s: numeric argument \
-				required.\n", (*token)->token[1]);
+			ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
 			exit(2);
 		}
 		else
@@ -61,6 +59,8 @@ int	check_exit_str(char *str)
 		return (1);
 	while (str[i])
 	{
+		if (str[i] == '-' || str[i] == '+')
+			i++;
 		if (!ft_isdigit(str[i]))
 			return (1);
 		i++;

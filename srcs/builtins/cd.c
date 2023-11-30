@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 11:02:54 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:27:46 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ void	_ft_cd(t_tokens **token)
 	tmp = getcwd(NULL, 0);
 	if ((*token)->token[1])
 	{
-		if ((*token)->token[2])
-			ft_putstr_fd("cd: too many arguments!\n", STDERR_FILENO);
-		if (access((*token)->token[1], F_OK == -1))
+		if (cd_errors((*token)->token))
 		{
-			parser()->exit_status = 1;
-			printf("cd: %s: no such file or directory!\n", (*token)->token[1]);
+			free(tmp);
+			tmp = NULL;
+			close_fds(token, 0);
 		}
 		else
 		{
@@ -55,7 +54,6 @@ void	_ft_cd(t_tokens **token)
 		printf("cd: invalid home path\n");
 	free(tmp);
 	tmp = NULL;
-	close_fds(token, 0);
 }
 
 char	*oldpwd_aux(char *token)
@@ -85,6 +83,24 @@ int	search_envvar(char *str)
 			ft_strlen(str)) && ft_strlen(parser()->envp[i]) > 5)
 			return (1);
 		i++;
+	}
+	return (0);
+}
+
+
+int	cd_errors(char **token)
+{
+	if (token[2])
+	{
+		parser()->exit_status = 1;
+		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	if (access(token[1], F_OK == -1))
+	{
+		parser()->exit_status = 1;
+		ft_putstr_fd(" No such file or directory", STDERR_FILENO);
+		return (1);
 	}
 	return (0);
 }

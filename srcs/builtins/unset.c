@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 17:42:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:27:52 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	_ft_unset(t_tokens **token)
 
 	i = 0;
 	tmp = NULL;
-	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
 		while ((*token)->token[++i])

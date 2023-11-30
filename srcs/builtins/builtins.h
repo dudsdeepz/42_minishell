@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:29:53 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 13:22:48 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:11:03 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	_ft_exec_cmd(t_tokens **token);
 int		search_envvar(char *str);
 char	**env_help(char **env, char *find);
 char	*aux_envi(char *env, char *find);
+int		cd_errors(char **token);
 
 #endif

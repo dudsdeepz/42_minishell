@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 11:00:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:20:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_tokens_size(char **splited, t_tokens **tokens)
 		if (splited[i][0] == '|')
 			(*tokens) = (*tokens)->next;
 		else if (options(splited[i]))
-			i++;
+			++i;
 		else
 			(*tokens)->token_size++;
 	}
@@ -61,9 +61,12 @@ t_tokens	*separeites_tokens(t_tokens **tokens, char **splited)
 			j = 0;
 		}
 		else if (options(splited[i]))
+		{
+			splited[i + 1] = remove_quotes(splited[i + 1]);
 			redirections(splited, i++, (*tokens));
+		}
 		else
-			(*tokens)->token[j++] = ft_strdup(splited[i]);
+			(*tokens)->token[j++] = remove_quotes(splited[i]);
 	}
 	(*tokens)->token[j] = 0;
 	return ((*tokens));
@@ -91,7 +94,7 @@ char	**prep_str(char **str)
 			i++;
 		tmp = ft_strdup(check_expansion(str[i], 0));
 		free(str[i]);
-		str[i] = remove_quotes(tmp);
+		str[i] = ft_strdup(tmp);
 		free(tmp);
 		aux_prepstr();
 		if (parser()->free_stts)
