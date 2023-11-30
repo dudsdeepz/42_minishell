@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 12:20:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:27:36 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_tokens	*separeites_tokens(t_tokens **tokens, char **splited)
 		}
 		else if (options(splited[i]))
 		{
-			splited[i + 1] = remove_quotes(splited[i + 1]);
+			splited[i + 1] = file_quotes(splited[i + 1]);
 			redirections(splited, i++, (*tokens));
 		}
 		else
@@ -95,6 +95,7 @@ char	**prep_str(char **str)
 		tmp = ft_strdup(check_expansion(str[i], 0));
 		free(str[i]);
 		str[i] = ft_strdup(tmp);
+		parser()->was_redir = str[i];
 		free(tmp);
 		aux_prepstr();
 		if (parser()->free_stts)
@@ -104,5 +105,19 @@ char	**prep_str(char **str)
 		}
 		tmp = NULL;
 	}
+	return (str);
+}
+
+
+char	*file_quotes(char *str)
+{
+	char *tmp;
+
+	tmp = ft_strdup(str);
+	free(str);
+	str = NULL;
+	str = remove_quotes(tmp);
+	free(tmp);
+	tmp = NULL;
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 17:26:46 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/30 12:25:00 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:34:04 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	exec_doit(t_tokens *tokens)
 		else if (tokens->fd_redir[0] > 2)
 			dup2(tokens->fd_redir[0], STDIN_FILENO);
 		tokens->_exec_cmd(&tokens);
-		// if (check_built(tokens->token))
-		// 	builtins_close(tokens);
+		if (check_built(tokens->token))
+			builtins_close(tokens);
 		close(0);
 		exit(parser()->exit_status);
 	}

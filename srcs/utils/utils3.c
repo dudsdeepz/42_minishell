@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:00:42 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 10:45:46 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:33:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	lstsize_tokens(t_tokens *lst)
 	if (!lst)
 		return (0);
 	ptr = lst;
+	go_head(&ptr);
 	while (ptr->next)
 	{
 		count++;

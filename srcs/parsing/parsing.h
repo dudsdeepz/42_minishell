@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 21:47:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:45:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_parser
 	char			*free_stts;
 	char			*hd_free;
 	char			**hd_free_2;
-	int				was_redir;
+	char			*was_redir;
 	int				hd_fd[2];
 	char			*free_pas_ex;
 	int				list_size;
