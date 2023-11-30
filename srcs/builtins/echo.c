@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 15:08:34 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 17:45:49 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:47:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	_ft_echo(t_tokens **token)
 	}
 	while ((*token)->token[j])
 	{
-		printf ("%s", (*token)->token[j]);
+		ft_putstr_fd((*token)->token[j], STDOUT_FILENO);
 		if ((*token)->token[j + 1])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		j++;
 	}
 	if (!(list_size((*token)->token) > 1 && n_case((*token)->token[1])) \
 		|| !(*token)->token[1][0])
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	parser()->exit_status = 0;
 }
 

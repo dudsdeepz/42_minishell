@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/30 13:52:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:58:03 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	redirections(char **str, int i, t_tokens *tokens)
 			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		invalid_fds(tokens);
 	}
-	// if (lstsize_tokens(tokens) == 1)
 	return (i);
 }
 
@@ -56,13 +55,11 @@ void	invalid_fds(t_tokens *token)
 {
 	if (token->fd_redir[0] == -1)
 	{
-		perror("");
-		token->error = 1;
 		parser()->exit_status = 1;
+		token->error = 1;
 	}
 	if (token->fd_redir[1] == -1)
 	{
-		perror("");
 		parser()->exit_status = 1;
 		token->error = 1;
 	}
