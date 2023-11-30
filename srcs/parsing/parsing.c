@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 14:21:00 by by eduarodr       #+#    #+#             */
-/*   Updated: 2023/11/29 20:38:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:07:59 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int	parsing(char *av)
 
 static int	check_tokens2(char **av, int *i)
 {
-	if ((!ft_strncmp(av[*i + 1], "|", 1) || !ft_strncmp(av[*i + 1], ">", 1) \
-		|| !ft_strncmp(av[*i + 1], "<", 1) || !ft_strncmp(av[*i + 1], ">>", 2) \
+	if ((!ft_strncmp(av[*i + 1], "|", 1) ||  \
+		 !ft_strncmp(av[*i + 1], ">>", 2) \
 		|| !ft_strncmp(av[*i + 1], "<<", 2)))
 		return (1);
 	return (0);

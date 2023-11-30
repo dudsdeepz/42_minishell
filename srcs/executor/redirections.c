@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/30 16:40:35 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:13:57 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ void	invalid_fds(t_tokens *token)
 {
 	if (token->fd_redir[0] == -1)
 	{
+		perror(" ");
 		parser()->exit_status = 1;
 		token->error = 1;
 	}
 	if (token->fd_redir[1] == -1)
 	{
+		perror(" ");
 		parser()->exit_status = 1;
 		token->error = 1;
 	}

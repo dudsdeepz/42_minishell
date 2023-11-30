@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 16:27:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:23:51 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void	_ft_exec_cmd(t_tokens **token)
 {
 	fds_caseclose((*token));
 	close_fds(token, 1);
-	if (execve((*token)->path, (*token)->token, parser()->envp) == -1)
-		parser()->exit_status = errno;
+	execve((*token)->path, (*token)->token, parser()->envp);
 	close(0);
 	close(1);
 	close(2);
