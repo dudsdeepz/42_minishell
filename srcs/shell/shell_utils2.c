@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:38:18 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:21:30 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ char	**prep_str(char **str)
 		}
 		tmp = NULL;
 	}
+	parser()->splited = str;
 	return (str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 11:20:12 by gd-innoc         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:39:43 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	_ft_exit(t_tokens **token)
 	}
 	else
 	{
-		clear_history();
+		free_all();
 		close(1);
 		exit(parser()->exit_status);
 	}
@@ -76,4 +76,14 @@ int	check_exit_str(char *str)
 		i++;
 	}
 	return (0);
+}
+
+
+void	free_all(void)
+{
+	free_envs();
+	clear_history();
+	free_tokens(parser()->head_token);
+	free_matrix(parser()->splited);
+	free(parser()->newav);
 }

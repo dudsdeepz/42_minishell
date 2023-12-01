@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 16:39:36 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:39:22 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,13 @@ int	list_size(char **list)
 void	shell(char *cwd)
 {
 	char	*tmp;
+	char	*newav;
 
+	newav = malloc(ft_strlen(cwd) * 3);
+	parser()->newav = newav;
 	aux_vars();
-	tmp = get_prompt(cwd, malloc(ft_strlen(cwd) * 3));
+	parser()->splited = NULL;
+	tmp = get_prompt(cwd, newav);
 	if (tmp)
 		if (parsing(tmp))
 			shell_output(tmp, NULL);

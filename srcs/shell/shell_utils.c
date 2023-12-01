@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:33:39 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:31:05 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ int	shell_output(char *av, char **splited)
 				free_matrix(splited);
 				return (0);
 			}
-			if (!parser()->pause)
-			{
-				token = init_lists(prep_str(splited), token);
-				executor(&token);
-				free_matrix(splited);
-			}
+			if (parser()->pause)
+				return(0);
+			token = init_lists(prep_str(splited), token);
+			executor(&token);
+			free_matrix(splited);
 			aux_shelloutput(token);
 		}
 		else
@@ -90,7 +89,7 @@ t_tokens	*init_lists(char **av, t_tokens *tokens)
 		tokens->next->fd[1] = 1;
 		tokens = tokens->next;
 	}
-	parser()->head_token = tokens->next;
+	parser()->head_token = tokens;
 	tokens->next = NULL;
 	get_tokens_size(av, &tokens);
 	separeites_tokens(&tokens, av);

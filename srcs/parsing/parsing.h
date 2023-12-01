@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:40:38 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 13:45:17 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:39:07 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_parser
 	int				hd_fd[2];
 	char			*free_pas_ex;
 	int				list_size;
+	char			*newav;
 }					t_parser;
 
 char		*get_prompt(char *av, char *newav);

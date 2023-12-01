@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 16:39:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:27:29 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void		aux_vars(void);
 void		builtins_close(t_tokens *tokens);
 char		*file_quotes(char *str);
 void		create_pipes(t_tokens *tokens);
+void		free_all(void);
 
 #endif

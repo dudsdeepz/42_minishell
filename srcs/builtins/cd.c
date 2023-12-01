@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 11:35:21 by gd-innoc         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:17:52 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,18 @@ static void	cd_aux(char *tmp, char *token)
 	parser()->export_env = export_env;
 	free (oldpwd);
 	oldpwd = NULL;
-	chdir(token);
+	if (chdir(token) == -1)
+		perror("");
+	else
+	{
+		oldpwd = oldpwd_aux("PWD");
+		envp = send_to_env(parser()->envp, oldpwd);
+		parser()->envp = envp;
+		export_env = send_to_env(parser()->export_env, oldpwd);
+		parser()->export_env = export_env;
+		free (oldpwd);
+		oldpwd = NULL;
+	}
 }
 
 void	_ft_cd(t_tokens **token)
@@ -93,12 +104,6 @@ int	cd_errors(char **token)
 	{
 		parser()->exit_status = 1;
 		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
-		return (1);
-	}
-	if (access(token[1], F_OK) == -1)
-	{
-		parser()->exit_status = 1;
-		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
 		return (1);
 	}
 	return (0);
