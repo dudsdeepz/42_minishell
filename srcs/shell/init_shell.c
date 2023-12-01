@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 15:37:09 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:37:31 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 13:43:17 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	hd_signs(int sig)
 		SIG_IGN ;
 	else if (sig == SIGINT)
 	{
+		free_all_hd();
 		close(parser()->hd_fd[0]);
 		close(parser()->hd_fd[1]);
 		write(2, " ", 1);

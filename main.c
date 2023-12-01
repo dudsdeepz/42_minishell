@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:49 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:39:22 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:21:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	main(int ac, char **av, char **env)
 		{
 			cwd = readline("minishell> ");
 			if (!cwd)
-				return (0);
-			if (ft_strlen(cwd) > 0)
 			{
-				add_history(cwd);
-				shell(cwd);
+				free_aux(cwd);
+				return (0);
 			}
+			if (ft_strlen(cwd) > 0)
+				shell(cwd);
 			else
 				free(cwd);
 		}
@@ -39,33 +39,6 @@ int	main(int ac, char **av, char **env)
 	else
 		ft_putstr_fd("too many arguments!\n", STDERR_FILENO);
 	return (0);
-}
-
-int	list_size(char **list)
-{
-	int	i;
-
-	i = 0;
-	while (list[i])
-		i++;
-	return (i);
-}
-
-void	shell(char *cwd)
-{
-	char	*tmp;
-	char	*newav;
-
-	newav = malloc(ft_strlen(cwd) * 3);
-	parser()->newav = newav;
-	aux_vars();
-	parser()->splited = NULL;
-	tmp = get_prompt(cwd, newav);
-	if (tmp)
-		if (parsing(tmp))
-			shell_output(tmp, NULL);
-	free(tmp);
-	tmp = NULL;
 }
 
 int	ft_heredoc(char *a)
@@ -113,6 +86,8 @@ void	hd_loop(char *str, int *fd, int flag)
 		free(in);
 		in = NULL;
 	}
+	free(str);
+	free_all_hd();
 	close(fd[1]);
 	close(fd[0]);
 	exit(0);

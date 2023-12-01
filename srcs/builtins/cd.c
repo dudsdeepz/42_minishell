@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:17:52 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:19:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ static void	cd_aux(char *tmp, char *token)
 	free (oldpwd);
 	oldpwd = NULL;
 	if (chdir(token) == -1)
-		perror("");
-	else
 	{
-		oldpwd = oldpwd_aux("PWD");
-		envp = send_to_env(parser()->envp, oldpwd);
-		parser()->envp = envp;
-		export_env = send_to_env(parser()->export_env, oldpwd);
-		parser()->export_env = export_env;
-		free (oldpwd);
-		oldpwd = NULL;
+		parser()->exit_status = 1;
+		return (perror(" "));
 	}
+	oldpwd = oldpwd_aux("PWD");
+	envp = send_to_env(parser()->envp, oldpwd);
+	parser()->envp = envp;
+	export_env = send_to_env(parser()->export_env, oldpwd);
+	parser()->export_env = export_env;
+	free (oldpwd);
+	oldpwd = NULL;
 }
 
 void	_ft_cd(t_tokens **token)

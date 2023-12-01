@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:58:01 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:37:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:18:23 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	handle_signals2(int sig)
 		SIG_IGN ;
 	else if (!parser()->hd)
 	{
+		parser()->exit_status = 131;
 		write(1, "Quit\n", 5);
 		return ;
 	}

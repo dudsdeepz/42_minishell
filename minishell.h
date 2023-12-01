@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:10:47 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:27:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:54:10 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <readline/history.h>
 # include <curses.h>
 # include <termios.h>
-# include <term.h>
 # include <errno.h>
 # include <stdlib.h>
 # include <sgtty.h>
@@ -81,5 +80,7 @@ void		builtins_close(t_tokens *tokens);
 char		*file_quotes(char *str);
 void		create_pipes(t_tokens *tokens);
 void		free_all(void);
+void		free_all_hd(void);
+void		free_aux(char *cwd);
 
 #endif

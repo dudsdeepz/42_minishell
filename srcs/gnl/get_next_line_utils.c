@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 11:50:30 by gd-innoc         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:14:38 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	term_change(void)
 		return ;
 	}
 	termios_new = parser()->termios_save;
-	termios_new.c_lflag &= ~ECHONL;
+	termios_new.c_lflag |= ECHO;
 	rc = tcsetattr(0, 0, &termios_new);
 	if (rc)
 	{

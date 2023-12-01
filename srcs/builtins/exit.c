@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:39:43 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:18:37 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ static void	exit_aux(char *token)
 	tmp = ft_atoi(token);
 	if (tmp > 256)
 		tmp %= 256;
-	free_envs();
+	free_all();
 	exit(tmp);
 }
 
 static void	cd_aux(void)
 {
-	free_envs();
 	ft_putstr_fd(" numeric argument required\n", STDERR_FILENO);
-	clear_history();
 }
 
 void	_ft_exit(t_tokens **token)
@@ -39,6 +37,7 @@ void	_ft_exit(t_tokens **token)
 		if (check_exit_str((*token)->token[1]))
 		{
 			cd_aux();
+			free_all();
 			exit(2);
 		}
 		else if ((*token)->token[2])
@@ -47,13 +46,11 @@ void	_ft_exit(t_tokens **token)
 			ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
 		}
 		else
-		{
-			clear_history();
 			exit_aux((*token)->token[1]);
-		}
 	}
 	else
 	{
+		printf("exit\n");
 		free_all();
 		close(1);
 		exit(parser()->exit_status);
@@ -78,12 +75,14 @@ int	check_exit_str(char *str)
 	return (0);
 }
 
-
 void	free_all(void)
 {
 	free_envs();
 	clear_history();
-	free_tokens(parser()->head_token);
-	free_matrix(parser()->splited);
-	free(parser()->newav);
+	if (parser()->head_token)
+		free_tokens(parser()->head_token);
+	if (parser()->splited)
+		free_matrix(parser()->splited);
+	if (parser()->newav)
+		free(parser()->newav);
 }

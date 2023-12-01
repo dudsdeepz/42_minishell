@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:27:18 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 12:31:05 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 13:06:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ int	shell_output(char *av, char **splited)
 				free_matrix(splited);
 				return (0);
 			}
-			if (parser()->pause)
-				return(0);
 			token = init_lists(prep_str(splited), token);
-			executor(&token);
-			free_matrix(splited);
-			aux_shelloutput(token);
+			if (!parser()->pause)
+			{
+				executor(&token);
+				free_matrix(splited);
+				aux_shelloutput(token);
+			}
 		}
 		else
 			free_matrix(splited);
