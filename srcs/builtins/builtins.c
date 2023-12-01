@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:48:45 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 18:27:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:33:02 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,18 @@ void	_ft_exec_cmd(t_tokens **token)
 	close_fds(token, 1);
 	if (execve((*token)->path, (*token)->token, parser()->envp))
 	{
-		if (!ft_strchr((*token)->token[0], '/') && !access((*token)->token[0], X_OK))
+		if (!ft_strchr((*token)->token[0], '/') \
+			&& !access((*token)->token[0], X_OK))
 		{
 			ft_putstr_fd(" command not found\n", STDERR_FILENO);
 			parser()->exit_status = 127;
 		}
-		else if (ft_strchr((*token)->token[0], '/') && !access((*token)->token[0], X_OK))
-		{	
+		else if (ft_strchr((*token)->token[0], '/') \
+			&& !access((*token)->token[0], X_OK))
+		{
 			ft_putstr_fd(" Is a directory\n", STDERR_FILENO);
 			parser()->exit_status = 126;
 		}
-		
 	}
 	close(0);
 	close(1);

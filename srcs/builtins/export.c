@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 12:27:28 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:31:08 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	help_me(char *token)
 {
 	char	**tmp;
-	
+
 	tmp = NULL;
 	tmp = send_to_exportenv(token, parser()->export_env);
 	parser()->export_env = tmp;
@@ -68,7 +68,7 @@ void	_ft_export(t_tokens **token)
 			{
 				parser()->exit_status = 1;
 				ft_putstr_fd(" not a valid identifier", STDERR_FILENO);
-				continue;
+				continue ;
 			}
 			if (!difs((*token)->token[i], '='))
 				help_me2((*token)->token[i]);

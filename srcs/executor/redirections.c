@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:39:51 by diomari           #+#    #+#             */
-/*   Updated: 2023/11/30 17:13:57 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:30:31 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ int	redirections(char **str, int i, t_tokens *tokens)
 			tokens->fd_redir[1] = open(str[i + 1], \
 			O_WRONLY | O_APPEND | O_CREAT, 0644);
 		else if (op == 1)
-		{	
 			tokens->fd_redir[0] = ft_heredoc(str[i + 1]);
-		}
 		else if (op == 3)
 			tokens->fd_redir[0] = open(str[i + 1], O_RDONLY, 0644);
 		else if (op == 4)

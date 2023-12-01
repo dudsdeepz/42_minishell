@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 13:32:35 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 21:16:44 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:34:32 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,14 @@ void	builtins_close(t_tokens *tokens)
 {
 	close(1);
 	fds_caseclose(tokens);
+}
+
+void	create_pipes(t_tokens *tokens)
+{
+	go_head(&tokens);
+	while (tokens->next)
+	{
+		pipe(tokens->fd);
+		tokens = tokens->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 14:15:25 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 12:27:52 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:33:16 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	**new_env_unset(char *token, char **env)
 {
-	int	i;
-	int	a;
-	char **tmp;
-	
+	int		i;
+	int		a;
+	char	**tmp;
+
 	i = 0;
 	a = -1;
 	parser()->tmp_matrix = malloc(sizeof(char *) * (list_size(env) + 2));

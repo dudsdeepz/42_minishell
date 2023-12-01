@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 17:01:09 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:31:33 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_exit_str(char *str)
 	int	i;
 
 	i = 0;
-	if 	(ft_strlen(str) > 18)
+	if (ft_strlen(str) > 18)
 		return (1);
 	while (str[i])
 	{

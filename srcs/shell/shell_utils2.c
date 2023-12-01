@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 13:03:22 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/30 16:21:10 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:38:18 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	alloc_tokens(t_tokens **tokens)
 
 void	get_tokens_size(char **splited, t_tokens **tokens)
 {
-	int	i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = -1;
 	tmp = NULL;
@@ -104,19 +104,5 @@ char	**prep_str(char **str)
 		}
 		tmp = NULL;
 	}
-	return (str);
-}
-
-
-char	*file_quotes(char *str)
-{
-	char *tmp;
-
-	tmp = ft_strdup(str);
-	free(str);
-	str = NULL;
-	str = remove_quotes(tmp);
-	free(tmp);
-	tmp = NULL;
 	return (str);
 }

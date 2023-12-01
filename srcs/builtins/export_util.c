@@ -6,7 +6,7 @@
 /*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:33:46 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/29 16:17:29 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:38:03 by eduarodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**send_to_env(char **env, char *find)
 		{
 			free_matrix(str);
 			free_matrix(tmp);
-			break;
+			break ;
 		}
 		free_matrix(tmp);
 		free_matrix(str);
@@ -76,7 +76,7 @@ char	**send_to_exportenv(char *token, char **env)
 {
 	int		i;
 	char	**tmp;
-	
+
 	i = -1;
 	while (env[++i])
 	{
@@ -91,4 +91,17 @@ char	**send_to_exportenv(char *token, char **env)
 	env = new_env(env, token);
 	free_matrix(parser()->tmp_matrix);
 	return (env);
+}
+
+char	*file_quotes(char *str)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(str);
+	free(str);
+	str = NULL;
+	str = remove_quotes(tmp);
+	free(tmp);
+	tmp = NULL;
+	return (str);
 }
