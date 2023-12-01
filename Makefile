@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+         #
+#    By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/25 11:10:51 by eduarodr          #+#    #+#              #
-#    Updated: 2023/11/30 12:18:04 by eduarodr         ###   ########.fr        #
+#    Updated: 2023/12/01 11:04:30 by gd-innoc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,17 +51,17 @@ SOURCES = main.c\
 OBJECTS = $(SOURCES:.c=.o)
 
 LIBFT_PATH = ./libft
-LIBFT_NAME = libft.a
+LIBFT_NAME = $(addprefix $(LIBFT_PATH)/, libft.a)
 
-all: $(NAME) $(LIBFT_NAME) $(GNL_NAME)
+all: $(NAME)
 
 $(LIBFT_NAME):
 		@make -sC $(LIBFT_PATH)
 
-$(NAME): $(OBJECTS)
+$(NAME): $(OBJECTS) $(LIBFT_NAME)
 	@echo "\033[4;33m[+] Compiling..\033[1;0m"
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(SOURCES) -o ${NAME} ./libft/${LIBFT_NAME} -lreadline
+	$(CC) $(CFLAGS) $(SOURCES) -o ${NAME} ${LIBFT_NAME} -lreadline
 	@echo "\033[4;32m[✓] Ready!\033[1;0m"
 
 

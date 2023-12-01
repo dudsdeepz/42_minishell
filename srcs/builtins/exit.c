@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:52:57 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:31:33 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:20:12 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	_ft_exit(t_tokens **token)
 	close_fds(token, 0);
 	if ((*token)->token[1])
 	{
-		if ((*token)->token[2])
-		{
-			parser()->exit_status = 1;
-			ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
-		}
-		else if (check_exit_str((*token)->token[1]))
+		if (check_exit_str((*token)->token[1]))
 		{
 			cd_aux();
 			exit(2);
+		}
+		else if ((*token)->token[2])
+		{
+			parser()->exit_status = 1;
+			ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
 		}
 		else
 		{

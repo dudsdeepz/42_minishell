@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:28:15 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:31:08 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:32:58 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ void	display_export(char **env)
 	{
 		a = 0;
 		checker = 0;
-		ft_putstr("declare -x ", 0);
+		ft_putstr_fd("declare -x ", 1);
 		while (env[i][a])
 		{
 			write(1, &env[i][a++], 1);
 			if (!checker && env[i][a - 1] == '=')
 			{
-				write(1, "\"", 2);
+				write(1, "\"", 1);
 				checker++;
 			}
 		}
 		if (checker)
-			write(1, "\"", 2);
-		write(1, "\n", 2);
+			write(1, "\"", 1);
+		write(1, "\n", 1);
 		i++;
 	}
 	return ;
@@ -67,7 +67,7 @@ void	_ft_export(t_tokens **token)
 			if (check_export_str((*token)->token[i]))
 			{
 				parser()->exit_status = 1;
-				ft_putstr_fd(" not a valid identifier", STDERR_FILENO);
+				ft_putstr_fd(" not a valid identifier\n", STDERR_FILENO);
 				continue ;
 			}
 			if (!difs((*token)->token[i], '='))

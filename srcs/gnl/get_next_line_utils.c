@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 13:17:39 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/11/27 12:18:18 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:50:30 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	ft_strclean(char *str)
 
 int	heredoc_error(char *str)
 {
-	write(2, "warning: here-document at line 1 \
-	delimited by end-of-file (wanted `", 67);
+	write(2, "warning: here-document \
+delimited by end-of-file (wanted ", 58);
 	write(2, str, ft_strlen(str));
 	write(2, "')\n", 3);
 	return (1);

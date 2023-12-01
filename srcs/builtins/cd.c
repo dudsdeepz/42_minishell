@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eduarodr <eduarodr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gd-innoc <gd-innoc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:55:36 by eduarodr          #+#    #+#             */
-/*   Updated: 2023/12/01 10:32:02 by eduarodr         ###   ########.fr       */
+/*   Updated: 2023/12/01 11:35:21 by gd-innoc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ int	cd_errors(char **token)
 		ft_putstr_fd(" too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	if (access(token[1], F_OK == -1))
+	if (access(token[1], F_OK) == -1)
 	{
 		parser()->exit_status = 1;
-		ft_putstr_fd(" No such file or directory", STDERR_FILENO);
+		ft_putstr_fd(" No such file or directory\n", STDERR_FILENO);
 		return (1);
 	}
 	return (0);
